@@ -1,128 +1,158 @@
 <template>
-  <div>
-    <h1>Login Page</h1>
+  <v-app>
+    <v-main class="login-background">
+      <div class="d-flex align-center flex-column justify-center px-1 login-background-2">
+        <v-card width="500px">
+          <div class="card-header">
+            <div class="d-flex align-center flex-column">
+              <v-subheader class="display-1 mt-3">
+                <v-icon large color="#2BA5B6">mdi-lock-open-outline</v-icon>Login
+              </v-subheader>
+              <v-card-title>Please enter your credentials to login.</v-card-title>
+            </div>
+          </div>
+          <v-divider></v-divider>
+          <v-card-text>
+            <div class="logo-wrapper d-flex flex-column align-center pb-3">
+              <v-subheader class="headline font-weight-bold">Quiz App</v-subheader>
+            </div>
+            <v-divider></v-divider>
+            <v-form ref="loginForm" v-model="valid" lazy-validation >
+              <v-row no-gutters class="px-3">
+                <v-col cols="12">
+                  <v-subheader class="subtitle-2 px-0">Email</v-subheader>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                      dense
+                      outlined
+                      prepend-inner-icon="mdi-email-outline"
+                      hide-details
+                      v-model="loginEmail"
+                      :rules="loginEmailRules"
+                      @keypress.enter="validate"
+                      required
+                  >
+                  </v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-subheader class="subtitle-2 px-0">Password</v-subheader>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                      dense
+                      outlined
+                      prepend-inner-icon="mdi-key-variant"
+                      hide-details
+                      v-model="loginPassword"
+                      :append-icon="show1 ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
+                      :rules="[rules.required, rules.min]"
+                      :type="show1 ? 'text' : 'password'"
+                      name="input-10-1"
+                      hint="At least 6 characters"
+                      counter
+                      @click:append="show1 = !show1"
+                      @keypress.enter="validate"
+                  >
+                  </v-text-field>
+                </v-col>
+                <v-col class="12">
+                  <v-checkbox
+                      label="Keep me signed in"
+                      hide-details
+                  ></v-checkbox>
+                </v-col>
+              </v-row>
+            </v-form>
+          </v-card-text>
+          <v-card-actions class="d-flex justify-end px-7 pb-5">
+            <v-btn
+                color="primary"
+                class="px-5"
+                :disabled="!valid"
+                :loading="loader"
+                @click="validate"
+            >Login</v-btn>
+            <!-- <input type="text"  v-on:keyup.enter="onEnter()"> -->
+          </v-card-actions>
+        </v-card>
+        <div class="bottom-text d-flex align-center flex-column mt-5">
+          <p class="mb-0">Don't have an account? <span class="color-secondary font-weight-bold">Sign Up</span></p>
+          <p>Forgot <span class="color-secondary font-weight-bold">Password</span></p>
+        </div>
+        <h4>Copyright &copy; <span class="color-secondary">Quiz App</span></h4>
 
-    <form class="login-form" @submit.prevent="loginUser">
-        <div class="mb-3">
-             <form-input
-                label="Email Address"
-                v-model:value="form.email"
-                type="email"
-                @validate="validate('email')"
-                name="email"
-                :error="errors.email"
-            ></form-input>
-        </div>
-        <div class="mb-3">
-            <form-input
-                label="Password"
-                v-model:value="form.password"
-                type="password"
-                @validate="validate('password')"
-                name="password"
-                :error="errors.password"
-            ></form-input>
-        </div>
-        <button class="btn btn-primary btn-block btn-sm">Login</button>
-        <router-link :to="{ name: 'SignUp' }" class="btn btn-primary btn-block btn-sm ms-2">Signup</router-link>
-    </form>
-  </div>
+      </div>
+
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-    import { LOGIN } from "@/store/actions/type";
-    import FormInput from "@/components/inputs/FormInput";
-    import * as Yup from 'yup';
+import { LOGIN } from "@/store/actions/type";
 
-    const loginFormSchema = Yup.object({
-        email: Yup.string().email().required(),
-        password: Yup.string().min(8).required(),
-    })
+export default {
+  components: {  },
+  name: "Login",
+  data: () => ({
+    dialog: true,
+    tab: 0,
+    tabs: [
+      { name: "Login", icon: "mdi-account" }
+    ],
+    valid: true,
+    loader: false,
+    loginPassword: "",
+    loginEmail: "",
+    loginEmailRules: [
+      (v) => !!v || "Required",
+      (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+    ],
+    emailRules: [
+      (v) => !!v || "Required",
+      (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+    ],
+    show1: false,
+    rules: {
+      required: (value) => !!value || "Required.",
+      min: (v) => (v && v.length >= 6) || "Min 6 characters",
+    },
+  }),
+  methods: {
+    validate() {
+      this.loader = true
+      if (this.$refs.loginForm.validate()) {
+        this.loading = true
 
-    export default {
-        name: 'Login-Form',
-        components: {
-            "form-input": FormInput
-        },
-        data: () => ({
-            form: {
-                email: '',
-                password: ''
-            },
-            errors: {
-                email: "",
-                password: "",
-            },
-        }),
-        watch: {
-            "formErrors.errors": function(newQuestion) {
-                if (newQuestion.message) {
-                    this.errors.name = newQuestion.name ? newQuestion.name[0] : "";
-                    this.errors.email = newQuestion.email
-                        ? newQuestion.email[0]
-                        : "";
-                    this.errors.password = newQuestion.password
-                        ? newQuestion.password[0]
-                        : "";
-                    this.errors.passwordConfirmation = newQuestion.passwordConfirmation
-                        ? newQuestion.passwordConfirmation[0]
-                        : "";
-                    this.$toast.error(newQuestion.message[0]);
-                    this.loading = false;
-                }
-            }
-        },
-        computed: {
-            formErrors() {
-                return this.$store.getters.formErrors;
-            }
-        },
-        methods: {
-            loginUser() {
-                this.loading = true
-
-                loginFormSchema
-                    .validate(this.form, { abortEarly: false })
-                    .then(() => {
-                        this.loading = true
-
-                        this.$store.dispatch(LOGIN, this.form)
-                            .then((resp) => {
-                                this.$toast.success(resp.message);
-
-                                // if(!resp.user.configured){
-                                //     this.$router.push({ name: 'UserConfig' })
-                                // } else {
-                                //     this.$router.push({ name: 'Dashboard' })
-                                // }
-                                this.$router.push({ name: 'Dashboard' })
-
-                            })
-                            .catch(err => this.$toast.error(err))
-                    })
-                    .catch(err => {
-                        err.inner.forEach(error => {
-                            this.errors = { ...this.errors, [error.path]: error.message };
-                        });
-                    });
-            },
-            validate(field) {
-                loginFormSchema
-                    .validateAt(field, this.form)
-                    .then(() => {
-                        this.errors[field] = "";
-                    })
-                    .catch(err => {
-                        this.errors[err.path] = err.message;
-                    });
-            }
-        },
-    }
+        this.$store.dispatch(LOGIN, {
+          email: this.loginEmail, password: this.loginPassword
+        }).then(() => {
+              this.$router.push({ name: 'Dashboard' })
+        }).catch(err => this.$toastr.e(err))
+      }
+    },
+    reset() {
+      this.$refs.form.reset();
+    },
+    resetValidation() {
+      this.$refs.form.resetValidation();
+    },
+  }
+};
 </script>
 
 <style scoped>
-    .login-form {
-        max-width: 400px;
-        width: 100%;
-    }
+.login-background {
+  height: 90%;
+  width: 100vw;
+  background-color: #f9f9f9;
+  background-repeat: repeat;
+}
+.login-background-2 {
+  height: 100%;
+  width: 100vw;
+}
+.color-secondary {
+  color: #2BA5B6
+}
 </style>

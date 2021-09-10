@@ -24,9 +24,9 @@ const auth = (to, from, next) => {
 const GuestWrapper = () => import('@/views/guest/GuestWrapper.vue'),
     AuthWrapper = () => import('@/views/auth/AuthWrapper.vue')
 
-// import Login from "@/views/guest/Login.vue";
-import Login from "@/views/guest/Auth.vue";
-import SignUp from "@/views/guest/SignUp.vue";
+import Homepage from "@/views/guest/Homepage.vue";
+import Login from "@/views/guest/Login.vue";
+import Register from "@/views/guest/Register.vue";
 import Dashboard from "@/views/auth/Dashboard.vue";
 import UserList from "@/views/auth/user/List.vue";
 import UserForm from "@/views/auth/user/Form.vue";
@@ -40,13 +40,18 @@ const routes = [
         children: [
             {
                 path: "/",
+                name: "Home",
+                component: Homepage,
+            },
+            {
+                path: "/login",
                 name: "Login",
                 component: Login,
             },
             {
-                path: "/signup/user",
-                name: "SignUp",
-                component: SignUp,
+                path: "/register",
+                name: "Register",
+                component: Register,
             }
         ]
     },
