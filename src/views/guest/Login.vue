@@ -69,6 +69,11 @@
             <v-btn
                 color="primary"
                 class="px-5"
+                :to="{name: 'Homepage'}"
+            >Home</v-btn>
+            <v-btn
+                color="primary"
+                class="px-5"
                 :disabled="!valid"
                 :loading="loader"
                 @click="validate"

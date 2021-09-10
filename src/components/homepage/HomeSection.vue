@@ -5,7 +5,7 @@
         <v-col cols="10">
           <v-row align="center" justify="center">
             <v-col cols="12" md="6" xl="8">
-              <h1 class="display-2 font-weight-bold mb-4">Vuetify.js</h1>
+              <h1 class="display-2 font-weight-bold mb-4">Quiz App</h1>
               <h1 class="font-weight-light">
                 Lorem ipsum dolor sit amet consectetur <br />
                 adipisicing elit. Maiores porro voluptatibus <br />
@@ -16,10 +16,10 @@
                 outlined
                 large
                 dark
-                @click="$vuetify.goTo('#features')"
+                @click="$vuetify.goTo('#quizes')"
                 class="mt-5"
               >
-                Saiba mais
+                Quizes
                 <v-icon class="ml-2">mdi-arrow-down</v-icon>
               </v-btn>
               <div class="video d-flex align-center py-4">
@@ -62,7 +62,7 @@
                     />
                   </svg>
                 </a>
-                <p class="subheading ml-2 mb-0">Assista o vídeo</p>
+                <p class="subheading ml-2 mb-0">Tutorial</p>
               </div>
             </v-col>
             <v-col cols="12" md="6" xl="4" class="hidden-sm-and-down"> </v-col>
@@ -73,21 +73,15 @@
         <v-img src="@/assets/img/borderWaves.svg" />
       </div>
     </v-parallax>
-    <v-container fluid id="features" class="mt-2">
+    <v-container fluid id="quizes" class="mt-2">
       <v-row align="center" justify="center">
         <v-col cols="10">
           <v-row align="center" justify="space-around">
-            <!-- <v-col cols="12" class="text-center">
-              <h1 class="font-weight-light display-2">Title</h1>
-              <h1 class="font-weight-light">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              </h1>
-            </v-col> -->
             <v-col
               cols="12"
               sm="4"
               class="text-center"
-              v-for="(feature, i) in features"
+              v-for="(quiz, i) in quizes"
               :key="i"
             >
               <v-hover v-slot:default="{ hover }">
@@ -98,14 +92,14 @@
                   :class="{ up: hover }"
                 >
                   <v-img
-                    :src="feature.img"
+                    :src="quiz.img"
                     max-width="100px"
                     class="d-block ml-auto mr-auto"
                     :class="{ 'zoom-efect': hover }"
                   ></v-img>
-                  <h1 class="font-weight-regular">{{ feature.title }}</h1>
+                  <h1 class="font-weight-regular">{{ quiz.title }}</h1>
                   <h4 class="font-weight-regular subtitle-1">
-                    {{ feature.text }}
+                    {{ quiz.text }}
                   </h4>
                 </v-card>
               </v-hover>
@@ -135,7 +129,7 @@ export default {
     return {
       dialog: false,
       videoId: "i8IvvHJssWE",
-      features: [
+      quizes: [
         {
           img: require("@/assets/img/icon2.png"),
           title: "Design Limpo",

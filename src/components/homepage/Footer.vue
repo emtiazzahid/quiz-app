@@ -22,7 +22,7 @@
       <v-divider></v-divider>
 
       <v-card-text class="white--text">
-        {{ new Date().getFullYear() }} — <strong>Calango WEB</strong>
+        {{ new Date().getFullYear() }} — <strong>Quiz App</strong>
       </v-card-text>
     </v-card>
   </v-footer>
@@ -40,19 +40,19 @@ export default {
     icons: [
       {
         text: "mdi-facebook",
-        link: "",
+        link: "https://facebook.com/emtiazzahid/",
       },
       {
         text: "mdi-twitter",
-        link: "",
+        link: "https://linkedin.com/emtiaz_zahid/",
       },
       {
         text: "mdi-linkedin",
-        link: "",
+        link: "https://linkedin.com/emtiazzahid/",
       },
       {
         text: "mdi-instagram",
-        link: "https://instagram.com/joabson_arley/",
+        link: "https://instagram.com/emtiazzahid/",
       },
     ],
   }),

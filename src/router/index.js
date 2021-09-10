@@ -27,10 +27,6 @@ const GuestWrapper = () => import('@/views/guest/GuestWrapper.vue'),
 import Homepage from "@/views/guest/Homepage.vue";
 import Login from "@/views/guest/Login.vue";
 import Register from "@/views/guest/Register.vue";
-import Dashboard from "@/views/auth/Dashboard.vue";
-import UserList from "@/views/auth/user/List.vue";
-import UserForm from "@/views/auth/user/Form.vue";
-import UserConfig from "@/views/auth/user/Configure.vue";
 
 const routes = [
     {
@@ -40,7 +36,7 @@ const routes = [
         children: [
             {
                 path: "/",
-                name: "Home",
+                name: "Homepage",
                 component: Homepage,
             },
             {
@@ -60,28 +56,60 @@ const routes = [
         component: AuthWrapper,
         beforeEnter: auth,
         children: [
+            // Dashboard
             {
-                path: "/dashboard",
-                name: "Dashboard",
-                component: Dashboard,
+                name: 'Dashboard',
+                path: '/dashboard',
+                component: () => import('@/views/dashboard/Dashboard'),
+            },
+            // Pages
+            {
+                name: 'User Profile',
+                path: 'pages/user',
+                component: () => import('@/views/dashboard/pages/UserProfile'),
             },
             {
-                path: "/users",
-                name: "UserList",
-                component: UserList,
+                name: 'Notifications',
+                path: 'components/notifications',
+                component: () => import('@/views/dashboard/component/Notifications'),
             },
             {
-                path: 'user/create',
-                name: 'UserForm',
-                component: UserForm
+                name: 'Icons',
+                path: 'components/icons',
+                component: () => import('@/views/dashboard/component/Icons'),
             },
             {
-                path: "/user-configuration",
-                name: "UserConfig",
-                component: UserConfig,
+                name: 'Typography',
+                path: 'components/typography',
+                component: () => import('@/views/dashboard/component/Typography'),
+            },
+            // Tables
+            {
+                name: 'Regular Tables',
+                path: 'tables/regular-tables',
+                component: () => import('@/views/dashboard/tables/RegularTables'),
+            },
+            // Maps
+            {
+                name: 'Google Maps',
+                path: 'maps/google-maps',
+                component: () => import('@/views/dashboard/maps/GoogleMaps'),
+            },
+            // Upgrade
+            {
+                name: 'Upgrade',
+                path: 'upgrade',
+                component: () => import('@/views/dashboard/Upgrade'),
             },
         ]
     },
+    {
+        path: '/',
+        component: () => import('@/views/dashboard/Index'),
+        children: [
+
+        ],
+    }
 ];
 
 const router = new VueRouter({

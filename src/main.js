@@ -8,8 +8,11 @@ import store from '@/store'
 import myMixin from '@/mixins'
 import authService from "@/common/auth.service";
 import { CHECK_AUTH } from "@/store/actions/type";
+import './plugins/base'
+import './plugins/chartist'
 import vuetify from '@/plugins/vuetify';
 import VueToastr from "vue-toastr";
+import i18n from './i18n'
 Vue.use(VueToastr);
 
 Vue.config.productionTip = false
@@ -22,6 +25,7 @@ Vue.use(vuetify);
 new Vue({
     store,
     router,
+    i18n,
     beforeCreate(){
        if(authService.getToken()) store.dispatch(CHECK_AUTH)
     },

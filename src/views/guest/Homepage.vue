@@ -3,10 +3,6 @@
     <navigation :color="color" :flat="flat" />
     <v-main class="pt-0">
       <home />
-      <about />
-      <download />
-      <pricing />
-      <contact />
     </v-main>
     <v-scale-transition>
       <v-btn
@@ -40,10 +36,6 @@
 import navigation from "@/components/homepage/Navigation";
 import foote from "@/components/homepage/Footer";
 import home from "@/components/homepage/HomeSection";
-import about from "@/components/homepage/AboutSection";
-import download from "@/components/homepage/DownloadSection";
-import pricing from "@/components/homepage/PricingSection";
-import contact from "@/components/homepage/ContactSection";
 
 export default {
   name: "Homepage",
@@ -51,11 +43,7 @@ export default {
   components: {
     navigation,
     foote,
-    home,
-    about,
-    download,
-    pricing,
-    contact,
+    home
   },
 
   data: () => ({
