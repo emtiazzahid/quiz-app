@@ -24,21 +24,21 @@ const auth = (to, from, next) => {
 const GuestWrapper = () => import('@/views/guest/GuestWrapper.vue'),
     AuthWrapper = () => import('@/views/auth/AuthWrapper.vue')
 
-import Homepage from "@/views/guest/Homepage.vue";
+import Homepage from "@/views/Homepage.vue";
 import Login from "@/views/guest/Login.vue";
 import Register from "@/views/guest/Register.vue";
 
 const routes = [
     {
         path: "/",
+        name: "Homepage",
+        component: Homepage,
+    },
+    {
+        path: "/",
         component: GuestWrapper,
         beforeEnter: guest,
         children: [
-            {
-                path: "/",
-                name: "Homepage",
-                component: Homepage,
-            },
             {
                 path: "/login",
                 name: "Login",
@@ -56,18 +56,22 @@ const routes = [
         component: AuthWrapper,
         beforeEnter: auth,
         children: [
-            // Dashboard
             {
                 name: 'Dashboard',
                 path: '/dashboard',
                 component: () => import('@/views/dashboard/Dashboard'),
             },
-            // Pages
             {
-                name: 'User Profile',
-                path: 'pages/user',
-                component: () => import('@/views/dashboard/pages/UserProfile'),
+                name: 'Add Quiz',
+                path: '/quizes/add',
+                component: () => import('@/views/dashboard/pages/AddQuiz'),
             },
+            {
+                name: 'Quiz\'s',
+                path: '/quizes',
+                component: () => import('@/views/dashboard/pages/MyQuizes'),
+            },
+
             {
                 name: 'Notifications',
                 path: 'components/notifications',
@@ -86,30 +90,11 @@ const routes = [
             // Tables
             {
                 name: 'Regular Tables',
-                path: 'tables/regular-tables',
+                path: '/tables/regular-tables',
                 component: () => import('@/views/dashboard/tables/RegularTables'),
-            },
-            // Maps
-            {
-                name: 'Google Maps',
-                path: 'maps/google-maps',
-                component: () => import('@/views/dashboard/maps/GoogleMaps'),
-            },
-            // Upgrade
-            {
-                name: 'Upgrade',
-                path: 'upgrade',
-                component: () => import('@/views/dashboard/Upgrade'),
-            },
+            }
         ]
     },
-    {
-        path: '/',
-        component: () => import('@/views/dashboard/Index'),
-        children: [
-
-        ],
-    }
 ];
 
 const router = new VueRouter({

@@ -1,25 +1,19 @@
 <template>
   <section id="hero">
-    <v-parallax dark src="@/assets/img/bgHero.jpg" height="750">
+    <v-parallax dark src="@/assets/img/bgHero.jpg" height="350">
       <v-row align="center" justify="center">
         <v-col cols="10">
           <v-row align="center" justify="center">
             <v-col cols="12" md="6" xl="8">
               <h1 class="display-2 font-weight-bold mb-4">Quiz App</h1>
               <h1 class="font-weight-light">
-                Lorem ipsum dolor sit amet consectetur <br />
-                adipisicing elit. Maiores porro voluptatibus <br />
-                delectus nam optio harum!
+                Find a quiz that you want to test your skill with it<br>
               </h1>
-              <v-btn
-                rounded
-                outlined
-                large
-                dark
+              <v-btn rounded outlined large dark
                 @click="$vuetify.goTo('#quizes')"
                 class="mt-5"
               >
-                Quizes
+                Quiz's
                 <v-icon class="ml-2">mdi-arrow-down</v-icon>
               </v-btn>
               <div class="video d-flex align-center py-4">

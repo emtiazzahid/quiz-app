@@ -1,17 +1,11 @@
 <template>
   <div>
-    <v-navigation-drawer
-      v-model="drawer"
-      app
-      temporary
-      dark
+    <v-navigation-drawer v-model="drawer"
+      app temporary dark
       src="@/assets/img/bgDrawer.jpg"
     >
       <v-list>
         <v-list-item>
-          <v-list-item-avatar>
-<!--            <img src="@/assets/img/logo.png" alt="Logo" />-->
-          </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="title">Quiz</v-list-item-title>
             <v-list-item-subtitle>App</v-list-item-subtitle>
@@ -37,6 +31,14 @@
             }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item :to="{name: 'Login'}">
+          <v-list-item-icon class="justify-center">
+            <v-icon>mdi-email-outline</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title class="subtitile-1">Login</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
@@ -48,9 +50,6 @@
       class="px-15"
       :class="{ expand: flat }"
     >
-      <v-toolbar-title>
-<!--        <v-img src="@/assets/img/logo.png" max-width="50px" />-->
-      </v-toolbar-title>
       <v-spacer />
       <v-app-bar-nav-icon
         @click.stop="drawer = !drawer"
@@ -62,9 +61,17 @@
           <span class="mr-2">Home</span>
         </v-btn>
         <v-btn text @click="$vuetify.goTo('#quizes')">
-          <span class="mr-2">Quizes</span>
+          <span class="mr-2">Quiz's</span>
         </v-btn>
-        <v-btn rounded outlined text :to="{name: 'Login'}">
+        <template v-if="authenticated">
+          <v-btn rounded outlined text :to="{name: 'Dashboard'}">
+            <span class="mr-2">Dashboard</span>
+          </v-btn>
+          <v-btn rounded outlined text @click="logout">
+            <span class="mr-2">Logout</span>
+          </v-btn>
+        </template>
+        <v-btn rounded outlined text :to="{name: 'Login'}" v-else>
           <span class="mr-2">Login</span>
         </v-btn>
       </div>
@@ -84,14 +91,15 @@
 </style>
 
 <script>
+import { LOGOUT } from "@/store/actions/type";
 export default {
   data: () => ({
+    authenticated: false,
     drawer: null,
     isXs: false,
     items: [
       ["mdi-home-outline", "Home", "#hero"],
-      ["mdi-information-outline", "Quizes", "#quizes"],
-      ["mdi-email-outline", "Login", "#login"],
+      ["mdi-information-outline", "Quiz's", "#quizes"]
     ],
   }),
   props: {
@@ -102,6 +110,12 @@ export default {
     onResize() {
       this.isXs = window.innerWidth < 850;
     },
+    logout() {
+      this.$store.dispatch(LOGOUT).then(() => {
+        this.authenticated = false;
+        this.$router.push('/');
+      });
+    }
   },
 
   watch: {
@@ -116,6 +130,7 @@ export default {
   mounted() {
     this.onResize();
     window.addEventListener("resize", this.onResize, { passive: true });
+    this.authenticated = this.$store.state.auth.isAuthenticated;
   },
 };
 </script>

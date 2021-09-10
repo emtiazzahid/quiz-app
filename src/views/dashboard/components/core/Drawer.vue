@@ -90,12 +90,17 @@
         {
           icon: 'mdi-view-dashboard',
           title: 'dashboard',
-          to: '/',
+          to: '/dashboard',
         },
         {
+          title: 'Add Quiz',
           icon: 'mdi-account',
-          title: 'user',
-          to: '/pages/user',
+          to: '/quizes/add',
+        },
+        {
+          title: 'Quiz\'s',
+          icon: 'mdi-account',
+          to: '/quizes',
         },
         {
           title: 'rtables',
@@ -105,22 +110,17 @@
         {
           title: 'typography',
           icon: 'mdi-format-font',
-          to: '/components/typography',
+          to: '/dashboard/components/typography',
         },
         {
           title: 'icons',
           icon: 'mdi-chart-bubble',
-          to: '/components/icons',
-        },
-        {
-          title: 'google',
-          icon: 'mdi-map-marker',
-          to: '/maps/google-maps',
+          to: '/dashboard/components/icons',
         },
         {
           title: 'notifications',
           icon: 'mdi-bell',
-          to: '/components/notifications',
+          to: '/dashboard/components/notifications',
         },
       ],
     }),

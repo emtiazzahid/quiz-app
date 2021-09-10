@@ -1,19 +1,6 @@
 <template>
-  <v-container
-    id="regular-tables"
-    fluid
-    tag="section"
-  >
-    <base-v-component
-      heading="Simple Tables"
-      link="components/simple-tables"
-    />
-
-    <base-material-card
-      icon="mdi-clipboard-text"
-      title="Simple Table"
-      class="px-5 py-3"
-    >
+  <v-container fluid tag="section">
+    <base-material-card icon="mdi-clipboard-text" title="My Quiz's" class="px-5 py-3">
       <v-simple-table>
         <thead>
           <tr>
