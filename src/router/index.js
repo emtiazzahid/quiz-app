@@ -1,5 +1,8 @@
-import { createWebHistory, createRouter } from "vue-router"
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 import store from '@/store'
+
+Vue.use(VueRouter);
 
 const guest = (to, from, next) => {
     if (!store.getters.isAuthenticated) {
@@ -21,7 +24,8 @@ const auth = (to, from, next) => {
 const GuestWrapper = () => import('@/views/guest/GuestWrapper.vue'),
     AuthWrapper = () => import('@/views/auth/AuthWrapper.vue')
 
-import Login from "@/views/guest/Login.vue";
+// import Login from "@/views/guest/Login.vue";
+import Login from "@/views/guest/Auth.vue";
 import SignUp from "@/views/guest/SignUp.vue";
 import Dashboard from "@/views/auth/Dashboard.vue";
 import UserList from "@/views/auth/user/List.vue";
@@ -72,11 +76,12 @@ const routes = [
                 component: UserConfig,
             },
         ]
-    },    
+    },
 ];
 
-const router = createRouter({
-    history: createWebHistory(),
+const router = new VueRouter({
+    mode: 'history',
+    base: process.env.BASE_URL,
     routes,
 });
 

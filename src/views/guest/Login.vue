@@ -1,6 +1,7 @@
 <template>
+  <div>
     <h1>Login Page</h1>
-  
+
     <form class="login-form" @submit.prevent="loginUser">
         <div class="mb-3">
              <form-input
@@ -25,6 +26,7 @@
         <button class="btn btn-primary btn-block btn-sm">Login</button>
         <router-link :to="{ name: 'SignUp' }" class="btn btn-primary btn-block btn-sm ms-2">Signup</router-link>
     </form>
+  </div>
 </template>
 
 <script>
@@ -34,7 +36,7 @@
 
     const loginFormSchema = Yup.object({
         email: Yup.string().email().required(),
-        password: Yup.string().min(8).required(),        
+        password: Yup.string().min(8).required(),
     })
 
     export default {
@@ -78,12 +80,12 @@
         methods: {
             loginUser() {
                 this.loading = true
-                
+
                 loginFormSchema
                     .validate(this.form, { abortEarly: false })
                     .then(() => {
                         this.loading = true
-                        
+
                         this.$store.dispatch(LOGIN, this.form)
                             .then((resp) => {
                                 this.$toast.success(resp.message);
@@ -94,7 +96,7 @@
                                 //     this.$router.push({ name: 'Dashboard' })
                                 // }
                                 this.$router.push({ name: 'Dashboard' })
-                                
+
                             })
                             .catch(err => this.$toast.error(err))
                     })

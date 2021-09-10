@@ -1,4 +1,5 @@
 <template>
+  <div>
     <h1>User Form</h1>
 
     <form class="login-form" @submit.prevent="registerUser">
@@ -32,7 +33,7 @@
                 :error="errors.password"
             ></form-input>
         </div>
-        
+
         <div class="mb-2">
             <form-select
                 :options="['go', 'python', 'rust', 'javascript']"
@@ -42,9 +43,10 @@
             >
             </form-select>
         </div>
-        
+
         <button class="btn btn-primary btn-block btn-sm">Submit</button>
     </form>
+  </div>
 </template>
 
 <script>
@@ -100,7 +102,7 @@ export default {
     methods: {
         registerUser() {
             this.loading = true
-            
+
             signUpFormSchema
                 .validate(this.form, { abortEarly: false })
                 .then(() => {

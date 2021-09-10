@@ -1,10 +1,10 @@
 <template>
+  <div>
     <h1>Dashboard Page</h1>
     <button @click="logout" class="btn btn-outline-danger">
         click here to logout.
     </button>
-
-    
+  </div>
 </template>
 
 <script>

@@ -1,5 +1,7 @@
 <template>
+  <div>
     <h1>User Configaration</h1>
+  </div>
 </template>
 
 <script>

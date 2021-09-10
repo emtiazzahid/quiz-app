@@ -1,4 +1,4 @@
-# cwcm-ui
+# QUIZ APP
 
 ## Project setup
 ```

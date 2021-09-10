@@ -1,7 +1,6 @@
 require('@/bootstrap')
 
-import { createApp, h } from 'vue'
-import Toaster from "@meforma/vue-toaster";
+import Vue from 'vue'
 
 import App from '@/App.vue'
 import router from '@/router'
@@ -9,20 +8,29 @@ import store from '@/store'
 import myMixin from '@/mixins'
 import authService from "@/common/auth.service";
 import { CHECK_AUTH } from "@/store/actions/type";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap";
+import vuetify from '@/plugins/vuetify';
+import VueToastr from "vue-toastr";
+Vue.use(VueToastr);
 
-const app = createApp({
+Vue.config.productionTip = false
+Vue.mixin(myMixin)
+
+Vue.use(store)
+Vue.use(router)
+Vue.use(vuetify);
+
+new Vue({
+    store,
+    router,
     beforeCreate(){
        if(authService.getToken()) store.dispatch(CHECK_AUTH)
     },
-    render: () => h(App)
-}, {h, App})
-
-app.config.productionTip = false
-app.mixin(myMixin)
-
-app.use(store)
-app.use(router)
-app.use(Toaster)
-app.mount('#app')
+    watch: {
+        $route(to, from) {
+            if (to || from)
+                document.title = to.meta.title ? `${to.meta.title} - Quiz System` : 'Simple Quiz System';
+        }
+    },
+    vuetify,
+    render: h => h(App)
+}).$mount('#app')
