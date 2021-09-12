@@ -26,7 +26,10 @@
       </div>
     </v-parallax>
     <v-container fluid id="quizes" class="mt-2">
-      <v-row align="center" justify="center">
+      <v-row align="center" justify="center" v-if="quizView">
+          <QuizView :quiz="quiz"/>
+      </v-row>
+      <v-row align="center" justify="center" v-else>
         <v-col cols="10">
           <v-row align="center" justify="space-around" v-if="quizzes.data && quizzes.data.length > 0">
             <v-col cols="12" sm="4"
@@ -58,12 +61,9 @@
                   </v-list-item>
 
                   <v-card-actions>
-                    <v-btn
-                        outlined
-                        rounded
-                        text
-                    >
-                      Button
+                    <v-spacer></v-spacer>
+                    <v-btn outlined rounded text @click="getQuiz(quiz.id)">
+                      View
                     </v-btn>
                   </v-card-actions>
                 </v-card>
@@ -97,11 +97,16 @@
 
 <script>
 import ApiService from "@/common/api.service"
+import QuizView from "@/components/homepage/QuizView"
 
 export default {
   name: "HomeSection",
+  components: {
+    QuizView
+  },
   data: () => ({
-    loader: false,
+    quizView: false,
+    loading: false,
     quizzes: {},
     filters: {},
     pagination: {
@@ -111,6 +116,16 @@ export default {
     },
   }),
   methods: {
+    getQuiz(id) {
+      this.loading = true;
+      ApiService.get(`/pub/quiz/${id}`).then(res => {
+        this.quiz = res.data.data;
+        this.quizView = true;
+        this.loading = false;
+      }).catch(err => {
+          this.$toastr.e(err)
+      })
+    },
     index(page, searchQuery = "") {
       this.loading = true;
       if (!page) {
@@ -119,8 +134,7 @@ export default {
       if(searchQuery) {
         searchQuery = `&${searchQuery}`;
       }
-      ApiService.setHeader()
-      ApiService.get(`/quiz?page=${page}${searchQuery}&limit=${this.pagination.per_page}`).then(res => {
+      ApiService.get(`/pub/quiz?page=${page}${searchQuery}&limit=${this.pagination.per_page}`).then(res => {
         this.quizzes = res.data;
         this.pagination.current = res.data.meta.current_page;
         this.pagination.total = res.data.meta.last_page;
@@ -149,12 +163,16 @@ export default {
       this.index();
     },
     search() {
-      // this.filtering = true;
       this.index(1, this.filtersUrl());
     },
   },
   mounted() {
-    this.index();
+    let id = this.$route.params.id;
+    if (id) {
+      this.getQuiz(id);
+    } else {
+      this.index();
+    }
   }
 }
 </script>

@@ -2,7 +2,7 @@
   <v-app>
     <navigation :color="color" :flat="flat" />
     <v-main class="pt-0">
-      <home />
+      <home/>
     </v-main>
     <v-scale-transition>
       <v-btn fab v-show="fab" v-scroll="onScroll" dark fixed bottom right color="secondary" @click="toTop">
@@ -40,6 +40,7 @@ export default {
     fab: null,
     color: "",
     flat: null,
+    quizView: false
   }),
 
   created() {
