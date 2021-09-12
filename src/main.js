@@ -13,14 +13,17 @@ import './plugins/chartist'
 import vuetify from '@/plugins/vuetify';
 import VueToastr from "vue-toastr";
 import i18n from './i18n'
-Vue.use(VueToastr);
+import moment from 'moment'
+import Gravatar from 'vue-gravatar';
 
+Vue.use(VueToastr);
 Vue.config.productionTip = false
 Vue.mixin(myMixin)
-
+Vue.component('v-gravatar', Gravatar);
 Vue.use(store)
 Vue.use(router)
 Vue.use(vuetify);
+Vue.prototype.moment = moment
 
 new Vue({
     store,

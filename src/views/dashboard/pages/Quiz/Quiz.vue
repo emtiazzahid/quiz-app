@@ -22,35 +22,39 @@
             </v-row>
             <v-row align="center">
               <v-col cols="1" md="3">
-                <h4>Time Limit (Second)</h4>
+                <h4>Time Limit (Hour:minute:second)</h4>
               </v-col>
               <v-col cols="8">
                 <h3>
-                  {{ data.time_limit }}
+                  {{ moment.utc(moment.duration(data.time_limit,'seconds').as('milliseconds')).format('HH:mm:ss') }}
                 </h3>
               </v-col>
             </v-row>
           </v-container>
         </base-material-card>
         <base-material-card title="MCQ">
-          <v-container class="pa-0" fluid v-if="data.mcq">
-            <v-row align="center" v-for="mcq in data.mcq" :key="mcq.id">
+          <v-container class="pa-0" fluid v-if="data.mcqs && data.mcqs.length > 0">
+            <v-row align="center" v-for="mcq in data.mcqs" :key="mcq.id">
               <v-col cols="1" md="3">
-                <h4>Question</h4>
+                <h4>#{{ mcq.id }}</h4>
               </v-col>
               <v-col cols="8">
-                <h3>{{ data.title }}</h3>
+                <h3>{{ mcq.question }}</h3>
               </v-col>
             </v-row>
           </v-container>
           <v-container class="pa-0" fluid  v-else>
             <h3>
-              No Question Attached Yet
-              <router-link :to="{name: 'AttachMCQ'}">Attach questions</router-link>
+              No MCQ Attached Yet
+              <router-link :to="{name: 'AttachMCQ'}">Attach MCQ</router-link>
             </h3>
           </v-container>
         </base-material-card>
-
+      </v-col>
+      <v-col cols="1" md="1">
+        <v-btn depressed color="primary" :to="{name: 'AttachMCQ'}">
+          Update MCQ List
+        </v-btn>
       </v-col>
     </v-row>
   </v-container>

@@ -20,22 +20,8 @@
 
     <v-divider class="mb-1" />
 
-    <v-list
-      dense
-      nav
-    >
+    <v-list dense nav>
       <v-list-item>
-        <v-list-item-avatar
-          class="align-self-center"
-          color="white"
-          contain
-        >
-          <v-img
-            src="https://demos.creative-tim.com/vuetify-material-dashboard/favicon.ico"
-            max-height="30"
-          />
-        </v-list-item-avatar>
-
         <v-list-item-content>
           <v-list-item-title
             class="display-1"
@@ -101,27 +87,7 @@
           title: 'MCQ\'s',
           icon: 'mdi-account',
           to: '/mcq',
-        },
-        {
-          title: 'rtables',
-          icon: 'mdi-clipboard-outline',
-          to: '/tables/regular-tables',
-        },
-        {
-          title: 'typography',
-          icon: 'mdi-format-font',
-          to: '/dashboard/components/typography',
-        },
-        {
-          title: 'icons',
-          icon: 'mdi-chart-bubble',
-          to: '/dashboard/components/icons',
-        },
-        {
-          title: 'notifications',
-          icon: 'mdi-bell',
-          to: '/dashboard/components/notifications',
-        },
+        }
       ],
     }),
 

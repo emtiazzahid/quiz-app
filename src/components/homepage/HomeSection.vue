@@ -16,48 +16,6 @@
                 Quiz's
                 <v-icon class="ml-2">mdi-arrow-down</v-icon>
               </v-btn>
-              <div class="video d-flex align-center py-4">
-                <a @click.stop="dialog = true" class="playBut">
-                  <svg
-                    version="1.1"
-                    xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink"
-                    xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
-                    x="0px"
-                    y="0px"
-                    width="60px"
-                    height="60px"
-                    viewBox="0 0 213.7 213.7"
-                    enable-background="new 0 0 213.7 213.7"
-                    xml:space="preserve"
-                  >
-                    <polygon
-                      class="triangle"
-                      id="XMLID_18_"
-                      fill="none"
-                      stroke-width="7"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-miterlimit="10"
-                      points="73.5,62.5 148.5,105.8 73.5,149.1 "
-                    />
-
-                    <circle
-                      class="circle"
-                      id="XMLID_17_"
-                      fill="none"
-                      stroke-width="7"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-miterlimit="10"
-                      cx="106.8"
-                      cy="106.8"
-                      r="103.3"
-                    />
-                  </svg>
-                </a>
-                <p class="subheading ml-2 mb-0">Tutorial</p>
-              </div>
             </v-col>
             <v-col cols="12" md="6" xl="4" class="hidden-sm-and-down"> </v-col>
           </v-row>
@@ -70,107 +28,135 @@
     <v-container fluid id="quizes" class="mt-2">
       <v-row align="center" justify="center">
         <v-col cols="10">
-          <v-row align="center" justify="space-around">
-            <v-col
-              cols="12"
-              sm="4"
+          <v-row align="center" justify="space-around" v-if="quizzes.data && quizzes.data.length > 0">
+            <v-col cols="12" sm="4"
               class="text-center"
-              v-for="(quiz, i) in quizes"
+              v-for="(quiz, i) in quizzes.data"
               :key="i"
             >
-              <v-hover v-slot:default="{ hover }">
-                <v-card
-                  class="card"
-                  shaped
-                  :elevation="hover ? 10 : 4"
-                  :class="{ up: hover }"
-                >
-                  <v-img
-                    :src="quiz.img"
-                    max-width="100px"
-                    class="d-block ml-auto mr-auto"
-                    :class="{ 'zoom-efect': hover }"
-                  ></v-img>
-                  <h1 class="font-weight-regular">{{ quiz.title }}</h1>
-                  <h4 class="font-weight-regular subtitle-1">
-                    {{ quiz.text }}
-                  </h4>
+              <v-hover>
+                <v-card class="mx-auto" max-width="344" outlined>
+                  <v-list-item three-line>
+                    <v-list-item-content>
+                      <div class="text-overline mb-4">
+                        {{ quiz.author }}
+                      </div>
+                      <v-list-item-title class="text-h5 mb-1">
+                        {{ quiz.title }}
+                      </v-list-item-title>
+                      <v-list-item-subtitle>{{ quiz.description.substring(0,100)+".." }}</v-list-item-subtitle>
+                    </v-list-item-content>
+
+                    <v-list-item-avatar
+                        tile
+                        size="80"
+                        color="grey"
+                        v-if="quiz.author_email"
+                    >
+                      <v-gravatar :email="quiz.author_email" />
+                    </v-list-item-avatar>
+                  </v-list-item>
+
+                  <v-card-actions>
+                    <v-btn
+                        outlined
+                        rounded
+                        text
+                    >
+                      Button
+                    </v-btn>
+                  </v-card-actions>
                 </v-card>
               </v-hover>
             </v-col>
           </v-row>
+          <h3 class="align-center" v-else>Sorry no quiz available at this moment</h3>
         </v-col>
+        <v-row justify="center">
+          <v-col cols="8">
+            <v-container class="max-width">
+              <v-pagination
+                  v-model="pagination.current"
+                  :length="pagination.total"
+                  class="my-4"
+                  :total-visible="7"
+                  circle
+                  @input="index(pagination.current,filtersUrl())"
+              ></v-pagination>
+            </v-container>
+          </v-col>
+        </v-row>
       </v-row>
     </v-container>
-    <v-dialog v-model="dialog" max-width="640px">
-      <v-card>
-        <youtube
-          :video-id="videoId"
-          @ready="ready"
-          @playing="playing"
-        ></youtube>
-      </v-card>
-    </v-dialog>
     <div class="svg-border-waves">
       <img src="~@/assets/img/wave2.svg" />
     </div>
   </section>
 </template>
 
+
 <script>
+import ApiService from "@/common/api.service"
+
 export default {
-  data() {
-    return {
-      dialog: false,
-      videoId: "i8IvvHJssWE",
-      quizes: [
-        {
-          img: require("@/assets/img/icon2.png"),
-          title: "Design Limpo",
-          text: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-        },
-        {
-          img: require("@/assets/img/icon1.png"),
-          title: "Dados Seguros",
-          text: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-        },
-        {
-          img: require("@/assets/img/icon3.png"),
-          title: "Código Aberto",
-          text: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-        },
-      ],
-    };
-  },
-  watch: {
-    dialog(value) {
-      if (!value) {
-        this.pause();
-      }
+  name: "HomeSection",
+  data: () => ({
+    loader: false,
+    quizzes: {},
+    filters: {},
+    pagination: {
+      per_page: 20,
+      current: 1,
+      total: 0
     },
-  },
+  }),
   methods: {
-    ready(event) {
-      this.player = event.target;
+    index(page, searchQuery = "") {
+      this.loading = true;
+      if (!page) {
+        page = this.pagination.current;
+      }
+      if(searchQuery) {
+        searchQuery = `&${searchQuery}`;
+      }
+      ApiService.setHeader()
+      ApiService.get(`/quiz?page=${page}${searchQuery}&limit=${this.pagination.per_page}`).then(res => {
+        this.quizzes = res.data;
+        this.pagination.current = res.data.meta.current_page;
+        this.pagination.total = res.data.meta.last_page;
+        this.loading = false;
+      }).catch(err => {
+        if (err.response.status !== 401) {
+          this.$toastr.e("Failed to load data!" + err);
+          this.loading = false;
+        }else{
+          this.$toastr.e(err.response.data.status)
+        }
+      })
     },
-    playing(event) {
-      // The player is playing a video.
+    filtersUrl() {
+      var str = "";
+      for (var key in this.filters) {
+        if (str != "") {
+          str += "&";
+        }
+        str += key + "=" + encodeURIComponent(this.filters[key]);
+      }
+      return str;
     },
-    change() {
-      // when you change the value, the player will also change.
-      // If you would like to change `playerVars`, please change it before you change `videoId`.
-      // If `playerVars.autoplay` is 1, `loadVideoById` will be called.
-      // If `playerVars.autoplay` is 0, `cueVideoById` will be called.
-      this.videoId = "another video id";
+    clearFilter() {
+      this.filters = {};
+      this.index();
     },
-    stop() {
-      this.player.stopVideo();
-    },
-    pause() {
-      this.player.pauseVideo();
+    search() {
+      // this.filtering = true;
+      this.index(1, this.filtersUrl());
     },
   },
-};
+  mounted() {
+    this.index();
+  }
+}
 </script>
 
 <style lang="scss">
@@ -182,51 +168,6 @@ export default {
   opacity: 0.3;
 }
 
-.playBut {
-  /*  border: 1px solid red;*/
-  display: inline-block;
-  -webkit-transition: all 0.5s ease;
-
-  .triangle {
-    -webkit-transition: all 0.7s ease-in-out;
-    stroke-dasharray: 240;
-    stroke-dashoffset: 480;
-    stroke: white;
-    transform: translateY(0);
-  }
-
-  &:hover {
-    .triangle {
-      stroke-dashoffset: 0;
-      opacity: 1;
-      stroke: white;
-      animation: nudge 0.7s ease-in-out;
-
-      @keyframes nudge {
-        0% {
-          transform: translateX(0);
-        }
-        30% {
-          transform: translateX(-5px);
-        }
-        50% {
-          transform: translateX(5px);
-        }
-        70% {
-          transform: translateX(-2px);
-        }
-        100% {
-          transform: translateX(0);
-        }
-      }
-    }
-
-    .circle {
-      stroke-dashoffset: 0;
-      opacity: 1;
-    }
-  }
-}
 </style>
 
 <style>

@@ -90,27 +90,6 @@ const routes = [
                 name: 'MCQ\'s',
                 path: '/mcq',
                 component: () => import('@/views/dashboard/pages/MCQ/MCQs'),
-            },
-            {
-                name: 'Notifications',
-                path: 'components/notifications',
-                component: () => import('@/views/dashboard/component/Notifications'),
-            },
-            {
-                name: 'Icons',
-                path: 'components/icons',
-                component: () => import('@/views/dashboard/component/Icons'),
-            },
-            {
-                name: 'Typography',
-                path: 'components/typography',
-                component: () => import('@/views/dashboard/component/Typography'),
-            },
-            // Tables
-            {
-                name: 'Regular Tables',
-                path: '/tables/regular-tables',
-                component: () => import('@/views/dashboard/tables/RegularTables'),
             }
         ]
     },

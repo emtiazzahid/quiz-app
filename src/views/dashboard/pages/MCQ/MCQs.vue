@@ -33,10 +33,12 @@
 
         <tbody>
           <tr v-for="mcq in list.data" :key="mcq.id">
-            <td>{{ mcq.id }}</td>
+            <td>#{{ mcq.id }}</td>
             <td>{{ mcq.question }}</td>
             <td>{{ mcq.correct_answer }}</td>
-            <td>{{ mcq.created_at }}</td>
+            <td>
+              {{moment(mcq.created_at).format('YYYY-MM-DD')}}
+            </td>
             <td class="text-right">
               <button>x</button>
               <button>y</button>
@@ -83,15 +85,15 @@ export default {
     index(page, searchQuery = "") {
       this.loading = true;
       if (!page) {
-        var page = this.pagination.current;
+        page = this.pagination.current;
       }
       if(searchQuery) {
-        var searchQuery = `&${searchQuery}`;
+        searchQuery = `&${searchQuery}`;
       }
       ApiService.get(`/mcq?page=${page}${searchQuery}&limit=${this.pagination.per_page}`).then(res => {
         this.list = res.data;
-        this.pagination.current = res.data.current_page;
-        this.pagination.total = res.data.last_page;
+        this.pagination.current = res.data.meta.current_page;
+        this.pagination.total = res.data.meta.last_page;
         this.loading = false;
       }).catch(err => {
         if (err.response.status !== 401) {

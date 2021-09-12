@@ -37,17 +37,19 @@
             <td>
               <router-link :to="{name: 'Quiz', params: { id: quiz.id }}">{{ quiz.title }}</router-link>
             </td>
-            <td>{{ quiz.time_limit }}</td>
-            <td>{{ quiz.created_at }}</td>
+            <td>
+              {{ moment.utc(moment.duration(quiz.time_limit,'seconds').as('milliseconds')).format('HH:mm:ss') }}
+            </td>
+            <td>{{moment(quiz.created_at).format('YYYY-MM-DD')}}</td>
             <td class="text-right">
               <button>x</button>
               <button>y</button>
             </td>
           </tr>
-
-
         </tbody>
       </v-simple-table>
+
+
       <v-row justify="center">
         <v-col cols="8">
           <v-container class="max-width">
@@ -85,16 +87,16 @@ export default {
     index(page, searchQuery = "") {
       this.loading = true;
       if (!page) {
-        var page = this.pagination.current;
+        page = this.pagination.current;
       }
       if(searchQuery) {
-        var searchQuery = `&${searchQuery}`;
+        searchQuery = `&${searchQuery}`;
       }
       ApiService.setHeader()
       ApiService.get(`/quiz?page=${page}${searchQuery}&limit=${this.pagination.per_page}`).then(res => {
         this.list = res.data;
-        this.pagination.current = res.data.current_page;
-        this.pagination.total = res.data.last_page;
+        this.pagination.current = res.data.meta.current_page;
+        this.pagination.total = res.data.meta.last_page;
         this.loading = false;
       }).catch(err => {
         if (err.response.status !== 401) {

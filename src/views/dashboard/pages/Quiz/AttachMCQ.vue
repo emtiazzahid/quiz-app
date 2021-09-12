@@ -6,7 +6,7 @@
           <v-container class="pa-0" fluid>
             <div class="col-12 text-right">
               <v-btn depressed color="primary" @click="saveMCQAttachOnQuiz">
-                Save
+                Update
               </v-btn>
             </div>
           </v-container>
@@ -29,9 +29,10 @@
                 <tr v-for="mcq in mcq_list.data" :key="mcq.id">
                   <td>
                     <v-checkbox
-                        v-model="selected_mcq_ids"
+                        v-model="mcq_ids"
                         :label="'#'+mcq.id"
                         :value="mcq.id"
+                        :error-messages="errors.mcq_ids"
                     ></v-checkbox>
                   </td>
                   <td>{{ mcq.question }}</td>
@@ -49,7 +50,7 @@
                         class="my-4"
                         :total-visible="7"
                         circle
-                        @input="index(pagination.current,filtersUrl())"
+                        @input="getAllMCQ(pagination.current)"
                     ></v-pagination>
                   </v-container>
                 </v-col>
@@ -72,19 +73,22 @@
       data: {},
       mcq_list: {},
       pagination: {
-        per_page: 5,
+        per_page: 20,
         current: 1,
         total: 0
       },
-      selected_mcq_ids: []
+      errors:{},
+      mcq_ids: []
     }),
     methods: {
       get() {
         this.loader = true
-        ApiService.get(`/quiz/${this.$route.params.id}`)
+        ApiService.get(`/quiz/${this.$route.params.id}/mcq`)
         .then((resp) => {
           this.loading = false;
           this.data = resp.data;
+          this.setPreviousMCQIds();
+          console.log(this.data.mcqs)
           this.getAllMCQ(1);
         })
         .catch((err) => {
@@ -100,8 +104,8 @@
         ApiService.get(`/mcq?page=${page}&perPage=${this.pagination.per_page}`)
             .then((resp) => {
               this.loading = false;
-              this.pagination.current = resp.data.current_page;
-              this.pagination.total = resp.data.last_page;
+              this.pagination.current = resp.data.meta.current_page;
+              this.pagination.total = resp.data.meta.last_page;
               this.mcq_list = resp.data;
             })
             .catch((err) => {
@@ -110,22 +114,30 @@
             });
       },
       saveMCQAttachOnQuiz() {
-        if (this.selected_mcq_ids.length == 0) {
+        if (this.mcq_ids.length == 0) {
           this.$toastr.e('Please select at list one question');
           return;
         }
         this.loader = true
         ApiService.put(`/quiz/${this.$route.params.id}/mcq`, {
-          mcq_ids: this.selected_mcq_ids
+          mcq_ids: this.mcq_ids
         })
         .then((resp) => {
           this.loading = false;
-          this.$toastr.e(resp.data.message);
+          this.errors = {};
+          this.$toastr.s(resp.data.message);
         })
         .catch((err) => {
-          this.$toastr.e(err);
+          if (err.response.status === 422) {
+            this.errors = err.response.data.errors;
+          }
           this.loading = false;
         });
+      },
+      setPreviousMCQIds() {
+        this.data.mcqs.forEach(mcq => {
+          this.mcq_ids.push(mcq.id);
+        })
       }
     },
     created() {
