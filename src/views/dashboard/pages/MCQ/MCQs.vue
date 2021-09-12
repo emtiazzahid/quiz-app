@@ -1,26 +1,26 @@
 <template>
   <v-container fluid tag="section">
-    <base-material-card icon="mdi-clipboard-text" title="My Quiz's" class="px-5 py-3">
+    <base-material-card icon="mdi-clipboard-text" title="My MCQ's" class="px-5 py-3">
       <template v-slot:after-heading>
         <div class="col-12 ml-auto text-right">
-          <v-btn depressed color="primary" class="text-right" :to="{name: 'AddQuiz'}">
-            Add Quiz
+          <v-btn depressed color="primary" class="text-right" :to="{name: 'AddMCQ'}">
+            Add MCQ
           </v-btn>
         </div>
       </template>
 
       <v-simple-table>
-        <button :to="{name: 'AddQuiz'}"></button>
+        <button :to="{name: 'AddMCQ'}"></button>
         <thead>
           <tr>
             <th class="primary--text">
               ID
             </th>
             <th class="primary--text">
-              Title
+              Question
             </th>
             <th class="primary--text">
-              Time Limit
+              Current Answer
             </th>
             <th class="primary--text">
               Created at
@@ -32,11 +32,11 @@
         </thead>
 
         <tbody>
-          <tr v-for="quiz in list.data" :key="quiz.id">
-            <td>{{ quiz.id }}</td>
-            <td>{{ quiz.title }}</td>
-            <td>{{ quiz.time_limit }}</td>
-            <td>{{ quiz.created_at }}</td>
+          <tr v-for="mcq in list.data" :key="mcq.id">
+            <td>{{ mcq.id }}</td>
+            <td>{{ mcq.question }}</td>
+            <td>{{ mcq.correct_answer }}</td>
+            <td>{{ mcq.created_at }}</td>
             <td class="text-right">
               <button>x</button>
               <button>y</button>
@@ -68,7 +68,7 @@
 import ApiService from "@/common/api.service"
 
 export default {
-  name: "Quizzes",
+  name: "MCQs",
   data: () => ({
     loader: false,
     list: {},
@@ -88,8 +88,7 @@ export default {
       if(searchQuery) {
         var searchQuery = `&${searchQuery}`;
       }
-      ApiService.setHeader()
-      ApiService.get(`/quiz?page=${page}${searchQuery}&limit=${this.pagination.per_page}`).then(res => {
+      ApiService.get(`/mcq?page=${page}${searchQuery}&limit=${this.pagination.per_page}`).then(res => {
         this.list = res.data;
         this.pagination.current = res.data.current_page;
         this.pagination.total = res.data.last_page;
@@ -118,7 +117,6 @@ export default {
       this.index();
     },
     search() {
-      // this.filtering = true;
       this.index(1, this.filtersUrl());
     },
   },

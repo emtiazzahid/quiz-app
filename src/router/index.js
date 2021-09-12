@@ -64,22 +64,32 @@ const routes = [
             {
                 name: 'AddQuiz',
                 path: '/quizzes/add',
-                component: () => import('@/views/dashboard/pages/AddQuiz'),
+                component: () => import('@/views/dashboard/pages/Quiz/AddQuiz'),
+            },
+            {
+                name: 'Quiz',
+                path: '/quizzes/:id',
+                component: () => import('@/views/dashboard/pages/Quiz/Quiz'),
+            },
+            {
+                name: 'AttachMCQ',
+                path: '/quizzes/:id/attach',
+                component: () => import('@/views/dashboard/pages/Quiz/AttachMCQ'),
             },
             {
                 name: 'Quiz\'s',
                 path: '/quizzes',
-                component: () => import('@/views/dashboard/pages/Quizzes'),
+                component: () => import('@/views/dashboard/pages/Quiz/Quizzes'),
             },
             {
                 name: 'AddMCQ',
                 path: '/mcq/add',
-                component: () => import('@/views/dashboard/pages/AddMCQ'),
+                component: () => import('@/views/dashboard/pages/MCQ/AddMCQ'),
             },
             {
                 name: 'MCQ\'s',
                 path: '/mcq',
-                component: () => import('@/views/dashboard/pages/MCQs'),
+                component: () => import('@/views/dashboard/pages/MCQ/MCQs'),
             },
             {
                 name: 'Notifications',
