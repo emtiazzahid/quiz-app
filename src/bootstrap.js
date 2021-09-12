@@ -10,9 +10,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.axios.interceptors.response.use(
     response => response,
     error => {
-        if (error.response.status === 422) {
-            store.commit("formError", error.response);
-        } else if (error.response.status === 401) {
+        if (error.response.status === 401) {
             authService.destroyToken()
             router.push({ name: "Login" })
         } else {

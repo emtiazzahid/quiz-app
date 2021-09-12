@@ -62,16 +62,25 @@ const routes = [
                 component: () => import('@/views/dashboard/Dashboard'),
             },
             {
-                name: 'Add Quiz',
-                path: '/quizes/add',
+                name: 'AddQuiz',
+                path: '/quizzes/add',
                 component: () => import('@/views/dashboard/pages/AddQuiz'),
             },
             {
                 name: 'Quiz\'s',
-                path: '/quizes',
-                component: () => import('@/views/dashboard/pages/MyQuizes'),
+                path: '/quizzes',
+                component: () => import('@/views/dashboard/pages/Quizzes'),
             },
-
+            {
+                name: 'AddMCQ',
+                path: '/mcq/add',
+                component: () => import('@/views/dashboard/pages/AddMCQ'),
+            },
+            {
+                name: 'MCQ\'s',
+                path: '/mcq',
+                component: () => import('@/views/dashboard/pages/MCQs'),
+            },
             {
                 name: 'Notifications',
                 path: 'components/notifications',

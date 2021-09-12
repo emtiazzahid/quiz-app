@@ -53,18 +53,18 @@ const actions = {
     },
 
     [CHECK_AUTH](context) {
-        if (authService.getToken()) {
-            ApiService.setHeader()
-            ApiService.post("/auth/refresh",{})
-                .then((resp) => {
-                    context.commit(SET_AUTH, resp.data);
-                })
-                .catch((err) => {
-                    context.commit(SET_ERROR, err.response);
-                });
-        } else {
-          context.commit(PURGE_AUTH);
-        }
+        // if (authService.getToken()) {
+        //     ApiService.setHeader()
+        //     ApiService.post("/auth/refresh",{})
+        //         .then((resp) => {
+        //             context.commit(SET_AUTH, resp.data);
+        //         })
+        //         .catch((err) => {
+        //             context.commit(SET_ERROR, err.response);
+        //         });
+        // } else {
+        //   context.commit(PURGE_AUTH);
+        // }
     },
 
     [LOGOUT](context) {

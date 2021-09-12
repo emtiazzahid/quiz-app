@@ -1,6 +1,7 @@
 const ID_TOKEN_KEY = "id_token";
 
 export const getToken = () => {
+    console.log(window.localStorage.getItem(ID_TOKEN_KEY));
     return window.localStorage.getItem(ID_TOKEN_KEY);
 };
 

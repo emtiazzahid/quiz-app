@@ -93,14 +93,14 @@
           to: '/dashboard',
         },
         {
-          title: 'Add Quiz',
-          icon: 'mdi-account',
-          to: '/quizes/add',
-        },
-        {
           title: 'Quiz\'s',
           icon: 'mdi-account',
-          to: '/quizes',
+          to: '/quizzes',
+        },
+        {
+          title: 'MCQ\'s',
+          icon: 'mdi-account',
+          to: '/mcq',
         },
         {
           title: 'rtables',
