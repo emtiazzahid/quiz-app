@@ -30,6 +30,53 @@ import Register from "@/views/guest/Register.vue";
 
 const routes = [
     {
+        path: '/dashboard',
+        component: AuthWrapper,
+        beforeEnter: auth,
+        children: [
+            {
+                name: 'Dashboard',
+                path: '/dashboard',
+                component: () => import('@/views/dashboard/Dashboard'),
+            },
+            {
+                name: 'AddQuiz',
+                path: '/quizzes/add',
+                component: () => import('@/views/dashboard/pages/Quiz/AddQuiz'),
+            },
+            {
+                name: 'Quiz',
+                path: '/quizzes/:id',
+                component: () => import('@/views/dashboard/pages/Quiz/Quiz'),
+            },
+            {
+                name: 'RunningQuiz',
+                path: '/quizzes/:id/running',
+                component: () => import('@/views/dashboard/pages/Quiz/Running'),
+            },
+            {
+                name: 'AttachMCQ',
+                path: '/quizzes/:id/attach',
+                component: () => import('@/views/dashboard/pages/Quiz/AttachMCQ'),
+            },
+            {
+                name: 'Quiz\'s',
+                path: '/quizzes',
+                component: () => import('@/views/dashboard/pages/Quiz/Quizzes'),
+            },
+            {
+                name: 'AddMCQ',
+                path: '/mcq/add',
+                component: () => import('@/views/dashboard/pages/MCQ/AddMCQ'),
+            },
+            {
+                name: 'MCQ\'s',
+                path: '/mcq',
+                component: () => import('@/views/dashboard/pages/MCQ/MCQs'),
+            }
+        ]
+    },
+    {
         path: "/:id?",
         name: "Homepage",
         component: Homepage,
@@ -48,48 +95,6 @@ const routes = [
                 path: "/register",
                 name: "Register",
                 component: Register,
-            }
-        ]
-    },
-    {
-        path: '/dashboard',
-        component: AuthWrapper,
-        beforeEnter: auth,
-        children: [
-            {
-                name: 'Dashboard',
-                path: '/dashboard',
-                component: () => import('@/views/dashboard/Dashboard'),
-            },
-            {
-                name: 'AddQuiz',
-                path: 'quizzes/add',
-                component: () => import('@/views/dashboard/pages/Quiz/AddQuiz'),
-            },
-            {
-                name: 'Quiz',
-                path: 'quizzes/:id',
-                component: () => import('@/views/dashboard/pages/Quiz/Quiz'),
-            },
-            {
-                name: 'AttachMCQ',
-                path: 'quizzes/:id/attach',
-                component: () => import('@/views/dashboard/pages/Quiz/AttachMCQ'),
-            },
-            {
-                name: 'Quiz\'s',
-                path: 'quizzes',
-                component: () => import('@/views/dashboard/pages/Quiz/Quizzes'),
-            },
-            {
-                name: 'AddMCQ',
-                path: 'mcq/add',
-                component: () => import('@/views/dashboard/pages/MCQ/AddMCQ'),
-            },
-            {
-                name: 'MCQ\'s',
-                path: 'mcq',
-                component: () => import('@/views/dashboard/pages/MCQ/MCQs'),
             }
         ]
     },

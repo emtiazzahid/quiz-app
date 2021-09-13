@@ -29,11 +29,7 @@
           md="auto"
         >
           <div class="body-1 font-weight-light pt-6 pt-md-0 text-center">
-            &copy; 2019, made with
-            <v-icon size="18">
-              mdi-heart
-            </v-icon>
-            by <a href="https://www.creative-tim.com">Creative Tim</a> for a better web.
+            &copy; 2021
           </div>
         </v-col>
       </v-row>
@@ -48,20 +44,12 @@
     data: () => ({
       links: [
         {
-          href: '#',
-          text: 'Creative Tim',
+          href: 'https://github.com/emtiazzahid/quiz-app',
+          text: 'Quiz App',
         },
         {
-          href: '#',
-          text: 'About Us',
-        },
-        {
-          href: '#',
-          text: 'Blog',
-        },
-        {
-          href: '#',
-          text: 'Licenses',
+          href: 'https://github.com/emtiazzahid/laravel-quiz-system',
+          text: 'Quiz App API',
         },
       ],
     }),

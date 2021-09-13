@@ -81,12 +81,12 @@
         {
           title: 'Quiz\'s',
           icon: 'mdi-account',
-          to: '/dashboard/quizzes',
+          to: '/quizzes',
         },
         {
           title: 'MCQ\'s',
           icon: 'mdi-account',
-          to: '/dashboard/mcq',
+          to: '/mcq',
         }
       ],
     }),

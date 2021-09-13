@@ -55,6 +55,9 @@
         <v-btn depressed color="primary" :to="{name: 'AttachMCQ'}">
           Update MCQ List
         </v-btn>
+        <v-btn depressed color="primary" :to="{name: 'RunningQuiz'}">
+          Start Quiz Test
+        </v-btn>
       </v-col>
     </v-row>
   </v-container>
