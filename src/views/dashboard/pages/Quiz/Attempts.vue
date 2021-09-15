@@ -1,26 +1,21 @@
 <template>
   <v-container fluid tag="section">
-    <base-material-card icon="mdi-clipboard-text" title="My MCQ's" class="px-5 py-3">
-      <template v-slot:after-heading>
-        <div class="col-12 ml-auto text-right">
-          <v-btn depressed color="primary" class="text-right" :to="{name: 'AddMCQ'}">
-            Add MCQ
-          </v-btn>
-        </div>
-      </template>
-
+    <base-material-card icon="mdi-clipboard-text" title="Test Attempts" class="px-5 py-3">
       <v-simple-table>
-        <button :to="{name: 'AddMCQ'}"></button>
+        <button :to="{name: 'Homepage'}"></button>
         <thead>
           <tr>
             <th class="primary--text">
               ID
             </th>
             <th class="primary--text">
-              Question
+              Quiz
             </th>
             <th class="primary--text">
-              Current Answer
+              Time Limit
+            </th>
+            <th class="primary--text">
+              Score
             </th>
             <th class="primary--text">
               Created at
@@ -32,21 +27,26 @@
         </thead>
 
         <tbody>
-          <tr v-for="mcq in list.data" :key="mcq.id">
-            <td>#{{ mcq.id }}</td>
-            <td>{{ mcq.question }}</td>
-            <td>{{ mcq.correct_answer }}</td>
+          <tr v-for="attempt in list.data" :key="attempt.id">
+            <td>{{ attempt.id }}</td>
             <td>
-              {{moment(mcq.created_at).format('YYYY-MM-DD')}}
+              <router-link :to="{name: 'Quiz', params: { id: attempt.quiz.id }}">{{ attempt.quiz.title }}</router-link>
             </td>
+            <td>
+              {{ moment.utc(moment.duration(attempt.quiz.time_limit,'seconds').as('milliseconds')).format('HH:mm:ss') }}
+            </td>
+            <td>
+              {{ attempt.score + '%' }}
+            </td>
+            <td>{{moment(attempt.created_at).format('YYYY-MM-DD')}}</td>
             <td class="text-right">
 
             </td>
           </tr>
-
-
         </tbody>
       </v-simple-table>
+
+
       <v-row justify="center">
         <v-col cols="8">
           <v-container class="max-width">
@@ -69,7 +69,7 @@
 import ApiService from "@/common/api.service"
 
 export default {
-  name: "MCQs",
+  name: "QuizAttempts",
   data: () => ({
     loader: false,
     list: {},
@@ -81,15 +81,13 @@ export default {
     },
   }),
   methods: {
-    index(page, searchQuery = "") {
+    index(page) {
       this.loading = true;
       if (!page) {
         page = this.pagination.current;
       }
-      if(searchQuery) {
-        searchQuery = `&${searchQuery}`;
-      }
-      ApiService.get(`/mcq?page=${page}${searchQuery}&limit=${this.pagination.per_page}`).then(res => {
+      ApiService.setHeader()
+      ApiService.get(`/pub/attempts?page=${page}&limit=${this.pagination.per_page}`).then(res => {
         this.list = res.data;
         this.pagination.current = res.data.meta.current_page;
         this.pagination.total = res.data.meta.last_page;

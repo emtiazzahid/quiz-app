@@ -58,6 +58,9 @@
     data: () => ({
       timerCount: 0,
       loader: false,
+      remaining_time: 0,
+      attempt_id: '',
+      data: {},
       form: {
         mcqs: []
       },
@@ -65,31 +68,44 @@
     methods: {
       get() {
         this.loader = true
+        ApiService.setHeader()
         ApiService.get(`/pub/quiz/${this.$route.params.id}/mcq`)
         .then((resp) => {
           this.loading = false;
-          this.timerCount = resp.data.data.time_limit;
           this.form.mcqs = resp.data.data.mcqs;
+          this.start();
         })
         .catch((err) => {
           this.$toastr.e(err);
           this.loading = false;
         });
       },
-      // autoSave() { //TODO:: AUTOSAVE FEATURE
-      //   ApiService.post(`/pub/quiz/${this.$route.params.id}/save`)
-      //   .then((resp) => {
-      //     this.loading = false;
-      //   })
-      //   .catch((err) => {
-      //     this.$toastr.e(err);
-      //     this.loading = false;
-      //   });
-      // },
       complete() {
-        ApiService.post(`/pub/quiz/${this.$route.params.id}/complete`, this.form)
+        ApiService.post(`/pub/attempts/${this.attempt_id}/complete`, this.form)
+            .then(async () => {
+              this.loading = false;
+              await this.gotoResultSection();
+            })
+            .catch((err) => {
+              this.$toastr.e(err);
+              this.loading = false;
+            });
+      },
+      gotoResultSection() {
+        this.$router.push({path: `/attempts/${this.attempt_id}`});
+      },
+      start() {
+        ApiService.post(`/pub/quiz/${this.$route.params.id}/start`, {
+          attempt_id: this.attempt_id
+        })
             .then((resp) => {
               this.loading = false;
+              this.attempt_id = resp.data.attempt_id;
+              if (resp.data.remaining_time == null) {
+                this.gotoResultSection();
+              } else {
+                this.timerCount = resp.data.remaining_time;
+              }
             })
             .catch((err) => {
               this.$toastr.e(err);

@@ -16,7 +16,6 @@ const ApiService = {
     },
 
     get(resource) {
-        console.log(axios.defaults.headers.common);
         return axios.get(resource).catch(error => {
             throw new Error(`[RWV] ApiService ${error}`);
         });

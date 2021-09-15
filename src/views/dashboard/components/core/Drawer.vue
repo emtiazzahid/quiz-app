@@ -87,7 +87,13 @@
           title: 'MCQ\'s',
           icon: 'mdi-account',
           to: '/mcq',
-        }
+        },
+        {
+          title: 'Test Attempts',
+          icon: 'mdi-account',
+          to: '/attempts',
+        },
+
       ],
     }),
 

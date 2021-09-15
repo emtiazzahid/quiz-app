@@ -18,7 +18,7 @@ const auth = (to, from, next) => {
         next();
         return
     }
-    next('/')
+    next('/login?redirect=' + to.path);
 }
 
 const GuestWrapper = () => import('@/views/guest/GuestWrapper.vue'),
@@ -55,6 +55,11 @@ const routes = [
                 component: () => import('@/views/dashboard/pages/Quiz/Running'),
             },
             {
+                name: 'TestResult',
+                path: '/attempts/:id',
+                component: () => import('@/views/dashboard/pages/Quiz/TestResult'),
+            },
+            {
                 name: 'AttachMCQ',
                 path: '/quizzes/:id/attach',
                 component: () => import('@/views/dashboard/pages/Quiz/AttachMCQ'),
@@ -73,11 +78,17 @@ const routes = [
                 name: 'MCQ\'s',
                 path: '/mcq',
                 component: () => import('@/views/dashboard/pages/MCQ/MCQs'),
-            }
+            },
+            {
+                name: 'TestAttempts',
+                path: '/attempts',
+                component: () => import('@/views/dashboard/pages/Quiz/Attempts'),
+            },
+
         ]
     },
     {
-        path: "/:id?",
+        path: "/",
         name: "Homepage",
         component: Homepage,
     },
@@ -86,6 +97,11 @@ const routes = [
         component: GuestWrapper,
         beforeEnter: guest,
         children: [
+            {
+                path: "/quiz-view/:id",
+                name: "HomepageQuizView",
+                component: Homepage,
+            },
             {
                 path: "/login",
                 name: "Login",

@@ -14,7 +14,7 @@
         <p>Highest Score: {{ quiz.high_score }}</p>
       </v-card-text>
       <v-card-actions>
-        <v-btn text color="deep-purple accent-4">
+        <v-btn text color="deep-purple accent-4" :to="{name: 'RunningQuiz', params: {id: quiz.id}}">
           Start test
         </v-btn>
       </v-card-actions>
@@ -36,13 +36,13 @@ export default {
         {
           text: 'Quiz',
           disabled: true,
-          href: '/'+this.$route.params.id,
+          href: '/quiz-view/'+this.$route.params.id,
         },
       ],
     }
   },
   created() {
-    this.$router.push(`/${this.quiz.id}`)
+    this.$router.push(`/quiz-view/${this.quiz.id}`)
   }
 }
 </script>

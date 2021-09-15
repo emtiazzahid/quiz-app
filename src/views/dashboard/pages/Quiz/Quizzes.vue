@@ -42,8 +42,7 @@
             </td>
             <td>{{moment(quiz.created_at).format('YYYY-MM-DD')}}</td>
             <td class="text-right">
-              <button>x</button>
-              <button>y</button>
+
             </td>
           </tr>
         </tbody>
