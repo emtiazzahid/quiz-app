@@ -95,7 +95,7 @@ const routes = [
     {
         path: "/",
         component: GuestWrapper,
-        beforeEnter: guest,
+        // beforeEnter: guest,
         children: [
             {
                 path: "/quiz-view/:id",

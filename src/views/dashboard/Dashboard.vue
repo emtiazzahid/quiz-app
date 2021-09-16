@@ -1,22 +1,14 @@
 <template>
-  <v-container
-    id="dashboard"
-    fluid
-    tag="section"
-  >
+  <v-container id="dashboard" fluid tag="section">
     <v-row>
-      <v-col
-        cols="12"
-        sm="6"
-        lg="3"
-      >
+      <v-col cols="12" sm="6" lg="3">
         <base-material-stats-card
           color="info"
-          icon="mdi-twitter"
-          title="Followers"
-          value="+245"
+          icon="mdi-note-text-outline"
+          title="Total Quiz"
+          :value="data.total_quiz"
           sub-icon="mdi-clock"
-          sub-text="Just Updated"
+          sub-text="Since the beginning"
         />
       </v-col>
 
@@ -27,11 +19,11 @@
       >
         <base-material-stats-card
           color="primary"
-          icon="mdi-poll"
-          title="Website Visits"
-          value="75.521"
+          icon="mdi-clipboard-alert-outline"
+          title="Total MCQ"
+          :value="data.total_mcq"
           sub-icon="mdi-tag"
-          sub-text="Tracked from Google Analytics"
+          sub-text="Since the beginning"
         />
       </v-col>
 
@@ -42,11 +34,11 @@
       >
         <base-material-stats-card
           color="success"
-          icon="mdi-store"
-          title="Revenue"
-          value="$ 34,245"
+          icon="mdi-account-group-outline"
+          title="Total Attendants"
+          :value="data.total_attendant"
           sub-icon="mdi-calendar"
-          sub-text="Last 24 Hours"
+          sub-text="Total exam attend in your quiz"
         />
       </v-col>
 
@@ -57,12 +49,11 @@
       >
         <base-material-stats-card
           color="orange"
-          icon="mdi-sofa"
-          title="Bookings"
-          value="184"
+          icon="mdi-account-alert-outline"
+          title="Total Running Exams"
+          :value="data.total_running_exams"
           sub-icon="mdi-alert"
-          sub-icon-color="red"
-          sub-text="Get More Space..."
+          sub-text="Total Running exam of your quiz"
         />
       </v-col>
     </v-row>
@@ -70,15 +61,40 @@
 </template>
 
 <script>
+  import ApiService from "@/common/api.service"
+
   export default {
     name: 'DashboardDashboard',
 
     data () {
-      return { }
+      return {
+        data: {
+          total_quiz: '0',
+          total_mcq: '0',
+          total_attendant: '0',
+          total_running_exams: '0',
+        }
+      }
     },
 
     methods: {
-
+      getSummary() {
+        this.loader = true
+        ApiService.get(`/dashboard-summary`)
+            .then((resp) => {
+              this.loading = false;
+              this.data = resp.data;
+            })
+            .catch((err) => {
+              this.$toastr.e(err);
+              this.loading = false;
+            });
+      }
     },
+    created() {
+      setTimeout( () => {
+        this.getSummary();
+      }, 500);
+    }
   }
 </script>

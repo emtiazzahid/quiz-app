@@ -57,7 +57,7 @@
         v-if="isXs"
       />
       <div v-else>
-        <v-btn text @click="$vuetify.goTo('#hero')">
+        <v-btn text :to="{name: 'Homepage'}">
           <span class="mr-2">Home</span>
         </v-btn>
         <v-btn text @click="$vuetify.goTo('#quizes')">
