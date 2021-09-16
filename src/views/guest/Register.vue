@@ -6,9 +6,9 @@
           <div class="card-header">
             <div class="d-flex align-center flex-column">
               <v-subheader class="display-1 mt-3">
-                <v-icon large color="#2BA5B6">mdi-lock-open-outline</v-icon>Login
+                <v-icon large color="#2BA5B6">mdi-lock-open-outline</v-icon>Register
               </v-subheader>
-              <v-card-title>Please enter your credentials to login.</v-card-title>
+              <v-card-title>Please enter your info to register new account.</v-card-title>
             </div>
           </div>
           <v-divider></v-divider>
@@ -17,21 +17,36 @@
               <v-subheader class="headline font-weight-bold">Quiz App</v-subheader>
             </div>
             <v-divider></v-divider>
-            <v-form ref="loginForm" v-model="valid" lazy-validation >
+            <v-form ref="form" v-model="valid" lazy-validation >
               <v-row no-gutters class="px-3">
                 <v-col cols="12">
-                  <v-subheader class="subtitle-2 px-0">Email</v-subheader>
+                  <v-subheader class="subtitle-2 px-0">Name</v-subheader>
                 </v-col>
                 <v-col cols="12">
                   <v-text-field
                       dense
                       outlined
+                      hide-details
+                      v-model="form.name"
+                      required
+                      :error-messages="errors.name"
+                  >
+                  </v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-subheader class="subtitle-2 px-0">Email</v-subheader>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                      type="email"
+                      dense
+                      outlined
                       prepend-inner-icon="mdi-email-outline"
                       hide-details
-                      v-model="loginEmail"
-                      :rules="loginEmailRules"
-                      @keypress.enter="validate"
+                      v-model="form.email"
+                      :rules="emailRules"
                       required
+                      :error-messages="errors.email"
                   >
                   </v-text-field>
                 </v-col>
@@ -40,27 +55,32 @@
                 </v-col>
                 <v-col cols="12">
                   <v-text-field
-                      dense
-                      outlined
-                      prepend-inner-icon="mdi-key-variant"
-                      hide-details
-                      v-model="loginPassword"
+                      dense outlinedprepend-inner-icon="mdi-key-variant" hide-details
+                      v-model="form.password"
                       :append-icon="show1 ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
                       :rules="[rules.required, rules.min]"
-                      :type="show1 ? 'text' : 'password'"
-                      name="input-10-1"
+                      :type="show1 ? 'text' : 'password'" name="input-10-1"
                       hint="At least 6 characters"
-                      counter
-                      @click:append="show1 = !show1"
-                      @keypress.enter="validate"
+                      counter @click:append="show1 = !show1"
+                      :error-messages="errors.password"
                   >
                   </v-text-field>
                 </v-col>
-                <v-col class="12">
-                  <v-checkbox
-                      label="Keep me signed in"
-                      hide-details
-                  ></v-checkbox>
+                <v-col cols="12">
+                  <v-subheader class="subtitle-2 px-0">Password Confirmation</v-subheader>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                      dense outlinedprepend-inner-icon="mdi-key-variant" hide-details
+                      v-model="form.password_confirmation"
+                      :append-icon="show2 ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
+                      :rules="[rules.required, rules.min]"
+                      :type="show2 ? 'text' : 'password'" name="input-10-1"
+                      hint="At least 6 characters"
+                      counter @click:append="show2 = !show2"
+                      :error-messages="errors.password_confirmation"
+                  >
+                  </v-text-field>
                 </v-col>
               </v-row>
             </v-form>
@@ -72,13 +92,13 @@
                 :disabled="!valid"
                 :loading="loader"
                 @click="validate"
-            >Login</v-btn>
-            <!-- <input type="text"  v-on:keyup.enter="onEnter()"> -->
+            >Register</v-btn>
           </v-card-actions>
         </v-card>
         <div class="bottom-text d-flex align-center flex-column mt-5">
-          <p class="mb-0">Don't have an account? <span class="color-secondary font-weight-bold">Sign Up</span></p>
-          <p>Forgot <span class="color-secondary font-weight-bold">Password</span></p>
+          <p class="mb-0">Already have an account? <span class="color-secondary font-weight-bold">
+            <router-link :to="{name: 'Login'}">Sign In</router-link>
+          </span></p>
         </div>
         <h4>Copyright &copy; <span class="color-secondary">Quiz App</span></h4>
 
@@ -89,51 +109,44 @@
 </template>
 
 <script>
-import { LOGIN } from "@/store/actions/type";
+import {REGISTER} from "../../store/actions/type";
 
 export default {
   components: {  },
   name: "Login",
   data: () => ({
-    dialog: true,
-    tab: 0,
-    tabs: [
-      { name: "Login", icon: "mdi-account" }
-    ],
     valid: true,
     loader: false,
-    loginPassword: "",
-    loginEmail: "",
-    loginEmailRules: [
-      (v) => !!v || "Required",
-      (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
-    ],
+    form: {
+      name: '',
+      email: '',
+      password: '',
+      password_confirmation: '',
+    },
     emailRules: [
       (v) => !!v || "Required",
       (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
     ],
     show1: false,
+    show2: false,
     rules: {
       required: (value) => !!value || "Required.",
       min: (v) => (v && v.length >= 6) || "Min 6 characters",
     },
+    errors: {}
   }),
-  computed: {
-    passwordMatch() {
-      return () => this.password === this.verify || "Password must match";
-    },
-  },
   methods: {
     validate() {
       this.loader = true
-      if (this.$refs.loginForm.validate()) {
+      if (this.$refs.form.validate()) {
         this.loading = true
 
-        this.$store.dispatch(LOGIN, {
-          email: this.loginEmail, password: this.loginPassword
-        }).then(() => {
-              this.$router.push({ name: 'Dashboard' })
-        }).catch(err => this.$toastr.e(err))
+        this.$store.dispatch(REGISTER, this.form)
+            .then((resp) => {
+              this.$toastr.s(resp)
+              this.$router.push(`/login`)
+            })
+            .catch(err => this.$toastr.e(err))
       }
     },
     reset() {

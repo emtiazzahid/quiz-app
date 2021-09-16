@@ -33,6 +33,7 @@ const actions = {
                     resolve({user: resp.data.user, message: resp.data.message});
                 })
                 .catch((err) => {
+                    console.log(err);
                     context.commit(SET_ERROR, err.response.data.errors);
                     reject(err.response.data.message)
                 });

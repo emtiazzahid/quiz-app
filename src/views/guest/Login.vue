@@ -82,8 +82,9 @@
           </v-card-actions>
         </v-card>
         <div class="bottom-text d-flex align-center flex-column mt-5">
-          <p class="mb-0">Don't have an account? <span class="color-secondary font-weight-bold">Sign Up</span></p>
-          <p>Forgot <span class="color-secondary font-weight-bold">Password</span></p>
+          <p class="mb-0">Don't have an account? <span class="color-secondary font-weight-bold">
+            <router-link :to="{name: 'Register'}">Sign Up</router-link>
+          </span></p>
         </div>
         <h4>Copyright &copy; <span class="color-secondary">Quiz App</span></h4>
 
