@@ -20,10 +20,13 @@
               Title
             </th>
             <th class="primary--text">
-              Time Limit
+              Time Limit (H:M:S)
             </th>
             <th class="primary--text">
               Created at
+            </th>
+            <th class="text-right primary--text">
+              Daily Digest Notification
             </th>
             <th class="text-right primary--text">
               Action
@@ -42,8 +45,14 @@
             </td>
             <td>{{moment(quiz.created_at).format('YYYY-MM-DD')}}</td>
             <td class="text-right">
-
+              <v-switch
+                  :loading="digestEmailSwitching"
+                  @change="updateDigestEmailSettings(quiz.id,quiz.digest_email)"
+                  v-model="quiz.digest_email"
+                  :label="quiz.digest_email ? 'On' : 'Off'"
+              ></v-switch>
             </td>
+            <td></td>
           </tr>
         </tbody>
       </v-simple-table>
@@ -73,7 +82,9 @@ import ApiService from "@/common/api.service"
 export default {
   name: "Quizzes",
   data: () => ({
+    digest_notification: false,
     loader: false,
+    digestEmailSwitching: false,
     list: {},
     filters: {},
     pagination: {
@@ -98,12 +109,25 @@ export default {
         this.pagination.total = res.data.meta.last_page;
         this.loading = false;
       }).catch(err => {
-        if (err.response.status !== 401) {
+        if (!err.response || err.response.status !== 401) {
           this.$toastr.e("Failed to load data!" + err);
           this.loading = false;
         }else{
           this.$toastr.e(err.response.data.status)
         }
+      })
+    },
+    updateDigestEmailSettings(id, status) {
+      this.digestEmailSwitching = true;
+      ApiService.setHeader()
+      ApiService.put(`/quiz/${id}/diggest-email`, {
+        status: status
+      }).then(res => {
+        this.$toastr.s(res.data.message);
+        this.digestEmailSwitching = false;
+      }).catch(err => {
+          this.$toastr.e(err);
+        this.digestEmailSwitching = false;
       })
     },
     filtersUrl() {
@@ -121,7 +145,6 @@ export default {
       this.index();
     },
     search() {
-      // this.filtering = true;
       this.index(1, this.filtersUrl());
     },
   },

@@ -28,10 +28,10 @@
 
         <tbody>
           <tr v-for="attempt in list.data" :key="attempt.id">
-            <td>{{ attempt.id }}</td>
             <td>
-              <router-link :to="{name: 'Quiz', params: { id: attempt.quiz.id }}">{{ attempt.quiz.title }}</router-link>
+              <router-link :to="{name: 'TestResult', params: { id: attempt.id }}">#{{ attempt.id }}</router-link>
             </td>
+            <td>{{ attempt.quiz.title }}</td>
             <td>
               {{ moment.utc(moment.duration(attempt.quiz.time_limit,'seconds').as('milliseconds')).format('HH:mm:ss') }}
             </td>
