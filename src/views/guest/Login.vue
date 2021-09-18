@@ -133,11 +133,11 @@ export default {
         this.$store.dispatch(LOGIN, {
           email: this.loginEmail, password: this.loginPassword
         }).then((resp) => {
-              // if (this.$route.query['redirect']) {
-              //   this.$router.push({ path: '/' + this.$route.query['redirect'] })
-              // } else {
+              if (this.$route.query['redirect']) {
+                window.location.href = window.location.origin + this.$route.query['redirect'];
+              } else {
                 this.$router.push({ name: 'Dashboard' })
-              // }
+              }
 
         }).catch((err) =>{
           this.$toastr.e('Wrong email or password!');

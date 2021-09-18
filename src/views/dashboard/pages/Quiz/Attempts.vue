@@ -27,22 +27,27 @@
         </thead>
 
         <tbody>
-          <tr v-for="attempt in list.data" :key="attempt.id">
-            <td>
-              <router-link :to="{name: 'TestResult', params: { id: attempt.id }}">#{{ attempt.id }}</router-link>
-            </td>
-            <td>{{ attempt.quiz.title }}</td>
-            <td>
-              {{ moment.utc(moment.duration(attempt.quiz.time_limit,'seconds').as('milliseconds')).format('HH:mm:ss') }}
-            </td>
-            <td>
-              {{ attempt.score + '%' }}
-            </td>
-            <td>{{moment(attempt.created_at).format('YYYY-MM-DD')}}</td>
-            <td class="text-right">
+          <template v-if="list.data && list.data.length > 0">
+            <tr v-for="attempt in list.data" :key="attempt.id">
+              <td>
+                <router-link :to="{name: 'TestResult', params: { id: attempt.id }}">#{{ attempt.id }}</router-link>
+              </td>
+              <td>{{ attempt.quiz.title }}</td>
+              <td>
+                {{ moment.utc(moment.duration(attempt.quiz.time_limit,'seconds').as('milliseconds')).format('HH:mm:ss') }}
+              </td>
+              <td>
+                {{ attempt.score + '%' }}
+              </td>
+              <td>{{moment(attempt.created_at).format('YYYY-MM-DD')}}</td>
+              <td class="text-right">
 
-            </td>
-          </tr>
+              </td>
+            </tr>
+          </template>
+          <template v-else>
+            <tr><td colspan="6" class="text-center">No data found</td></tr>
+          </template>
         </tbody>
       </v-simple-table>
 

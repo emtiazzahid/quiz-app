@@ -35,6 +35,7 @@
         </thead>
 
         <tbody>
+        <template v-if="list.data && list.data.length > 0">
           <tr v-for="quiz in list.data" :key="quiz.id">
             <td>{{ quiz.id }}</td>
             <td>
@@ -54,6 +55,10 @@
             </td>
             <td></td>
           </tr>
+        </template>
+        <template v-else>
+          <tr><td colspan="6" class="text-center">No data found</td></tr>
+        </template>
         </tbody>
       </v-simple-table>
 

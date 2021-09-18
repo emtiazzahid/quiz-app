@@ -32,19 +32,20 @@
         </thead>
 
         <tbody>
-          <tr v-for="mcq in list.data" :key="mcq.id">
-            <td>#{{ mcq.id }}</td>
-            <td>{{ mcq.question }}</td>
-            <td>{{ mcq.correct_answer }}</td>
-            <td>
-              {{moment(mcq.created_at).format('YYYY-MM-DD')}}
-            </td>
-            <td class="text-right">
-
-            </td>
-          </tr>
-
-
+          <template v-if="list.data && list.data.length > 0">
+            <tr v-for="mcq in list.data" :key="mcq.id">
+              <td>#{{ mcq.id }}</td>
+              <td>{{ mcq.question }}</td>
+              <td>{{ mcq.correct_answer }}</td>
+              <td>
+                {{moment(mcq.created_at).format('YYYY-MM-DD')}}
+              </td>
+              <td class="text-right"></td>
+            </tr>
+          </template>
+          <template v-else>
+            <tr><td colspan="5" class="text-center">No data found</td></tr>
+          </template>
         </tbody>
       </v-simple-table>
       <v-row justify="center">
@@ -89,6 +90,7 @@ export default {
       if(searchQuery) {
         searchQuery = `&${searchQuery}`;
       }
+      ApiService.setHeader()
       ApiService.get(`/mcq?page=${page}${searchQuery}&limit=${this.pagination.per_page}`).then(res => {
         this.list = res.data;
         this.pagination.current = res.data.meta.current_page;

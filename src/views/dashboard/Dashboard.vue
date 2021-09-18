@@ -80,6 +80,7 @@
     methods: {
       getSummary() {
         this.loader = true
+        ApiService.setHeader()
         ApiService.get(`/dashboard-summary`)
             .then((resp) => {
               this.loading = false;
