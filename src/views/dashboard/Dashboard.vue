@@ -1,5 +1,18 @@
 <template>
   <v-container id="dashboard" fluid tag="section">
+
+    <v-row class="float-right">
+      <v-tooltip left>
+        <template v-slot:activator="{ on, attrs }">
+        <span v-bind="attrs" v-on="on">
+            <v-btn :loading="loading" color="blue-grey" fab @click="getSummary(true)">
+              <v-icon dark>mdi-refresh</v-icon>
+            </v-btn>
+        </span>
+        </template>
+        <span>Refresh</span>
+      </v-tooltip>
+    </v-row>
     <v-row>
       <v-col cols="12" sm="6" lg="3">
         <base-material-stats-card
@@ -12,11 +25,7 @@
         />
       </v-col>
 
-      <v-col
-        cols="12"
-        sm="6"
-        lg="3"
-      >
+      <v-col cols="12" sm="6" lg="3">
         <base-material-stats-card
           color="primary"
           icon="mdi-clipboard-alert-outline"
@@ -27,11 +36,7 @@
         />
       </v-col>
 
-      <v-col
-        cols="12"
-        sm="6"
-        lg="3"
-      >
+      <v-col cols="12" sm="6" lg="3">
         <base-material-stats-card
           color="success"
           icon="mdi-account-group-outline"
@@ -42,11 +47,7 @@
         />
       </v-col>
 
-      <v-col
-        cols="12"
-        sm="6"
-        lg="3"
-      >
+      <v-col cols="12" sm="6" lg="3">
         <base-material-stats-card
           color="orange"
           icon="mdi-account-alert-outline"
@@ -68,6 +69,7 @@
 
     data () {
       return {
+        loading: false,
         data: {
           total_quiz: '0',
           total_mcq: '0',
@@ -78,10 +80,10 @@
     },
 
     methods: {
-      getSummary() {
-        this.loader = true
+      getSummary(refresh = false) {
+        this.loading = true
         ApiService.setHeader()
-        ApiService.get(`/dashboard-summary`)
+        ApiService.get(`/dashboard-summary?refresh=${refresh}`)
             .then((resp) => {
               this.loading = false;
               this.data = resp.data;

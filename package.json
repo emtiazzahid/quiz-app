@@ -1,5 +1,5 @@
 {
-  "name": "VueStarted",
+  "name": "QuizApp",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -17,6 +17,7 @@
     "moment": "^2.29.1",
     "vue": "^2.6.11",
     "vue-chartjs": "^3.5.1",
+    "vue-content-loading": "^1.6.0",
     "vue-gravatar": "^1.4.1",
     "vue-i18n": "^8.15.3",
     "vue-router": "^3.2.0",

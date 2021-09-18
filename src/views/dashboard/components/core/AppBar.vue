@@ -36,9 +36,9 @@
       class="ml-2"
       min-width="0"
       text
-      to="/"
+      :to="{name: 'Homepage'}"
     >
-      <v-icon>mdi-view-dashboard</v-icon>
+      <v-icon>mdi-home</v-icon>
     </v-btn>
 
     <v-btn

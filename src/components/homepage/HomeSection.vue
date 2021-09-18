@@ -30,62 +30,90 @@
           <QuizView :quiz="quiz"/>
       </v-row>
       <v-row align="center" justify="center" v-else>
-        <v-col cols="10">
-          <v-row align="center" justify="space-around" v-if="quizzes.data && quizzes.data.length > 0">
-            <v-col cols="12" sm="4"
-              class="text-center"
-              v-for="(quiz, i) in quizzes.data"
-              :key="i"
-            >
-              <v-hover>
-                <v-card class="mx-auto" max-width="344" outlined>
-                  <v-list-item three-line>
-                    <v-list-item-content>
-                      <div class="text-overline mb-4">
-                        {{ quiz.author }}
-                      </div>
-                      <v-list-item-title class="text-h5 mb-1">
-                        {{ quiz.title }}
-                      </v-list-item-title>
-                      <v-list-item-subtitle>{{ quiz.description.substring(0,100)+".." }}</v-list-item-subtitle>
-                    </v-list-item-content>
-
-                    <v-list-item-avatar
-                        tile
-                        size="80"
-                        color="grey"
-                        v-if="quiz.author_email"
-                    >
-                      <v-gravatar :email="quiz.author_email" />
-                    </v-list-item-avatar>
-                  </v-list-item>
-
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn outlined rounded text @click="getQuiz(quiz.id)">
-                      View
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-hover>
+        <v-col cols="10" v-if="loading">
+          <vue-content-loading :width="300" :height="150">
+            <template v-for="i in [0,1]">
+              <rect :x="100*n" :y="60*i" rx="2" ry="2" width="80" height="50" v-for="n in [0,1,2]"/>
+            </template>
+          </vue-content-loading>
+        </v-col>
+        <v-col cols="10" v-else>
+          <v-row>
+            <v-col cols="8"></v-col>
+            <v-col cols="3">
+              <v-text-field
+                  v-model="query"
+                  :error-messages="errors.query"
+                  label="Search by author name or quiz title"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="1">
+              <v-btn @click="index(1, 'title=' + query)" depressed color="indigo">
+                Search
+              </v-btn>
             </v-col>
           </v-row>
-          <h3 class="align-center" v-else>Sorry no quiz available at this moment</h3>
+          <template v-if="quizzes.data && quizzes.data.length > 0">
+            <v-row align="center" justify="space-around">
+              <v-col cols="12" sm="4" class="text-center" v-for="(quiz, i) in quizzes.data" :key="'quiz-'+i">
+                <v-hover>
+                  <v-card class="mx-auto" max-width="344" outlined>
+                    <v-list-item three-line>
+                      <v-list-item-content>
+                        <div class="text-overline mb-4">
+                          {{ quiz.author }}
+                        </div>
+                        <v-list-item-title class="text-h5 mb-1">
+                          {{ quiz.title }}
+                        </v-list-item-title>
+                        <v-list-item-subtitle>{{ quiz.description.substring(0,100)+".." }}</v-list-item-subtitle>
+                      </v-list-item-content>
+
+                      <v-list-item-avatar
+                          tile
+                          size="80"
+                          color="grey"
+                          v-if="quiz.author_email"
+                      >
+                        <v-gravatar :email="quiz.author_email" />
+                      </v-list-item-avatar>
+                    </v-list-item>
+
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn rounded @click="getQuiz(quiz.id)" depressed color="indigo">
+                        View
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-hover>
+              </v-col>
+            </v-row>
+            <v-row justify="center">
+              <v-col cols="8">
+                <v-container class="max-width">
+                  <v-pagination
+                      v-model="pagination.current"
+                      :length="pagination.total"
+                      class="my-4"
+                      :total-visible="7"
+                      circle
+                      @input="index(pagination.current,filtersUrl())"
+                  ></v-pagination>
+                </v-container>
+              </v-col>
+            </v-row>
+          </template>
+          <template v-else>
+            <v-alert
+                border="right"
+                color="blue-grey"
+                dark
+            >
+              Sorry no quiz found
+            </v-alert>
+          </template>
         </v-col>
-        <v-row justify="center">
-          <v-col cols="8">
-            <v-container class="max-width">
-              <v-pagination
-                  v-model="pagination.current"
-                  :length="pagination.total"
-                  class="my-4"
-                  :total-visible="7"
-                  circle
-                  @input="index(pagination.current,filtersUrl())"
-              ></v-pagination>
-            </v-container>
-          </v-col>
-        </v-row>
       </v-row>
     </v-container>
     <div class="svg-border-waves">
@@ -98,16 +126,20 @@
 <script>
 import ApiService from "@/common/api.service"
 import QuizView from "@/components/homepage/QuizView"
+import { VueContentLoading } from 'vue-content-loading';
 
 export default {
   name: "HomeSection",
   components: {
-    QuizView
+    QuizView,
+    VueContentLoading
   },
   data: () => ({
     quizView: false,
     loading: false,
     quizzes: {},
+    query: '',
+    errors: {},
     filters: {},
     pagination: {
       per_page: 20,
@@ -139,7 +171,11 @@ export default {
         this.pagination.current = res.data.meta.current_page;
         this.pagination.total = res.data.meta.last_page;
         this.loading = false;
+        this.errors = {};
       }).catch(err => {
+        if (err.response.status === 422) {
+          this.errors = err.response.data.errors;
+        }
         if (err.response.status !== 401) {
           this.$toastr.e("Failed to load data!" + err);
           this.loading = false;

@@ -8,10 +8,11 @@
           </v-btn>
         </div>
       </template>
-
-      <v-simple-table>
-        <button :to="{name: 'AddQuiz'}"></button>
-        <thead>
+      <table-loader v-if="loading"></table-loader>
+      <template v-else>
+        <v-simple-table>
+          <button :to="{name: 'AddQuiz'}"></button>
+          <thead>
           <tr>
             <th class="primary--text">
               ID
@@ -32,63 +33,65 @@
               Action
             </th>
           </tr>
-        </thead>
+          </thead>
 
-        <tbody>
-        <template v-if="list.data && list.data.length > 0">
-          <tr v-for="quiz in list.data" :key="quiz.id">
-            <td>{{ quiz.id }}</td>
-            <td>
-              <router-link :to="{name: 'Quiz', params: { id: quiz.id }}">{{ quiz.title }}</router-link>
-            </td>
-            <td>
-              {{ moment.utc(moment.duration(quiz.time_limit,'seconds').as('milliseconds')).format('HH:mm:ss') }}
-            </td>
-            <td>{{moment(quiz.created_at).format('YYYY-MM-DD')}}</td>
-            <td class="text-right">
-              <v-switch
-                  :loading="digestEmailSwitching"
-                  @change="updateDigestEmailSettings(quiz.id,quiz.digest_email)"
-                  v-model="quiz.digest_email"
-                  :label="quiz.digest_email ? 'On' : 'Off'"
-              ></v-switch>
-            </td>
-            <td></td>
-          </tr>
-        </template>
-        <template v-else>
-          <tr><td colspan="6" class="text-center">No data found</td></tr>
-        </template>
-        </tbody>
-      </v-simple-table>
-
-
-      <v-row justify="center">
-        <v-col cols="8">
-          <v-container class="max-width">
-            <v-pagination
-                v-model="pagination.current"
-                :length="pagination.total"
-                class="my-4"
-                :total-visible="7"
-                circle
-                @input="index(pagination.current,filtersUrl())"
-            ></v-pagination>
-          </v-container>
-        </v-col>
-      </v-row>
+          <tbody>
+          <template v-if="list.data && list.data.length > 0">
+            <tr v-for="quiz in list.data" :key="quiz.id">
+              <td>{{ quiz.id }}</td>
+              <td>
+                <router-link :to="{name: 'Quiz', params: { id: quiz.id }}">{{ quiz.title }}</router-link>
+              </td>
+              <td>
+                {{ moment.utc(moment.duration(quiz.time_limit,'seconds').as('milliseconds')).format('HH:mm:ss') }}
+              </td>
+              <td>{{moment(quiz.created_at).format('YYYY-MM-DD')}}</td>
+              <td class="text-right">
+                <v-switch
+                    :loading="digestEmailSwitching"
+                    @change="updateDigestEmailSettings(quiz.id,quiz.digest_email)"
+                    v-model="quiz.digest_email"
+                    :label="quiz.digest_email ? 'On' : 'Off'"
+                ></v-switch>
+              </td>
+              <td></td>
+            </tr>
+          </template>
+          <template v-else>
+            <tr><td colspan="6" class="text-center">No data found</td></tr>
+          </template>
+          </tbody>
+        </v-simple-table>
+        <v-row justify="center">
+          <v-col cols="8">
+            <v-container class="max-width">
+              <v-pagination
+                  v-model="pagination.current"
+                  :length="pagination.total"
+                  class="my-4"
+                  :total-visible="7"
+                  circle
+                  @input="index(pagination.current,filtersUrl())"
+              ></v-pagination>
+            </v-container>
+          </v-col>
+        </v-row>
+      </template>
     </base-material-card>
   </v-container>
 </template>
 
 <script>
 import ApiService from "@/common/api.service"
-
+import TableLoader from "@/components/base/TableLoader"
 export default {
+  components:{
+    TableLoader
+  },
   name: "Quizzes",
   data: () => ({
     digest_notification: false,
-    loader: false,
+    loading: false,
     digestEmailSwitching: false,
     list: {},
     filters: {},

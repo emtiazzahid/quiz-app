@@ -8,10 +8,11 @@
           </v-btn>
         </div>
       </template>
-
-      <v-simple-table>
-        <button :to="{name: 'AddMCQ'}"></button>
-        <thead>
+      <table-loader v-if="loading"></table-loader>
+      <template v-else>
+        <v-simple-table>
+          <button :to="{name: 'AddMCQ'}"></button>
+          <thead>
           <tr>
             <th class="primary--text">
               ID
@@ -29,9 +30,9 @@
               Action
             </th>
           </tr>
-        </thead>
+          </thead>
 
-        <tbody>
+          <tbody>
           <template v-if="list.data && list.data.length > 0">
             <tr v-for="mcq in list.data" :key="mcq.id">
               <td>#{{ mcq.id }}</td>
@@ -46,33 +47,38 @@
           <template v-else>
             <tr><td colspan="5" class="text-center">No data found</td></tr>
           </template>
-        </tbody>
-      </v-simple-table>
-      <v-row justify="center">
-        <v-col cols="8">
-          <v-container class="max-width">
-            <v-pagination
-                v-model="pagination.current"
-                :length="pagination.total"
-                class="my-4"
-                :total-visible="7"
-                circle
-                @input="index(pagination.current,filtersUrl())"
-            ></v-pagination>
-          </v-container>
-        </v-col>
-      </v-row>
+          </tbody>
+        </v-simple-table>
+        <v-row justify="center">
+          <v-col cols="8">
+            <v-container class="max-width">
+              <v-pagination
+                  v-model="pagination.current"
+                  :length="pagination.total"
+                  class="my-4"
+                  :total-visible="7"
+                  circle
+                  @input="index(pagination.current,filtersUrl())"
+              ></v-pagination>
+            </v-container>
+          </v-col>
+        </v-row>
+      </template>
     </base-material-card>
   </v-container>
 </template>
 
 <script>
 import ApiService from "@/common/api.service"
+import TableLoader from "@/components/base/TableLoader"
 
 export default {
   name: "MCQs",
+  components: {
+    TableLoader
+  },
   data: () => ({
-    loader: false,
+    loading: false,
     list: {},
     filters: {},
     pagination: {

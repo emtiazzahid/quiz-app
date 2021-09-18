@@ -3,7 +3,8 @@
     <v-row justify="center">
       <v-col cols="12" md="8">
         <base-material-card title="Test Result">
-          <v-container class="pa-0" fluid>
+          <table-loader v-if="loading"></table-loader>
+          <v-container class="pa-0" fluid v-else>
             <br>
             <v-row align="center" v-if="data.quiz">
               <v-col cols="4"><h4>Title</h4></v-col>
@@ -37,7 +38,8 @@
                 </v-progress-linear>
               </h3></v-col>
             </v-row>
-            <br>
+          </v-container>
+          <v-container>
             <v-row align="center" >
               <v-col cols="6" style="height: 400px">
                 <pie-chart ref="resultChart"
@@ -56,12 +58,13 @@
 </template>
 
 <script>
-  import PieChart from '@/plugins/PieChart.js'
+  import PieChart from '@/plugins/PieChart'
   import ApiService from "@/common/api.service"
-
+  import TableLoader from "@/components/base/TableLoader"
   export default {
     components: {
-      PieChart
+      PieChart,
+      TableLoader
     },
     name: "TestResult",
     data: () => ({
@@ -84,12 +87,12 @@
           maintainAspectRatio: false
         }
       },
-      loader: false,
+      loading: false,
       data: {},
     }),
     methods: {
       get() {
-        this.loader = true
+        this.loading = true
         ApiService.get(`/pub/attempts/${this.$route.params.id}`)
         .then((resp) => {
           this.loading = false;

@@ -80,17 +80,17 @@
         },
         {
           title: 'Quiz\'s',
-          icon: 'mdi-account',
+          icon: 'mdi-note-text-outline',
           to: '/quizzes',
         },
         {
           title: 'MCQ\'s',
-          icon: 'mdi-account',
+          icon: 'mdi-clipboard-alert-outline',
           to: '/mcq',
         },
         {
           title: 'Test Attempts',
-          icon: 'mdi-account',
+          icon: 'mdi-account-alert-outline',
           to: '/attempts',
         },
 
