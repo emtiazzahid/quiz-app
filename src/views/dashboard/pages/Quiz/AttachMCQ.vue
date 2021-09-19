@@ -1,5 +1,6 @@
 <template>
   <v-container id="add-quiz" fluid tag="section">
+    <v-breadcrumbs v-if="breadcrumbs" :items="breadcrumbs" divider="-"></v-breadcrumbs>
     <v-row justify="center">
       <v-col cols="12" md="8">
         <base-material-card :title="`Quiz: ${data.title} Mark MCQ to attach in Your Quiz`">
@@ -80,6 +81,27 @@
       errors:{},
       mcq_ids: []
     }),
+    computed: {
+      breadcrumbs() {
+        return [
+          {
+            text: 'Quizzes',
+            disabled: false,
+            href: '/quizzes',
+          },
+          {
+            text: this.id,
+            disabled: false,
+            href: '/quizzes/'+this.id,
+          },
+          {
+            text: 'Attach',
+            disabled: true,
+            href: '/quizzes/'+this.id+'/attach',
+          }
+        ]
+      }
+    },
     methods: {
       get() {
         this.loader = true
@@ -88,7 +110,6 @@
           this.loading = false;
           this.data = resp.data;
           this.setPreviousMCQIds();
-          console.log(this.data.mcqs)
           this.getAllMCQ(1);
         })
         .catch((err) => {
@@ -100,7 +121,8 @@
         if (!page) {
           page = this.pagination.current;
         }
-        this.loader = true
+        this.loader = true;
+        ApiService.setHeader()
         ApiService.get(`/mcq?page=${page}&perPage=${this.pagination.per_page}`)
             .then((resp) => {
               this.loading = false;
@@ -119,6 +141,7 @@
           return;
         }
         this.loader = true
+        ApiService.setHeader()
         ApiService.put(`/quiz/${this.$route.params.id}/mcq`, {
           mcq_ids: this.mcq_ids
         })
@@ -142,6 +165,7 @@
     },
     created() {
       this.get();
+      this.id = this.$route.params.id;
     }
   }
 </script>

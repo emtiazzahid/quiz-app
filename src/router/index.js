@@ -75,6 +75,11 @@ const routes = [
                 component: () => import('@/views/dashboard/pages/MCQ/AddMCQ'),
             },
             {
+                name: 'MCQ',
+                path: '/mcq/:id',
+                component: () => import('@/views/dashboard/pages/MCQ/MCQ'),
+            },
+            {
                 name: 'MCQ\'s',
                 path: '/mcq',
                 component: () => import('@/views/dashboard/pages/MCQ/MCQs'),

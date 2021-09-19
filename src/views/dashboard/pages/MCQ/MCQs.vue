@@ -35,7 +35,9 @@
           <tbody>
           <template v-if="list.data && list.data.length > 0">
             <tr v-for="mcq in list.data" :key="mcq.id">
-              <td>#{{ mcq.id }}</td>
+              <td>
+              <router-link :to="{name: 'MCQ', params: {id: mcq.id}}">#{{ mcq.id }}</router-link>
+              </td>
               <td>{{ mcq.question }}</td>
               <td>{{ mcq.correct_answer }}</td>
               <td>

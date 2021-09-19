@@ -1,11 +1,12 @@
 <template>
   <v-container id="add-quiz" fluid tag="section">
+    <v-breadcrumbs v-if="breadcrumbs" :items="breadcrumbs" divider="-"></v-breadcrumbs>
     <v-row justify="center">
       <v-col cols="12" md="8">
         <base-material-card title="Quiz Details">
-          <v-container class="pa-0" fluid>
+          <v-container class="pa-0 mt-5" fluid>
             <v-row align="center">
-              <v-col cols="1" md="3">
+              <v-col cols="4">
                 <h4>Title</h4>
               </v-col>
               <v-col cols="8">
@@ -13,7 +14,7 @@
               </v-col>
             </v-row>
             <v-row align="center">
-              <v-col cols="1" md="3">
+              <v-col cols="4">
                 <h4>Description</h4>
               </v-col>
               <v-col cols="8">
@@ -21,7 +22,7 @@
               </v-col>
             </v-row>
             <v-row align="center">
-              <v-col cols="1" md="3">
+              <v-col cols="4">
                 <h4>Time Limit (Hour:minute:second)</h4>
               </v-col>
               <v-col cols="8">
@@ -33,9 +34,9 @@
           </v-container>
         </base-material-card>
         <base-material-card title="MCQ">
-          <v-container class="pa-0" fluid v-if="data.mcqs && data.mcqs.length > 0">
+          <v-container class="pa-0 mt-5" fluid v-if="data.mcqs && data.mcqs.length > 0">
             <v-row align="center" v-for="mcq in data.mcqs" :key="mcq.id">
-              <v-col cols="1" md="3">
+              <v-col cols="4">
                 <h4>#{{ mcq.id }}</h4>
               </v-col>
               <v-col cols="8">
@@ -68,10 +69,28 @@
     data: () => ({
       loader: false,
       data: {},
+      id: null
     }),
+    computed: {
+      breadcrumbs() {
+        return [
+          {
+            text: 'Quizzes',
+            disabled: false,
+            href: '/quizzes',
+          },
+          {
+            text: this.id,
+            disabled: true,
+            href: '/quizzes/'+this.id,
+          },
+        ]
+      }
+    },
     methods: {
       get() {
         this.loader = true
+        ApiService.setHeader()
         ApiService.get(`/quiz/${this.$route.params.id}/mcq`)
         .then((resp) => {
           this.loading = false;
@@ -85,6 +104,7 @@
     },
     created() {
       this.get();
+      this.id = this.$route.params.id;
     }
   }
 </script>

@@ -39,7 +39,7 @@
           Confirm
         </v-btn>
       </v-speed-dial>
-      <v-chip class="ma-2 large" color="secondary" style="position: fixed; top: 100px;">
+      <v-chip class="ma-2 large" color="secondary" style="position: fixed; top: 100px; z-index: 100">
         <h1>{{ moment.utc(moment.duration(timerCount,'seconds').as('milliseconds')).format('HH:mm:ss') }}
         </h1>
         <v-icon right>

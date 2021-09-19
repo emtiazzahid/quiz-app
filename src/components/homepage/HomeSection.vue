@@ -38,21 +38,22 @@
           </vue-content-loading>
         </v-col>
         <v-col cols="10" v-else>
+          <v-container>
           <v-row>
-            <v-col cols="8"></v-col>
-            <v-col cols="3">
+            <v-col cols="8">
               <v-text-field
                   v-model="query"
                   :error-messages="errors.query"
                   label="Search by author name or quiz title"
               ></v-text-field>
             </v-col>
-            <v-col cols="1">
+            <v-col cols="4">
               <v-btn @click="index(1, 'title=' + query)" depressed color="indigo">
                 Search
               </v-btn>
             </v-col>
           </v-row>
+          </v-container>
           <template v-if="quizzes.data && quizzes.data.length > 0">
             <v-row align="center" justify="space-around">
               <v-col cols="12" sm="4" class="text-center" v-for="(quiz, i) in quizzes.data" :key="'quiz-'+i">
