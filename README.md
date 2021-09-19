@@ -1,5 +1,6 @@
 # QUIZ APP
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/21853c75-f1ae-406e-9bb6-e0d1e5ea19bd/deploy-status)](https://app.netlify.com/sites/squiz-app/deploys)
 [![License: MIT](https://img.shields.io/badge/License-MIT-lime.svg)](https://opensource.org/licenses/MIT)
 
 ###[VISIT DEMO](https://squiz-app.netlify.app/)
