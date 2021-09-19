@@ -6,10 +6,10 @@
         <base-material-card title="MCQ Details">
           <v-container class="pb-0 mt-5">
             <v-row align="center" class="pb-5">
-              <v-col cols="4">
+              <v-col cols="2">
                 <h3>Question</h3>
               </v-col>
-              <v-col cols="8">
+              <v-col cols="10">
                 <h3>{{ data.question }}</h3>
               </v-col>
             </v-row>
