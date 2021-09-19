@@ -2,7 +2,7 @@
   <div>
     <v-navigation-drawer v-model="drawer"
       app temporary dark
-      src="@/assets/img/bgDrawer.jpg"
+      src="@/assets/img/bgDrawer.webp"
     >
       <v-list>
         <v-list-item>
