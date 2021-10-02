@@ -41,7 +41,7 @@
           </v-container>
           <v-container>
             <v-row align="center" >
-              <v-col cols="6" style="height: 400px">
+              <v-col cols="6">
                 <pie-chart ref="resultChart"
                            :style="chartStyle"
                            :chart-data="chartData"
@@ -69,8 +69,6 @@
     name: "TestResult",
     data: () => ({
       chartStyle: {
-        height: '100px',
-        width: '100%',
         position: 'relative',
       },
       chartData: {

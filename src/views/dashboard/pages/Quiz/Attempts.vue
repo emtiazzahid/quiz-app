@@ -22,9 +22,6 @@
             <th class="primary--text">
               Created at
             </th>
-            <th class="text-right primary--text">
-              Action
-            </th>
           </tr>
           </thead>
 
@@ -34,10 +31,13 @@
               <td>
                 <router-link :to="{name: 'TestResult', params: { id: attempt.id }}">#{{ attempt.id }}</router-link>
               </td>
-              <td>{{ attempt.quiz.title }}</td>
-              <td>
-                {{ moment.utc(moment.duration(attempt.quiz.time_limit,'seconds').as('milliseconds')).format('HH:mm:ss') }}
-              </td>
+              <template v-if="attempt.quiz">
+                <td>{{ attempt.quiz.title }}</td>
+                <td>
+                  {{ moment.utc(moment.duration(attempt.quiz.time_limit,'seconds').as('milliseconds')).format('HH:mm:ss') }}
+                </td>
+              </template>
+              <td colspan="2" v-else>Unknown <small style="color: red">Could be deleted</small></td>
               <td>
                 {{ attempt.score + '%' }}
               </td>

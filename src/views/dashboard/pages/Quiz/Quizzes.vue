@@ -26,10 +26,10 @@
             <th class="primary--text">
               Created at
             </th>
-            <th class="text-right primary--text">
+            <th class="primary--text">
               Daily Digest Notification
             </th>
-            <th class="text-right primary--text">
+            <th class="primary--text">
               Action
             </th>
           </tr>
@@ -54,7 +54,18 @@
                     :label="quiz.digest_email ? 'On' : 'Off'"
                 ></v-switch>
               </td>
-              <td></td>
+              <td>
+                <v-btn class="mx-2" fab dark x-small color="cyan" @click="edit(quiz.id)">
+                  <v-icon dark>
+                    mdi-pencil
+                  </v-icon>
+                </v-btn>
+                <v-btn class="mx-2" fab dark x-small color="error" @click="openDialog(quiz.id)">
+                  <v-icon dark>
+                    mdi-delete
+                  </v-icon>
+                </v-btn>
+              </td>
             </tr>
           </template>
           <template v-else>
@@ -78,15 +89,18 @@
         </v-row>
       </template>
     </base-material-card>
+    <Confirmation ref="confirmation" @confirmed="destroy($event)"></Confirmation>
   </v-container>
 </template>
 
 <script>
 import ApiService from "@/common/api.service"
 import TableLoader from "@/components/base/TableLoader"
+import Confirmation from "@/components/base/Confirmation"
 export default {
   components:{
-    TableLoader
+    TableLoader,
+    Confirmation
   },
   name: "Quizzes",
   data: () => ({
@@ -155,6 +169,22 @@ export default {
     search() {
       this.index(1, this.filtersUrl());
     },
+    edit(id) {
+      this.$router.push({name: 'EditQuiz', params: {id: id}});
+    },
+    openDialog(id) {
+      this.$refs['confirmation'].dialog = true;
+      this.$refs['confirmation'].id = id;
+    },
+    destroy(id) {
+      ApiService.setHeader()
+      ApiService.delete(`/quiz/${id}`).then(res => {
+        this.$toastr.s(res.data.message);
+        this.index();
+      }).catch(err => {
+        this.$toastr.e(err);
+      })
+    }
   },
   mounted() {
     this.index();

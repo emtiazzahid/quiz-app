@@ -42,7 +42,12 @@ const routes = [
             {
                 name: 'AddQuiz',
                 path: '/quizzes/add',
-                component: () => import('@/views/dashboard/pages/Quiz/AddQuiz'),
+                component: () => import('@/views/dashboard/pages/Quiz/ManageQuiz'),
+            },
+            {
+                name: 'EditQuiz',
+                path: '/quizzes/:id/edit',
+                component: () => import('@/views/dashboard/pages/Quiz/ManageQuiz'),
             },
             {
                 name: 'Quiz',
@@ -72,7 +77,12 @@ const routes = [
             {
                 name: 'AddMCQ',
                 path: '/mcq/add',
-                component: () => import('@/views/dashboard/pages/MCQ/AddMCQ'),
+                component: () => import('@/views/dashboard/pages/MCQ/ManageMCQ'),
+            },
+            {
+                name: 'EditMCQ',
+                path: '/mcq/:id/edit',
+                component: () => import('@/views/dashboard/pages/MCQ/ManageMCQ'),
             },
             {
                 name: 'MCQ',
