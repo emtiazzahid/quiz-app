@@ -45,6 +45,8 @@
                   v-model="query"
                   :error-messages="errors.query"
                   label="Search by author name or quiz title"
+                  @keydown.enter="index(1, 'title=' + query)"
+                  autofocus
               ></v-text-field>
             </v-col>
             <v-col cols="4">
@@ -67,7 +69,7 @@
                         <v-list-item-title class="text-h5 mb-1">
                           {{ quiz.title }}
                         </v-list-item-title>
-                        <v-list-item-subtitle>{{ quiz.description.substring(0,100)+".." }}</v-list-item-subtitle>
+                        <v-list-item-subtitle v-if="quiz.description">{{ quiz.description.substring(0,100)+".." }}</v-list-item-subtitle>
                       </v-list-item-content>
 
                       <v-list-item-avatar

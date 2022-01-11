@@ -108,8 +108,8 @@ export default {
     ],
     valid: true,
     loader: false,
-    loginPassword: "",
-    loginEmail: "",
+    loginPassword: "password",
+    loginEmail: "user_1@mail.com",
     loginEmailRules: [
       (v) => !!v || "Required",
       (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",

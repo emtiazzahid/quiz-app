@@ -6,6 +6,7 @@
         <v-col cols="12" md="8">
           <base-material-card title="MCQ">
             <v-container v-if="form.mcqs && form.mcqs.length > 0">
+              <form action="">
               <v-row align="center" v-for="(mcq, index) in form.mcqs" :key="mcq.id">
                 <v-card width="100%" :name="mcq.id">
                   <v-col cols="12" md="12">
@@ -20,7 +21,9 @@
                   </v-col>
                 </v-card>
               </v-row>
+              </form>
             </v-container>
+
             <v-container class="pa-0" fluid  v-else>
               <h3>
                 No MCQ Found
