@@ -25,16 +25,16 @@
             <v-row align="center">
               <v-col cols="4"><h4>Score</h4></v-col>
               <v-col cols="8">
-                <v-progress-linear :value="data.score" height="25">
-                  <strong>{{ data.score }}%</strong>
+                <v-progress-linear :value="(Math.round(data.score * 100) / 100).toFixed(2)" height="25">
+                  <strong>{{ (Math.round(data.score * 100) / 100).toFixed(2) }}%</strong>
                 </v-progress-linear>
               </v-col>
             </v-row>
             <v-row align="center">
               <v-col cols="4"><h4>High Score</h4></v-col>
               <v-col cols="8"><h3>
-                <v-progress-linear :value="data.high_score ? data.high_score : 0" height="25">
-                  <strong>{{ data.high_score ? data.high_score : 0 }}%</strong>
+                <v-progress-linear :value="data.high_score ? (Math.round(data.high_score * 100) / 100).toFixed(2) : 0" height="25">
+                  <strong>{{ data.high_score ? (Math.round(data.high_score * 100) / 100).toFixed(2) : 0 }}%</strong>
                 </v-progress-linear>
               </h3></v-col>
             </v-row>

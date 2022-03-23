@@ -42,10 +42,10 @@
           <v-row>
             <v-col cols="8">
               <v-text-field
-                  v-model="query"
+                  :value="query"
                   :error-messages="errors.query"
                   label="Search by author name or quiz title"
-                  @keydown.enter="index(1, 'title=' + query)"
+                  @input="lazyCaller($event)"
                   autofocus
               ></v-text-field>
             </v-col>
@@ -63,13 +63,10 @@
                   <v-card class="mx-auto" max-width="344" outlined>
                     <v-list-item three-line>
                       <v-list-item-content>
-                        <div class="text-overline mb-4">
-                          {{ quiz.author }}
-                        </div>
-                        <v-list-item-title class="text-h5 mb-1">
-                          {{ quiz.title }}
-                        </v-list-item-title>
-                        <v-list-item-subtitle v-if="quiz.description">{{ quiz.description.substring(0,100)+".." }}</v-list-item-subtitle>
+                        <div class="text-overline mb-4 highlightable" v-html="quiz.author"></div>
+                        <v-list-item-title class="text-h5 mb-1" v-html="quiz.title"></v-list-item-title>
+                        <v-list-item-subtitle v-if="quiz.description" v-html="quiz.description.substring(0,200)">
+                        </v-list-item-subtitle>
                       </v-list-item-content>
 
                       <v-list-item-avatar
@@ -138,6 +135,7 @@ export default {
     VueContentLoading
   },
   data: () => ({
+    timeout: null,
     quizView: false,
     loading: false,
     quizzes: {},
@@ -151,6 +149,32 @@ export default {
     },
   }),
   methods: {
+    lazyCaller(query) {
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+        this.query = query;
+        this.index(1, 'title=' + query);
+      }, 500)
+    },
+    highlight() {
+      // Highlights will be case-sensitive
+      if (!this.query) {
+        return;
+      }
+
+      let vm = this;
+      this.quizzes.data.forEach(function(quiz, index) {
+        if(quiz.title.includes(vm.query)) {
+          vm.quizzes.data[index]['title'] = quiz.title.split(vm.query).join('<span class="highlight">'+vm.query+'</span>');
+        }
+        if(quiz.author.includes(vm.query)) {
+          vm.quizzes.data[index]['author'] = quiz.author.split(vm.query).join('<span class="highlight">'+vm.query+'</span>');
+        }
+        if(quiz.description.includes(vm.query)) {
+          vm.quizzes.data[index]['description'] = quiz.description.split(vm.query).join('<span class="highlight">'+vm.query+'</span>');
+        }
+      });
+    },
     getQuiz(id) {
       this.loading = true;
       ApiService.get(`/pub/quiz/${id}`).then(res => {
@@ -175,7 +199,9 @@ export default {
         this.pagination.total = res.data.meta.last_page;
         this.loading = false;
         this.errors = {};
+        this.highlight();
       }).catch(err => {
+        console.log(err);
         if (err.response.status === 422) {
           this.errors = err.response.data.errors;
         }
@@ -282,4 +308,9 @@ export default {
 section {
   position: relative;
 }
+
+.highlight {
+  background-color: yellow;
+}
+
 </style>
