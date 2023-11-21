@@ -5,14 +5,19 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/21853c75-f1ae-406e-9bb6-e0d1e5ea19bd/deploy-status)](https://app.netlify.com/sites/squiz-app/deploys)
 ### [VISIT DEMO](https://squiz-app.netlify.app/)
 
-## Tested with:
+## Tested upto:
 
-- Node v12.13.1
-- Npm 6.12.1
+- Node v18.12.1
+- Npm v9.8.0
 
 ## Project setup
 ```
 npm install
+```
+
+### Copy .env file and Update API URL
+```
+cp .env.example .env
 ```
 
 ### Compiles and hot-reloads for development
