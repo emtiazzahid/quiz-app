@@ -42,7 +42,7 @@ export default {
     }
   },
   created() {
-    this.$router.push({path:`/quiz-view/${this.quiz.id}`})
+    this.$router.push({path:`/quiz-view/${this.quiz.id}`}).catch(() => {})
   }
 }
 </script>

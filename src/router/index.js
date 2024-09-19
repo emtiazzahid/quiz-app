@@ -37,67 +37,67 @@ const routes = [
             {
                 name: 'Dashboard',
                 path: '/dashboard',
-                component: () => import('@/views/dashboard/Dashboard'),
+                component: () => import('@/views/dashboard/Dashboard.vue'),
             },
             {
                 name: 'AddQuiz',
                 path: '/quizzes/add',
-                component: () => import('@/views/dashboard/pages/Quiz/ManageQuiz'),
+                component: () => import('@/views/dashboard/pages/Quiz/ManageQuiz.vue'),
             },
             {
                 name: 'EditQuiz',
                 path: '/quizzes/:id/edit',
-                component: () => import('@/views/dashboard/pages/Quiz/ManageQuiz'),
+                component: () => import('@/views/dashboard/pages/Quiz/ManageQuiz.vue'),
             },
             {
                 name: 'Quiz',
                 path: '/quizzes/:id',
-                component: () => import('@/views/dashboard/pages/Quiz/Quiz'),
+                component: () => import('@/views/dashboard/pages/Quiz/Quiz.vue'),
             },
             {
                 name: 'RunningQuiz',
                 path: '/quizzes/:id/running',
-                component: () => import('@/views/dashboard/pages/Quiz/Running'),
+                component: () => import('@/views/dashboard/pages/Quiz/Running.vue'),
             },
             {
                 name: 'TestResult',
                 path: '/attempts/:id',
-                component: () => import('@/views/dashboard/pages/Quiz/TestResult'),
+                component: () => import('@/views/dashboard/pages/Quiz/TestResult.vue'),
             },
             {
                 name: 'AttachMCQ',
                 path: '/quizzes/:id/attach',
-                component: () => import('@/views/dashboard/pages/Quiz/AttachMCQ'),
+                component: () => import('@/views/dashboard/pages/Quiz/AttachMCQ.vue'),
             },
             {
                 name: 'Quiz\'s',
                 path: '/quizzes',
-                component: () => import('@/views/dashboard/pages/Quiz/Quizzes'),
+                component: () => import('@/views/dashboard/pages/Quiz/Quizzes.vue'),
             },
             {
                 name: 'AddMCQ',
                 path: '/mcq/add',
-                component: () => import('@/views/dashboard/pages/MCQ/ManageMCQ'),
+                component: () => import('@/views/dashboard/pages/MCQ/ManageMCQ.vue'),
             },
             {
                 name: 'EditMCQ',
                 path: '/mcq/:id/edit',
-                component: () => import('@/views/dashboard/pages/MCQ/ManageMCQ'),
+                component: () => import('@/views/dashboard/pages/MCQ/ManageMCQ.vue'),
             },
             {
                 name: 'MCQ',
                 path: '/mcq/:id',
-                component: () => import('@/views/dashboard/pages/MCQ/MCQ'),
+                component: () => import('@/views/dashboard/pages/MCQ/MCQ.vue'),
             },
             {
                 name: 'MCQ\'s',
                 path: '/mcq',
-                component: () => import('@/views/dashboard/pages/MCQ/MCQs'),
+                component: () => import('@/views/dashboard/pages/MCQ/MCQs.vue'),
             },
             {
                 name: 'TestAttempts',
                 path: '/attempts',
-                component: () => import('@/views/dashboard/pages/Quiz/Attempts'),
+                component: () => import('@/views/dashboard/pages/Quiz/Attempts.vue'),
             },
 
         ]
@@ -133,7 +133,7 @@ const routes = [
 
 const router = new VueRouter({
     mode: 'history',
-    base: process.env.BASE_URL,
+    base: import.meta.env.BASE_URL,
     routes,
 });
 
