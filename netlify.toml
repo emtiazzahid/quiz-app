@@ -1,0 +1,8 @@
+# Netlify build settings. SPA history-mode fallback is handled by
+# public/_redirects ("/*  /index.html  200"), which Vite copies into dist/.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
