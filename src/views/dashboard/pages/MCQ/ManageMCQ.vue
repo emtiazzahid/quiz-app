@@ -5,11 +5,11 @@
       <v-col cols="12" md="8">
         <base-material-card>
           <template v-slot:heading>
-            <div class="display-2 font-weight-light">
+            <div class="text-h3 font-weight-light">
               {{ id ? 'Edit' : 'Add' }} MCQ
             </div>
 
-            <div class="subtitle-1 font-weight-light" v-if="!id">
+            <div class="text-subtitle-1 font-weight-light" v-if="!id">
               Add new MCQ
             </div>
           </template>

@@ -9,14 +9,14 @@
         <v-spacer></v-spacer>
         <v-btn
             color="green darken-1"
-            text
+            variant="text"
             @click="dialog = false"
         >
           Cancel
         </v-btn>
         <v-btn
             color="green darken-1"
-            text
+            variant="text"
             @click="confirm"
         >
           Confirm

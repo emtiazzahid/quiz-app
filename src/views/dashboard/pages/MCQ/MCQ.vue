@@ -21,7 +21,7 @@
               </v-col>
               <v-col cols="10">
                 <template v-if="n === data.correct_answer_no">
-                  <v-alert dense text color="green" >
+                  <v-alert density="compact" variant="text" color="green" >
                     {{ data['option_'+n] }}
                   </v-alert>
                 </template>

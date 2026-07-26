@@ -57,7 +57,7 @@
                   :left="dir === 'left'"
                   :right="dir === 'right'"
                   :class="dir === 'right' && 'order-last'"
-                  v-text="icons[dir]"
+                  :icon="icons[dir]"
                 />
                 {{ dir }}
               </v-btn>
@@ -71,7 +71,7 @@
               >
                 <v-icon
                   left
-                  v-text="icons[color]"
+                  :icon="icons[color]"
                 />
                 {{ color }}
               </v-btn>
@@ -143,7 +143,7 @@
               class="ma-1"
               color="secondary"
               elevation="1"
-              fab
+              icon
               small
             >
               <v-icon>
@@ -154,7 +154,7 @@
             <v-btn
               class="ma-1"
               color="secondary"
-              text
+              variant="text"
             >
               Simple
             </v-btn>
@@ -173,14 +173,12 @@
             <v-pagination
               :length="5"
               :value="1"
-              circle
               class="justify-start"
             />
 
             <v-pagination
               :length="3"
               :value="2"
-              circle
               class="justify-start"
               next-icon="mdi-menu-right"
               prev-icon="mdi-menu-left"
@@ -265,7 +263,7 @@
                   >
                     <v-icon
                       left
-                      v-text="s.icon"
+                      :icon="s.icon"
                     />
                     {{ s.text }}
                   </v-btn>
@@ -283,7 +281,7 @@
                     min-width="0"
                     max-width="41"
                   >
-                    <v-icon v-text="s.icon" />
+                    <v-icon :icon="s.icon" />
                   </v-btn>
                 </v-col>
 
@@ -296,11 +294,11 @@
                     elevation="1"
                     :color="s.color"
                     dark
-                    fab
+                    icon
                     min-width="0"
                     small
                   >
-                    <v-icon v-text="s.icon" />
+                    <v-icon :icon="s.icon" />
                   </v-btn>
                 </v-col>
 
@@ -317,7 +315,7 @@
                   >
                     <v-icon
                       :color="s.color"
-                      v-text="s.icon"
+                      :icon="s.icon"
                     />
                   </v-btn>
                 </v-col>
@@ -330,12 +328,12 @@
                   <v-btn
                     :color="s.color"
                     dark
-                    text
+                    variant="text"
                   >
                     <v-icon
                       left
                       :color="s.color"
-                      v-text="s.icon"
+                      :icon="s.icon"
                     />
                     {{ s.text }}
                   </v-btn>

@@ -60,7 +60,7 @@
 <script>
   import PieChart from '@/plugins/PieChart'
   import ApiService from "@/common/api.service"
-  import TableLoader from "@/components/base/TableLoader"
+  import TableLoader from "@/components/base/TableLoader.vue"
   export default {
     components: {
       PieChart,

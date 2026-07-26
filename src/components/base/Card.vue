@@ -1,5 +1,5 @@
 <script>
-  import { VCard } from 'vuetify/lib'
+  import { VCard } from 'vuetify/components'
 
   export default {
     name: 'Card',

@@ -2,7 +2,6 @@
   <base-material-card
     class="v-card--material-chart"
     v-bind="$attrs"
-    v-on="$listeners"
   >
     <template v-slot:heading>
       <chartist
@@ -16,17 +15,15 @@
       />
     </template>
 
-    <slot
-      slot="reveal-actions"
-      name="reveal-actions"
-    />
+    <template #reveal-actions>
+      <slot name="reveal-actions" />
+    </template>
 
     <slot />
 
-    <slot
-      slot="actions"
-      name="actions"
-    />
+    <template #actions>
+      <slot name="actions" />
+    </template>
   </base-material-card>
 </template>
 

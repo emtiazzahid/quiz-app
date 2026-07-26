@@ -1,17 +1,24 @@
-import Vue from 'vue'
-import upperFirst from 'lodash/upperFirst'
-import camelCase from 'lodash/camelCase'
+// Globally register every component in src/components/base as `Base<Name>`
+// (Vue 3 + Vite replacement for webpack's require.context)
 
-const requireComponent = require.context(
-  '@/components/base', true, /\.vue$/,
-)
+function upperFirst(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}
 
-requireComponent.keys().forEach(fileName => {
-  const componentConfig = requireComponent(fileName)
+function camelCase(str) {
+  return str
+    .replace(/[-_/](\w)/g, (_, c) => c.toUpperCase())
+    .replace(/\.\w+$/, '')
+}
 
-  const componentName = upperFirst(
-    camelCase(fileName.replace(/^\.\//, '').replace(/\.\w+$/, '')),
-  )
+const modules = import.meta.glob('@/components/base/**/*.vue', { eager: true })
 
-  Vue.component(`Base${componentName}`, componentConfig.default || componentConfig)
-})
+export default {
+  install(app) {
+    Object.entries(modules).forEach(([path, module]) => {
+      const fileName = path.split('/components/base/')[1]
+      const componentName = 'Base' + upperFirst(camelCase(fileName.replace(/\.vue$/, '')))
+      app.component(componentName, module.default || module)
+    })
+  },
+}

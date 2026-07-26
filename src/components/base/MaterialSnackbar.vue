@@ -32,12 +32,12 @@
         type: String,
         default: '',
       },
-      value: Boolean,
+      modelValue: Boolean,
     },
 
     data () {
       return {
-        internalValue: this.value,
+        internalValue: this.modelValue,
       }
     },
 
@@ -45,9 +45,9 @@
       internalValue (val, oldVal) {
         if (val === oldVal) return
 
-        this.$emit('input', val)
+        this.$emit('update:modelValue', val)
       },
-      value (val, oldVal) {
+      modelValue (val, oldVal) {
         if (val === oldVal) return
 
         this.internalValue = val

@@ -3,14 +3,14 @@
     <base-material-card icon="mdi-clipboard-text" title="My Quiz's" class="px-5 py-3">
       <template v-slot:after-heading>
         <div class="col-12 ml-auto text-right">
-          <v-btn depressed color="primary" class="text-right" :to="{name: 'AddQuiz'}">
+          <v-btn variant="flat" color="primary" class="text-right" :to="{name: 'AddQuiz'}">
             Add Quiz
           </v-btn>
         </div>
       </template>
       <table-loader v-if="loading"></table-loader>
       <template v-else>
-        <v-simple-table>
+        <v-table>
           <button :to="{name: 'AddQuiz'}"></button>
           <thead>
           <tr>
@@ -55,12 +55,12 @@
                 ></v-switch>
               </td>
               <td>
-                <v-btn class="mx-2" fab dark x-small color="cyan" @click="edit(quiz.id)">
+                <v-btn class="mx-2" icon dark size="x-small" color="cyan" @click="edit(quiz.id)">
                   <v-icon dark>
                     mdi-pencil
                   </v-icon>
                 </v-btn>
-                <v-btn class="mx-2" fab dark x-small color="error" @click="openDialog(quiz.id)">
+                <v-btn class="mx-2" icon dark size="x-small" color="error" @click="openDialog(quiz.id)">
                   <v-icon dark>
                     mdi-delete
                   </v-icon>
@@ -72,7 +72,7 @@
             <tr><td colspan="6" class="text-center">No data found</td></tr>
           </template>
           </tbody>
-        </v-simple-table>
+        </v-table>
         <v-row justify="center">
           <v-col cols="8">
             <v-container class="max-width">
@@ -81,7 +81,6 @@
                   :length="pagination.total"
                   class="my-4"
                   :total-visible="7"
-                  circle
                   @input="index(pagination.current,filtersUrl())"
               ></v-pagination>
             </v-container>
@@ -95,8 +94,8 @@
 
 <script>
 import ApiService from "@/common/api.service"
-import TableLoader from "@/components/base/TableLoader"
-import Confirmation from "@/components/base/Confirmation"
+import TableLoader from "@/components/base/TableLoader.vue"
+import Confirmation from "@/components/base/Confirmation.vue"
 export default {
   components:{
     TableLoader,

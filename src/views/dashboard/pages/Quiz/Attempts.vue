@@ -3,7 +3,7 @@
     <base-material-card icon="mdi-clipboard-text" title="Test Attempts" class="px-5 py-3">
       <table-loader v-if="loading"></table-loader>
       <template>
-        <v-simple-table>
+        <v-table>
           <button :to="{name: 'Homepage'}"></button>
           <thead>
           <tr>
@@ -51,7 +51,7 @@
             <tr><td colspan="6" class="text-center">No data found</td></tr>
           </template>
           </tbody>
-        </v-simple-table>
+        </v-table>
         <v-row justify="center">
           <v-col cols="8">
             <v-container class="max-width">
@@ -60,7 +60,6 @@
                   :length="pagination.total"
                   class="my-4"
                   :total-visible="7"
-                  circle
                   @input="index(pagination.current,filtersUrl())"
               ></v-pagination>
             </v-container>
@@ -73,7 +72,7 @@
 
 <script>
 import ApiService from "@/common/api.service"
-import TableLoader from "@/components/base/TableLoader"
+import TableLoader from "@/components/base/TableLoader.vue"
 export default {
   name: "QuizAttempts",
   components: {

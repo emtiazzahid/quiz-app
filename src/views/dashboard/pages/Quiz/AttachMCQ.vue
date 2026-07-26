@@ -6,14 +6,14 @@
         <base-material-card :title="`Quiz: ${data.title} Mark MCQ to attach in Your Quiz`">
           <v-container class="pa-0" fluid>
             <div class="col-12 text-right">
-              <v-btn depressed color="primary" @click="saveMCQAttachOnQuiz">
+              <v-btn variant="flat" color="primary" @click="saveMCQAttachOnQuiz">
                 Update
               </v-btn>
             </div>
           </v-container>
           <v-container class="pa-0" fluid>
             <v-row align="center">
-              <v-simple-table>
+              <v-table>
                 <thead>
                 <tr>
                   <th class="primary--text">#</th>
@@ -41,7 +41,7 @@
                 </tr>
 
                 </tbody>
-              </v-simple-table>
+              </v-table>
               <v-row justify="center">
                 <v-col cols="8">
                   <v-container class="max-width">
@@ -50,7 +50,6 @@
                         :length="pagination.total"
                         class="my-4"
                         :total-visible="7"
-                        circle
                         @input="getAllMCQ(pagination.current)"
                     ></v-pagination>
                   </v-container>

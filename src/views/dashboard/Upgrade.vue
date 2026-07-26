@@ -11,16 +11,16 @@
       >
         <base-material-card color="primary">
           <template v-slot:heading>
-            <div class="display-2 font-weight-light">
+            <div class="text-h3 font-weight-light">
               Vuetify Material Dashboard
             </div>
 
-            <div class="subtitle-1 font-weight-light">
+            <div class="text-subtitle-1 font-weight-light">
               Are you looking for more components? Please check our Premium Version of Vuetify Material Dashboard
             </div>
           </template>
 
-          <v-simple-table>
+          <v-table>
             <thead>
               <tr>
                 <th />
@@ -34,28 +34,28 @@
             </thead>
             <tbody class="text-center">
               <tr>
-                <th class="text-left font-weight-light subtitle-1">
+                <th class="text-left font-weight-light text-subtitle-1">
                   Components
                 </th>
                 <td>60</td>
                 <td>200</td>
               </tr>
               <tr>
-                <th class="text-left font-weight-light subtitle-1">
+                <th class="text-left font-weight-light text-subtitle-1">
                   Plugins
                 </th>
                 <td>2</td>
                 <td>4</td>
               </tr>
               <tr>
-                <th class="text-left font-weight-light subtitle-1">
+                <th class="text-left font-weight-light text-subtitle-1">
                   Example Pages
                 </th>
                 <td>3</td>
                 <td>8</td>
               </tr>
               <tr>
-                <th class="text-left font-weight-light subtitle-1">
+                <th class="text-left font-weight-light text-subtitle-1">
                   Login, Register, Pricing, Lock Pages
                 </th>
                 <td>
@@ -70,7 +70,7 @@
                 </td>
               </tr>
               <tr>
-                <th class="text-left font-weight-light subtitle-1">
+                <th class="text-left font-weight-light text-subtitle-1">
                   Premium Support
                 </th>
                 <td>
@@ -110,7 +110,7 @@
                 </td>
               </tr>
             </tbody>
-          </v-simple-table>
+          </v-table>
         </base-material-card>
       </v-col>
     </v-row>

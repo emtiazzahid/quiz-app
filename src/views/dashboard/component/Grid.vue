@@ -291,7 +291,7 @@
       ParagraphHeading: {
         render (h) {
           return h('div', {
-            class: 'headline font-weight-light col cols-12',
+            class: 'text-h5 font-weight-light col cols-12',
           }, this.$slots.default)
         },
       },

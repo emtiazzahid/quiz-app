@@ -3,7 +3,6 @@
     v-bind="$attrs"
     class="v-alert--material"
     dark
-    v-on="$listeners"
   >
     <template
       v-if="$attrs.icon"
@@ -28,7 +27,7 @@
         :aria-label="$vuetify.lang.t('$vuetify.close')"
         color
         icon
-        small
+        size="small"
         @click="toggle"
       >
         <v-icon>

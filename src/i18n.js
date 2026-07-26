@@ -1,19 +1,10 @@
-import Vue from 'vue'
-import VueI18n from 'vue-i18n'
+// vue-i18n 9 (Vue 3). Vuetify 3 manages its own locale, so no $vuetify block here.
+import { createI18n } from 'vue-i18n'
+import en from '@/locales/en.json'
 
-import en from 'vuetify/lib/locale/en'
-
-Vue.use(VueI18n)
-
-const messages = {
-  en: {
-    ...require('@/locales/en.json'),
-    $vuetify: en,
-  },
-}
-
-export default new VueI18n({
-  locale: process.env.VUE_APP_I18N_LOCALE || 'en',
-  fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
-  messages,
+export default createI18n({
+  legacy: true,
+  locale: import.meta.env.VUE_APP_I18N_LOCALE || 'en',
+  fallbackLocale: import.meta.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
+  messages: { en },
 })

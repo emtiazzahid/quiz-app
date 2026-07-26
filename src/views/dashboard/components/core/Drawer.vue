@@ -7,7 +7,6 @@
     :right="$vuetify.rtl"
     :src="barImage"
     mobile-break-point="960"
-    app
     width="260"
     v-bind="$attrs"
   >
@@ -20,14 +19,12 @@
 
     <v-divider class="mb-1" />
 
-    <v-list dense nav>
+    <v-list density="compact" nav>
       <v-list-item>
-        <v-list-item-content>
-          <v-list-item-title
-            class="display-1"
-            v-text="profile.title"
-          />
-        </v-list-item-content>
+        <v-list-item-title
+          class="text-h4"
+          v-text="profile.title"
+        />
       </v-list-item>
     </v-list>
 
@@ -131,8 +128,6 @@
 </script>
 
 <style lang="sass">
-  @import '~vuetify/src/styles/tools/_rtl.sass'
-
   #core-navigation-drawer
     .v-list-group__header.v-list-item--active:before
       opacity: .24
@@ -143,14 +138,8 @@
         justify-content: center
         text-align: center
         width: 20px
-
-        +ltr()
-          margin-right: 24px
-          margin-left: 12px !important
-
-        +rtl()
-          margin-left: 24px
-          margin-right: 12px !important
+        margin-right: 24px
+        margin-left: 12px !important
 
     .v-list--dense
       .v-list-item
@@ -160,18 +149,10 @@
 
     .v-list-group--sub-group
       .v-list-item
-        +ltr()
-          padding-left: 8px
-
-        +rtl()
-          padding-right: 8px
+        padding-left: 8px
 
       .v-list-group__header
-        +ltr()
-          padding-right: 0
-
-        +rtl()
-          padding-right: 0
+        padding-right: 0
 
         .v-list-item__icon--text
           margin-top: 19px
@@ -179,10 +160,5 @@
 
         .v-list-group__header__prepend-icon
           order: 2
-
-          +ltr()
-            margin-right: 8px
-
-          +rtl()
-            margin-left: 8px
+          margin-right: 8px
 </style>

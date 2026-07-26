@@ -34,7 +34,7 @@
       </v-row>
       <v-speed-dial style="position: fixed; top: 300px; right: 100px;" open-on-hover>
         <template v-slot:activator>
-          <v-btn color="blue darken-2" large dark>
+          <v-btn color="blue darken-2" size="large" dark>
             Submit
           </v-btn>
         </template>
@@ -55,7 +55,7 @@
 
 <script>
   import ApiService from "@/common/api.service"
-  import TableLoader from "@/components/base/TableLoader"
+  import TableLoader from "@/components/base/TableLoader.vue"
   export default {
     name: "RunningQuiz",
     components: {

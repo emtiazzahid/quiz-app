@@ -53,7 +53,7 @@
         </base-material-card>
       </v-col>
       <v-col cols="1" md="1">
-        <v-btn depressed color="primary" :to="{name: 'AttachMCQ'}">
+        <v-btn variant="flat" color="primary" :to="{name: 'AttachMCQ'}">
           Update MCQ List
         </v-btn>
       </v-col>

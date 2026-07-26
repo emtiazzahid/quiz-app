@@ -220,7 +220,7 @@
 
           <v-btn
             color="error"
-            text
+            variant="text"
             @click="dialog = false"
           >
             Close
@@ -247,7 +247,7 @@
           </v-icon>
         </v-card-title>
 
-        <v-card-text class="body-1 text-center">
+        <v-card-text class="text-body-1 text-center">
           <v-row>
             <v-col
               cols="12"
@@ -313,7 +313,7 @@
           <v-btn
             class="mt-6"
             color="info"
-            depressed
+            variant="flat"
             default
             rounded
             @click="dialog2 = false"
@@ -345,7 +345,7 @@
         <v-card-text class="pb-6 pt-12 text-center">
           <v-btn
             class="mr-3"
-            text
+            variant="text"
             @click="dialog3 = false"
           >
             Nevermind
@@ -353,7 +353,7 @@
 
           <v-btn
             color="success"
-            text
+            variant="text"
             @click="dialog3 = false"
           >
             Yes

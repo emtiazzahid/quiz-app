@@ -14,7 +14,7 @@
         <p>Highest Score: {{ quiz.high_score }}</p>
       </v-card-text>
       <v-card-actions>
-        <v-btn text color="deep-purple accent-4" :to="{name: 'RunningQuiz', params: {id: quiz.id}}">
+        <v-btn variant="text" color="deep-purple accent-4" :to="{name: 'RunningQuiz', params: {id: quiz.id}}">
           Start test
         </v-btn>
       </v-card-actions>

@@ -10,7 +10,7 @@
       min-width="100"
       style="position: fixed; top: 115px; right: -35px; border-radius: 8px;"
     >
-      <v-icon large>
+      <v-icon size="large">
         mdi-settings
       </v-icon>
     </v-card>
@@ -40,7 +40,7 @@
               :key="color"
               :value="color"
             >
-              <template v-slot="{ active, toggle }">
+              <template #default="{ active, toggle }">
                 <v-avatar
                   :class="active && 'v-settings__item--active'"
                   :color="color"
@@ -66,10 +66,11 @@
 
             <v-col cols="auto">
               <v-switch
-                v-model="$vuetify.theme.dark"
+                :model-value="$vuetify.theme.global.name === 'dark'"
                 class="ma-0 pa-0"
                 color="secondary"
                 hide-details
+                @update:model-value="val => $vuetify.theme.global.name = val ? 'dark' : 'light'"
               />
             </v-col>
           </v-row>
@@ -107,7 +108,7 @@
               :value="image"
               class="mx-1"
             >
-              <template v-slot="{ active, toggle }">
+              <template #default="{ active, toggle }">
                 <v-sheet
                   :class="active && 'v-settings__item--active'"
                   class="d-inline-block v-settings__item"
@@ -154,14 +155,10 @@
 </template>
 
 <script>
-  // Mixins
-  import Proxyable from 'vuetify/lib/mixins/proxyable'
   import { mapMutations, mapState } from 'vuex'
 
   export default {
     name: 'DashboardCoreSettings',
-
-    mixins: [Proxyable],
 
     data: () => ({
       color: '#E91E63',
@@ -191,7 +188,7 @@
 
     watch: {
       color (val) {
-        this.$vuetify.theme.themes[this.isDark ? 'dark' : 'light'].primary = val
+        this.$vuetify.theme.themes[this.$vuetify.theme.global.name].colors.primary = val
       },
       showImg (val) {
         if (!val) {

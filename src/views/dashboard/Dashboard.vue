@@ -2,10 +2,10 @@
   <v-container id="dashboard" fluid tag="section">
 
     <v-row class="float-right">
-      <v-tooltip left>
-        <template v-slot:activator="{ on, attrs }">
-        <span v-bind="attrs" v-on="on">
-            <v-btn :loading="loading" color="blue-grey" fab @click="getSummary(true)">
+      <v-tooltip location="left">
+        <template v-slot:activator="{ props }">
+        <span v-bind="props">
+            <v-btn :loading="loading" color="blue-grey" icon @click="getSummary(true)">
               <v-icon dark>mdi-refresh</v-icon>
             </v-btn>
         </span>

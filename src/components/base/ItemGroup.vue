@@ -6,15 +6,19 @@
     append-icon="mdi-menu-down"
     :color="barColor !== 'rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.7)' ? 'white' : 'grey darken-1'"
   >
-    <template v-slot:activator>
-      <v-list-item-icon
-        v-if="text"
-        class="v-list-item__icon--text"
-        v-text="computedText"
-      />
-      <v-list-item-content>
+    <template v-slot:activator="{ props }">
+      <v-list-item v-bind="props">
+        <template
+          v-if="text"
+          #prepend
+        >
+          <div
+            class="v-list-item__icon--text"
+            v-text="computedText"
+          />
+        </template>
         <v-list-item-title v-text="item.title" />
-      </v-list-item-content>
+      </v-list-item>
     </template>
 
     <template v-for="(child, i) in children">
@@ -36,7 +40,11 @@
 
 <script>
   // Utilities
-  import kebabCase from 'lodash/kebabCase'
+  const kebabCase = (str) =>
+    String(str)
+      .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+      .replace(/[\s_/]+/g, '-')
+      .toLowerCase()
   import { mapState } from 'vuex'
 
   export default {

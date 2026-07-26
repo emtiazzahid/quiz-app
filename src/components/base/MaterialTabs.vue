@@ -1,7 +1,7 @@
 <template>
   <v-tabs
     v-model="internalValue"
-    :active-class="`${color} ${$vuetify.theme.dark ? 'black' : 'white'}--text`"
+    :active-class="`${color} ${$vuetify.theme.global.name === 'dark' ? 'black' : 'white'}--text`"
     class="v-tabs--pill"
     hide-slider
     v-bind="$attrs"
@@ -13,18 +13,36 @@
 </template>
 
 <script>
-  // Mixins
-  import Proxyable from 'vuetify/lib/mixins/proxyable'
-
   export default {
     name: 'MaterialTabs',
 
-    mixins: [Proxyable],
-
     props: {
+      modelValue: {
+        type: null,
+        default: undefined,
+      },
       color: {
         type: String,
         default: 'primary',
+      },
+    },
+
+    data () {
+      return {
+        internalValue: this.modelValue,
+      }
+    },
+
+    watch: {
+      internalValue (val, oldVal) {
+        if (val === oldVal) return
+
+        this.$emit('update:modelValue', val)
+      },
+      modelValue (val, oldVal) {
+        if (val === oldVal) return
+
+        this.internalValue = val
       },
     },
   }

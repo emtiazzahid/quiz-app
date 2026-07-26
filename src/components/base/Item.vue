@@ -6,31 +6,33 @@
     :to="item.to"
     :active-class="`primary ${!isDark ? 'black' : 'white'}--text`"
   >
-    <v-list-item-icon
-      v-if="text"
-      class="v-list-item__icon--text"
-      v-text="computedText"
-    />
+    <template
+      v-if="text || item.icon"
+      #prepend
+    >
+      <div
+        v-if="text"
+        class="v-list-item__icon--text"
+        v-text="computedText"
+      />
 
-    <v-list-item-icon v-else-if="item.icon">
-      <v-icon v-text="item.icon" />
-    </v-list-item-icon>
+      <v-icon
+        v-else-if="item.icon"
+        :icon="item.icon"
+      />
+    </template>
 
-    <v-list-item-content v-if="item.title || item.subtitle">
+    <template v-if="item.title || item.subtitle">
       <v-list-item-title v-text="item.title" />
 
       <v-list-item-subtitle v-text="item.subtitle" />
-    </v-list-item-content>
+    </template>
   </v-list-item>
 </template>
 
 <script>
-  import Themeable from 'vuetify/lib/mixins/themeable'
-
   export default {
     name: 'Item',
-
-    mixins: [Themeable],
 
     props: {
       item: {
@@ -50,6 +52,9 @@
     },
 
     computed: {
+      isDark () {
+        return this.$vuetify.theme.global.name === 'dark'
+      },
       computedText () {
         if (!this.item || !this.item.title) return ''
 

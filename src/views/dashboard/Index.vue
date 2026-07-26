@@ -11,14 +11,16 @@
 </template>
 
 <script>
+  import { defineAsyncComponent } from 'vue'
+
   export default {
     name: 'DashboardIndex',
 
     components: {
-      DashboardCoreAppBar: () => import('./components/core/AppBar'),
-      DashboardCoreDrawer: () => import('./components/core/Drawer'),
-      DashboardCoreSettings: () => import('./components/core/Settings'),
-      DashboardCoreView: () => import('./components/core/View'),
+      DashboardCoreAppBar: defineAsyncComponent(() => import('./components/core/AppBar.vue')),
+      DashboardCoreDrawer: defineAsyncComponent(() => import('./components/core/Drawer.vue')),
+      DashboardCoreSettings: defineAsyncComponent(() => import('./components/core/Settings.vue')),
+      DashboardCoreView: defineAsyncComponent(() => import('./components/core/View.vue')),
     },
 
     data: () => ({

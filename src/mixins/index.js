@@ -2,7 +2,7 @@ const myMixin = {
     name: "my-mixin",
     methods: {
         SiteUrl(param){
-            return process.env.VUE_APP_API_URL + param
+            return import.meta.env.VUE_APP_API_URL + param
         },
 
         GetLog(callback, value = null) {

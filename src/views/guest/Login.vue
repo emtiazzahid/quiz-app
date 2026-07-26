@@ -5,27 +5,27 @@
         <v-card width="500px">
           <div class="card-header">
             <div class="d-flex align-center flex-column">
-              <v-subheader class="display-1 mt-3">
-                <v-icon large color="#2BA5B6">mdi-lock-open-outline</v-icon>Login
-              </v-subheader>
+              <div class="text-h4 mt-3">
+                <v-icon size="large" color="#2BA5B6">mdi-lock-open-outline</v-icon>Login
+              </div>
               <v-card-title>Please enter your credentials to login.</v-card-title>
             </div>
           </div>
           <v-divider></v-divider>
           <v-card-text>
             <div class="logo-wrapper d-flex flex-column align-center pb-3">
-              <v-subheader class="headline font-weight-bold">Quiz App</v-subheader>
+              <div class="text-h5 font-weight-bold">Quiz App</div>
             </div>
             <v-divider></v-divider>
             <v-form ref="loginForm" v-model="valid" lazy-validation >
               <v-row no-gutters class="px-3">
                 <v-col cols="12">
-                  <v-subheader class="subtitle-2 px-0">Email</v-subheader>
+                  <div class="text-subtitle-2 px-0">Email</div>
                 </v-col>
                 <v-col cols="12">
                   <v-text-field
-                      dense
-                      outlined
+                      density="compact"
+                      variant="outlined"
                       prepend-inner-icon="mdi-email-outline"
                       hide-details
                       v-model="loginEmail"
@@ -36,12 +36,12 @@
                   </v-text-field>
                 </v-col>
                 <v-col cols="12">
-                  <v-subheader class="subtitle-2 px-0">Password</v-subheader>
+                  <div class="text-subtitle-2 px-0">Password</div>
                 </v-col>
                 <v-col cols="12">
                   <v-text-field
-                      dense
-                      outlined
+                      density="compact"
+                      variant="outlined"
                       prepend-inner-icon="mdi-key-variant"
                       hide-details
                       v-model="loginPassword"
@@ -56,7 +56,7 @@
                   >
                   </v-text-field>
                 </v-col>
-                <v-col class="12">
+                <v-col cols="12">
                   <v-checkbox
                       label="Keep me signed in"
                       hide-details
@@ -125,9 +125,10 @@ export default {
     },
   }),
   methods: {
-    validate() {
+    async validate() {
       this.loader = true
-      if (this.$refs.loginForm.validate()) {
+      const { valid } = await this.$refs.loginForm.validate();
+      if (valid) {
         this.loading = true
 
         this.$store.dispatch(LOGIN, {

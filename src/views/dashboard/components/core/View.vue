@@ -1,17 +1,19 @@
 <template>
-  <v-content>
+  <v-main>
     <router-view />
 
     <dashboard-core-footer />
-  </v-content>
+  </v-main>
 </template>
 
 <script>
+  import { defineAsyncComponent } from 'vue'
+
   export default {
     name: 'DashboardCoreView',
 
     components: {
-      DashboardCoreFooter: () => import('./Footer'),
+      DashboardCoreFooter: defineAsyncComponent(() => import('./Footer.vue')),
     },
   }
 </script>

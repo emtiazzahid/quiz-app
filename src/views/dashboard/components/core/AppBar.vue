@@ -2,7 +2,6 @@
   <v-app-bar
     id="app-bar"
     absolute
-    app
     color="transparent"
     flat
     height="75"
@@ -10,7 +9,7 @@
     <v-btn
       class="mr-3"
       elevation="1"
-      fab
+      icon
       small
       @click="setDrawer(!drawer)"
     >
@@ -35,7 +34,7 @@
     <v-btn
       class="ml-2"
       min-width="0"
-      text
+      variant="text"
       :to="{name: 'Homepage'}"
     >
       <v-icon>mdi-home</v-icon>
@@ -44,7 +43,7 @@
     <v-btn
       class="ml-2"
       min-width="0"
-      text
+      variant="text"
       @click="logout"
     >
       <v-icon>mdi-logout</v-icon>
@@ -55,7 +54,8 @@
 
 <script>
   // Components
-  import { VHover, VListItem } from 'vuetify/lib'
+  import { h } from 'vue'
+  import { VHover, VListItem } from 'vuetify/components'
 
   // Utilities
   import { mapState, mapMutations } from 'vuex'
@@ -65,25 +65,20 @@
 
     components: {
       AppBarItem: {
-        render (h) {
-          return h(VHover, {
-            scopedSlots: {
-              default: ({ hover }) => {
-                return h(VListItem, {
-                  attrs: this.$attrs,
-                  class: {
-                    'black--text': !hover,
-                    'white--text secondary elevation-12': hover,
-                  },
-                  props: {
-                    activeClass: '',
-                    dark: hover,
-                    link: true,
-                    ...this.$attrs,
-                  },
-                }, this.$slots.default)
-              },
-            },
+        inheritAttrs: false,
+        render () {
+          return h(VHover, null, {
+            default: ({ isHovering, props }) =>
+              h(VListItem, {
+                ...props,
+                ...this.$attrs,
+                link: true,
+                activeClass: '',
+                class: {
+                  'text-black': !isHovering,
+                  'text-white bg-secondary elevation-12': isHovering,
+                },
+              }, { default: () => (this.$slots.default ? this.$slots.default() : []) }),
           })
         },
       },
