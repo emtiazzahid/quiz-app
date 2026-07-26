@@ -26,3 +26,4 @@ tmp/
 .tmp/
 tmp_files/
 .env
+.vercel

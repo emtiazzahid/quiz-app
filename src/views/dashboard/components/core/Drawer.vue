@@ -2,61 +2,52 @@
   <v-navigation-drawer
     id="core-navigation-drawer"
     v-model="drawer"
-    :dark="barColor !== 'rgba(228, 226, 226, 1), rgba(255, 255, 255, 0.7)'"
     :expand-on-hover="expandOnHover"
-    :right="$vuetify.rtl"
-    :src="barImage"
-    mobile-break-point="960"
-    width="260"
+    width="272"
+    color="surface"
+    class="qa-drawer"
     v-bind="$attrs"
   >
-    <template v-slot:img="props">
-      <v-img
-        :gradient="`to bottom, ${barColor}`"
-        v-bind="props"
-      />
-    </template>
+    <div class="pa-5 d-flex align-center">
+      <div class="qa-logo-badge mr-3">Q</div>
+      <div>
+        <div class="text-subtitle-1 font-weight-bold" style="line-height:1.1">Quiz App</div>
+        <div class="text-caption qa-muted">Dashboard</div>
+      </div>
+    </div>
 
-    <v-divider class="mb-1" />
+    <v-divider />
 
-    <v-list density="compact" nav>
-      <v-list-item>
-        <v-list-item-title
-          class="text-h4"
-          v-text="profile.title"
-        />
-      </v-list-item>
-    </v-list>
-
-    <v-divider class="mb-2" />
-
-    <v-list expand nav>
-      <div />
+    <v-list nav class="px-3 py-4">
+      <div class="text-overline qa-muted px-3 mb-1">Menu</div>
       <template v-for="(item, i) in computedItems">
         <base-item-group
           v-if="item.children"
           :key="`group-${i}`"
           :item="item"
-        >
-          <!--  -->
-        </base-item-group>
-
+        />
         <base-item
           v-else
           :key="`item-${i}`"
           :item="item"
         />
       </template>
-      <div />
     </v-list>
+
+    <template #append>
+      <div class="pa-4">
+        <v-card class="qa-bg-soft pa-4" rounded="lg" flat>
+          <div class="text-subtitle-2 font-weight-bold mb-1">Need help?</div>
+          <div class="text-caption qa-muted mb-3">Browse the docs or reach out to support.</div>
+          <v-btn size="small" block variant="tonal" color="primary" rounded="lg" href="#">View docs</v-btn>
+        </v-card>
+      </div>
+    </template>
   </v-navigation-drawer>
 </template>
 
 <script>
-  // Utilities
-  import {
-    mapState,
-  } from 'vuex'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'DashboardCoreDrawer',
@@ -70,27 +61,10 @@
 
     data: () => ({
       items: [
-        {
-          icon: 'mdi-view-dashboard',
-          title: 'dashboard',
-          to: '/dashboard',
-        },
-        {
-          title: 'Quiz\'s',
-          icon: 'mdi-note-text-outline',
-          to: '/quizzes',
-        },
-        {
-          title: 'MCQ\'s',
-          icon: 'mdi-clipboard-alert-outline',
-          to: '/mcq',
-        },
-        {
-          title: 'Test Attempts',
-          icon: 'mdi-account-alert-outline',
-          to: '/attempts',
-        },
-
+        { icon: 'mdi-view-dashboard-outline', title: 'Dashboard', to: '/dashboard' },
+        { icon: 'mdi-note-text-outline', title: 'Quizzes', to: '/quizzes' },
+        { icon: 'mdi-clipboard-list-outline', title: 'MCQs', to: '/mcq' },
+        { icon: 'mdi-history', title: 'Test Attempts', to: '/attempts' },
       ],
     }),
 
@@ -107,12 +81,6 @@
       computedItems () {
         return this.items.map(this.mapItem)
       },
-      profile () {
-        return {
-          avatar: true,
-          title: this.$t('avatar'),
-        }
-      },
     },
 
     methods: {
@@ -120,45 +88,15 @@
         return {
           ...item,
           children: item.children ? item.children.map(this.mapItem) : undefined,
-          title: this.$t(item.title),
+          title: item.title,
         }
       },
     },
   }
 </script>
 
-<style lang="sass">
-  #core-navigation-drawer
-    .v-list-group__header.v-list-item--active:before
-      opacity: .24
-
-    .v-list-item
-      &__icon--text,
-      &__icon:first-child
-        justify-content: center
-        text-align: center
-        width: 20px
-        margin-right: 24px
-        margin-left: 12px !important
-
-    .v-list--dense
-      .v-list-item
-        &__icon--text,
-        &__icon:first-child
-          margin-top: 10px
-
-    .v-list-group--sub-group
-      .v-list-item
-        padding-left: 8px
-
-      .v-list-group__header
-        padding-right: 0
-
-        .v-list-item__icon--text
-          margin-top: 19px
-          order: 0
-
-        .v-list-group__header__prepend-icon
-          order: 2
-          margin-right: 8px
+<style scoped>
+.qa-drawer {
+  border-right: 1px solid var(--qa-line);
+}
 </style>

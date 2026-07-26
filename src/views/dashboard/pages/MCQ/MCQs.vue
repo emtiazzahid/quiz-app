@@ -1,34 +1,28 @@
 <template>
-  <v-container fluid tag="section">
-    <base-material-card icon="mdi-clipboard-text" title="My MCQ's" class="px-5 py-3">
-      <template v-slot:after-heading>
-        <div class="col-12 ml-auto text-right">
-          <v-btn variant="flat" color="primary" class="text-right" :to="{name: 'AddMCQ'}">
-            Add MCQ
-          </v-btn>
-        </div>
-      </template>
-      <table-loader v-if="loading"></table-loader>
-      <template v-else>
-        <v-table>
-          <button :to="{name: 'AddMCQ'}"></button>
+  <v-container fluid class="pa-6">
+    <div class="d-flex align-center justify-space-between flex-wrap mb-6" style="gap:12px">
+      <div>
+        <h1 class="qa-display" style="font-size:1.6rem">My MCQ's</h1>
+        <p class="qa-muted mb-0">Manage your multiple-choice questions.</p>
+      </div>
+      <div class="d-flex ga-2">
+        <v-btn class="qa-btn-gradient px-6" rounded="lg" prepend-icon="mdi-plus" :to="{name: 'AddMCQ'}">
+          Add MCQ
+        </v-btn>
+      </div>
+    </div>
+
+    <table-loader v-if="loading"></table-loader>
+    <template v-else>
+      <v-card rounded="xl" class="pa-0" style="overflow:hidden">
+        <v-table hover>
           <thead>
           <tr>
-            <th class="primary--text">
-              ID
-            </th>
-            <th class="primary--text">
-              Question
-            </th>
-            <th class="primary--text">
-              Current Answer
-            </th>
-            <th class="primary--text">
-              Created at
-            </th>
-            <th class="text-right primary--text">
-              Action
-            </th>
+            <th>ID</th>
+            <th>Question</th>
+            <th>Current Answer</th>
+            <th>Created at</th>
+            <th class="text-right">Action</th>
           </tr>
           </thead>
 
@@ -36,47 +30,50 @@
           <template v-if="list.data && list.data.length > 0">
             <tr v-for="mcq in list.data" :key="mcq.id">
               <td>
-              <router-link :to="{name: 'MCQ', params: {id: mcq.id}}">#{{ mcq.id }}</router-link>
+                <router-link :to="{name: 'MCQ', params: {id: mcq.id}}" class="text-primary font-weight-medium text-decoration-none">#{{ mcq.id }}</router-link>
               </td>
               <td>{{ mcq.question }}</td>
               <td>{{ mcq.correct_answer }}</td>
-              <td>
+              <td class="qa-muted">
                 {{moment(mcq.created_at).format('YYYY-MM-DD')}}
               </td>
               <td class="text-right">
-                <v-btn class="mx-2" icon dark size="x-small" color="cyan" @click="edit(mcq.id)">
-                  <v-icon dark>
-                    mdi-pencil
-                  </v-icon>
-                </v-btn>
-                <v-btn class="mx-2" icon dark size="x-small" color="error" @click="openDialog(mcq.id)">
-                  <v-icon dark>
-                    mdi-delete
-                  </v-icon>
-                </v-btn>
+                <v-btn icon="mdi-pencil-outline" variant="text" size="small" color="primary" @click="edit(mcq.id)" />
+                <v-btn icon="mdi-delete-outline" variant="text" size="small" color="error" @click="openDialog(mcq.id)" />
               </td>
             </tr>
           </template>
           <template v-else>
-            <tr><td colspan="5" class="text-center">No data found</td></tr>
+            <tr>
+              <td colspan="5" class="pa-0">
+                <div class="text-center py-16">
+                  <v-avatar size="80" color="surface-variant" class="mb-4"><v-icon size="40" icon="mdi-clipboard-text-outline" class="qa-muted"/></v-avatar>
+                  <h3 class="qa-display mb-1">No MCQs yet</h3>
+                  <p class="qa-muted mb-0">Create your first question to get started.</p>
+                </div>
+              </td>
+            </tr>
           </template>
           </tbody>
         </v-table>
-        <v-row justify="center">
-          <v-col cols="8">
-            <v-container class="max-width">
-              <v-pagination
-                  v-model="pagination.current"
-                  :length="pagination.total"
-                  class="my-4"
-                  :total-visible="7"
-                  @input="index(pagination.current,filtersUrl())"
-              ></v-pagination>
-            </v-container>
-          </v-col>
-        </v-row>
-      </template>
-    </base-material-card>
+      </v-card>
+
+      <v-row justify="center">
+        <v-col cols="8">
+          <v-container class="max-width">
+            <v-pagination
+                v-model="pagination.current"
+                :length="pagination.total"
+                class="my-4"
+                rounded="lg"
+                active-color="primary"
+                :total-visible="7"
+                @input="index(pagination.current,filtersUrl())"
+            ></v-pagination>
+          </v-container>
+        </v-col>
+      </v-row>
+    </template>
     <Confirmation ref="confirmation" @confirmed="destroy($event)"></Confirmation>
   </v-container>
 </template>

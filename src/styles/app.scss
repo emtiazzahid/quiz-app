@@ -1,0 +1,209 @@
+/* =========================================================
+   Quiz App — design system (Modern clean SaaS, indigo/violet)
+   Loaded after Vuetify's own styles so these win.
+   ========================================================= */
+
+:root {
+  --qa-indigo: #6366f1;
+  --qa-violet: #8b5cf6;
+  --qa-grad: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  --qa-grad-soft: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%);
+  --qa-ink: #0f172a;
+  --qa-muted: #64748b;
+  --qa-line: #e2e8f0;
+  --qa-bg: #f7f8fc;
+  --qa-shadow-sm: 0 1px 2px rgba(15, 23, 42, .04), 0 1px 3px rgba(15, 23, 42, .06);
+  --qa-shadow: 0 4px 6px -1px rgba(15, 23, 42, .05), 0 10px 24px -6px rgba(15, 23, 42, .10);
+  --qa-shadow-lg: 0 12px 32px -8px rgba(99, 102, 241, .18), 0 8px 16px -8px rgba(15, 23, 42, .12);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body,
+.v-application {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  letter-spacing: -0.011em;
+}
+
+.v-application {
+  background: var(--qa-bg) !important;
+  color: var(--qa-ink);
+}
+
+/* Display type */
+h1, h2, h3, h4, h5, h6,
+.text-h1, .text-h2, .text-h3, .text-h4, .text-h5, .text-h6,
+.qa-display {
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif !important;
+  letter-spacing: -0.02em !important;
+  font-weight: 700;
+}
+
+/* --- Cards: soft, rounded, hairline border, no heavy Material shadow --- */
+.v-card {
+  border: 1px solid var(--qa-line);
+  box-shadow: var(--qa-shadow-sm) !important;
+  transition: box-shadow .25s ease, transform .25s ease, border-color .25s ease;
+}
+.v-card.qa-hover:hover {
+  box-shadow: var(--qa-shadow-lg) !important;
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--qa-indigo) 40%, var(--qa-line));
+}
+.v-card--variant-flat.qa-flat {
+  border-color: transparent;
+  box-shadow: none !important;
+}
+
+/* --- Buttons: no shouty uppercase, comfy weight --- */
+.v-btn {
+  text-transform: none !important;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.v-btn--size-default { --v-btn-height: 44px; }
+.v-btn--size-large { --v-btn-height: 52px; }
+
+.qa-btn-gradient {
+  background: var(--qa-grad) !important;
+  color: #fff !important;
+  box-shadow: 0 8px 20px -6px rgba(99, 102, 241, .5) !important;
+}
+.qa-btn-gradient:hover { filter: brightness(1.05); }
+
+/* --- Inputs: rounded, calm --- */
+.v-field { border-radius: 12px !important; }
+.v-text-field .v-field { transition: box-shadow .2s ease; }
+.v-field.v-field--focused {
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, .12);
+}
+
+/* --- Utilities --- */
+.qa-gradient-text {
+  background: var(--qa-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.qa-surface { background: #fff; }
+.qa-bg-soft { background: var(--qa-grad-soft); }
+.qa-muted { color: var(--qa-muted) !important; }
+.qa-elevate { box-shadow: var(--qa-shadow) !important; }
+.qa-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: .78rem;
+  font-weight: 600;
+  background: #eef2ff;
+  color: #4f46e5;
+}
+
+/* --- Tables --- */
+.v-table {
+  border-radius: 14px;
+  overflow: hidden;
+}
+.v-table > .v-table__wrapper > table > thead > tr > th {
+  background: #f8fafc !important;
+  font-weight: 700 !important;
+  color: var(--qa-muted) !important;
+  text-transform: uppercase;
+  font-size: .72rem !important;
+  letter-spacing: .04em;
+}
+.v-table > .v-table__wrapper > table > tbody > tr:hover {
+  background: #fafaff !important;
+}
+
+/* --- Nav rail active item --- */
+.v-list-item--active.qa-nav-item {
+  background: var(--qa-grad-soft);
+  color: #4f46e5;
+}
+
+/* --- Scrollbar --- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover { background: #94a3b8; background-clip: content-box; }
+
+/* --- Logo badge --- */
+.qa-logo-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--qa-grad);
+  color: #fff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 16px -4px rgba(99, 102, 241, .5);
+  flex: none;
+}
+
+/* --- Hero --- */
+.qa-hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(1200px 500px at 15% -10%, rgba(99, 102, 241, .14), transparent 60%),
+    radial-gradient(1000px 460px at 95% 0%, rgba(139, 92, 246, .16), transparent 55%),
+    #f7f8fc;
+}
+.qa-hero__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(15, 23, 42, .035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, .035) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(circle at 50% 30%, #000 0%, transparent 75%);
+  pointer-events: none;
+}
+.qa-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: .5;
+  pointer-events: none;
+}
+
+/* --- Quiz card avatar --- */
+.qa-quiz-avatar {
+  background: var(--qa-grad) !important;
+  color: #fff !important;
+  font-weight: 700;
+}
+
+/* --- Skeleton shimmer for content-loader wrappers --- */
+.qa-skeleton {
+  background: linear-gradient(90deg, #eef2f7 25%, #f7f9fc 37%, #eef2f7 63%);
+  background-size: 400% 100%;
+  animation: qa-shimmer 1.4s ease infinite;
+  border-radius: 14px;
+}
+@keyframes qa-shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+[v-cloak] { display: none; }

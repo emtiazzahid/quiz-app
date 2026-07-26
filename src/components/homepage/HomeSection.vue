@@ -1,140 +1,140 @@
 <template>
-  <section id="hero">
-    <v-parallax dark src="@/assets/img/bgHero.webp" height="350">
-      <v-row align="center" justify="center">
-        <v-col cols="10">
-          <v-row align="center" justify="center">
-            <v-col cols="12" md="6" xl="8">
-              <h1 class="text-h3 font-weight-bold mb-4">Quiz App</h1>
-              <h1 class="font-weight-light">
-                Find a quiz that you want to test your skill with it<br>
-              </h1>
-              <v-btn rounded variant="outlined" size="large" dark
-                @click="$vuetify.goTo('#quizes')"
-                class="mt-5"
-              >
-                Quiz's
-                <v-icon class="ml-2">mdi-arrow-down</v-icon>
-              </v-btn>
-            </v-col>
-            <v-col cols="12" md="6" xl="4" class="hidden-sm-and-down"> </v-col>
-          </v-row>
-        </v-col>
-      </v-row>
-      <div class="svg-border-waves text-white">
-        <v-img src="@/assets/img/borderWaves.svg" />
-      </div>
-    </v-parallax>
-    <v-container fluid id="quizes" class="mt-2">
-      <v-row align="center" justify="center" v-if="quizView">
-          <QuizView :quiz="quiz"/>
-      </v-row>
-      <v-row align="center" justify="center" v-else>
-        <v-col cols="10" v-if="loading">
-          <content-loader :width="300" :height="150">
-            <template v-for="i in [0,1]" :key="'row-' + i">
-              <rect v-for="n in [0,1,2]" :key="i + '-' + n" :x="100*n" :y="60*i" rx="2" ry="2" width="80" height="50"/>
-            </template>
-          </content-loader>
-        </v-col>
-        <v-col cols="10" v-else>
-          <v-container>
-          <v-row>
-            <v-col cols="8">
+  <div>
+    <!-- HERO -->
+    <section id="hero" class="qa-hero">
+      <div class="qa-hero__grid"></div>
+      <span class="qa-blob" style="width:340px;height:340px;background:#6366f1;top:-80px;left:-60px"></span>
+      <span class="qa-blob" style="width:300px;height:300px;background:#8b5cf6;bottom:-100px;right:-40px"></span>
+
+      <v-container class="py-16" style="position:relative;z-index:1">
+        <v-row justify="center" class="text-center">
+          <v-col cols="12" md="10" lg="8">
+            <div class="qa-chip mb-5 mx-auto" style="width:max-content">
+              <v-icon size="15" icon="mdi-lightning-bolt" /> Learn faster with quizzes
+            </div>
+            <h1 class="qa-display mb-4" style="font-size:clamp(2.4rem,6vw,4rem);line-height:1.05">
+              Test your skills with
+              <span class="qa-gradient-text">Quiz&nbsp;App</span>
+            </h1>
+            <p class="text-h6 font-weight-regular qa-muted mb-8 mx-auto" style="max-width:620px">
+              Discover quizzes across topics, challenge yourself, and track your progress — all in one clean place.
+            </p>
+
+            <div class="mx-auto" style="max-width:580px">
               <v-text-field
-                  :model-value="query"
-                  :error-messages="errors.query"
-                  label="Search by author name or quiz title"
-                  @update:model-value="lazyCaller($event)"
-                  autofocus
-              ></v-text-field>
-            </v-col>
-            <v-col cols="4">
-              <v-btn @click="index(1, 'title=' + query)" variant="flat" color="indigo">
-                Search
+                :model-value="query"
+                placeholder="Search quizzes by title or author…"
+                prepend-inner-icon="mdi-magnify"
+                variant="solo"
+                rounded="lg"
+                flat
+                hide-details
+                class="qa-elevate"
+                @update:model-value="lazyCaller($event)"
+                @keyup.enter="index(1, 'title=' + query)"
+              />
+            </div>
+
+            <div class="d-flex justify-center ga-3 mt-6 flex-wrap">
+              <v-btn size="large" rounded="lg" class="qa-btn-gradient px-8" @click="$vuetify.goTo('#quizes')">
+                Browse quizzes <v-icon end icon="mdi-arrow-down" />
               </v-btn>
-            </v-col>
-          </v-row>
-          </v-container>
+              <v-btn size="large" rounded="lg" variant="outlined" color="primary" class="px-8" :to="{ name: 'Register' }">
+                Create account
+              </v-btn>
+            </div>
+          </v-col>
+        </v-row>
+      </v-container>
+    </section>
+
+    <!-- QUIZZES -->
+    <v-container id="quizes" class="py-12">
+      <template v-if="quizView">
+        <QuizView :quiz="quiz" />
+      </template>
+
+      <template v-else>
+        <div class="text-center mb-10">
+          <h2 class="qa-display mb-2" style="font-size:clamp(1.8rem,4vw,2.4rem)">Explore quizzes</h2>
+          <p class="qa-muted mb-0">Pick a quiz and put your knowledge to the test.</p>
+        </div>
+
+        <v-row v-if="loading">
+          <v-col v-for="n in 6" :key="'sk-'+n" cols="12" sm="6" md="4">
+            <v-skeleton-loader type="list-item-avatar, divider, paragraph, actions" class="qa-elevate" rounded="xl" />
+          </v-col>
+        </v-row>
+
+        <template v-else>
           <template v-if="quizzes.data && quizzes.data.length > 0">
-            <v-row align="center" justify="space-around">
-              <v-col cols="12" sm="4" class="text-center" v-for="(quiz, i) in quizzes.data" :key="'quiz-'+i">
-                <v-hover>
-                  <v-card class="mx-auto" max-width="344" variant="outlined">
-                    <v-list-item lines="three">
-                      <template #append v-if="quiz.author_email">
-                        <v-avatar
-                            tile
-                            size="80"
-                            color="grey"
-                        >
-                          <v-gravatar :email="quiz.author_email" />
-                        </v-avatar>
-                      </template>
-                      <div class="text-overline mb-4 highlightable" v-html="quiz.author"></div>
-                      <v-list-item-title class="text-h5 mb-1" v-html="quiz.title"></v-list-item-title>
-                      <v-list-item-subtitle v-if="quiz.description" v-html="quiz.description.substring(0,200)">
-                      </v-list-item-subtitle>
-                    </v-list-item>
+            <v-row>
+              <v-col v-for="(quiz, i) in quizzes.data" :key="'quiz-'+i" cols="12" sm="6" md="4">
+                <v-card class="qa-hover d-flex flex-column" rounded="xl" style="height:100%">
+                  <div class="pa-5 d-flex align-center ga-3">
+                    <v-avatar size="48" class="qa-quiz-avatar">
+                      <v-gravatar v-if="quiz.author_email" :email="quiz.author_email" />
+                      <span v-else>{{ (quiz.title || 'Q').charAt(0).toUpperCase() }}</span>
+                    </v-avatar>
+                    <div style="min-width:0">
+                      <div class="text-caption qa-muted text-truncate" v-html="quiz.author"></div>
+                      <div class="text-subtitle-1 font-weight-bold text-truncate" v-html="quiz.title"></div>
+                    </div>
+                  </div>
+                  <v-divider />
+                  <v-card-text class="qa-muted flex-grow-1" style="min-height:60px">
+                    <span v-html="quiz.description ? quiz.description.substring(0, 120) : 'No description provided.'"></span>
+                  </v-card-text>
+                  <v-card-actions class="px-5 pb-5 pt-0">
+                    <span class="qa-chip"><v-icon size="14" icon="mdi-help-circle-outline" /> Quiz</span>
+                    <v-spacer />
+                    <v-btn class="qa-btn-gradient px-5" rounded="lg" @click="getQuiz(quiz.id)">
+                      Start <v-icon end icon="mdi-arrow-right" />
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-col>
+            </v-row>
 
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn rounded @click="getQuiz(quiz.id)" variant="flat" color="indigo">
-                        View
-                      </v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-hover>
-              </v-col>
-            </v-row>
-            <v-row justify="center">
-              <v-col cols="8">
-                <v-container class="max-width">
-                  <v-pagination
-                      v-model="pagination.current"
-                      :length="pagination.total"
-                      class="my-4"
-                      :total-visible="7"
-                      @update:model-value="index(pagination.current,filtersUrl())"
-                  ></v-pagination>
-                </v-container>
-              </v-col>
-            </v-row>
+            <div class="d-flex justify-center mt-10">
+              <v-pagination
+                v-model="pagination.current"
+                :length="pagination.total"
+                :total-visible="7"
+                rounded="lg"
+                active-color="primary"
+                @update:model-value="index(pagination.current, filtersUrl())"
+              />
+            </div>
           </template>
-          <template v-else>
-            <v-alert
-                border="end"
-                color="blue-grey"
-                dark
-            >
-              Sorry no quiz found
-            </v-alert>
-          </template>
-        </v-col>
-      </v-row>
+
+          <div v-else class="text-center py-16">
+            <v-avatar size="88" color="surface-variant" class="mb-5">
+              <v-icon size="44" icon="mdi-magnify" class="qa-muted" />
+            </v-avatar>
+            <h3 class="qa-display mb-2">No quizzes found</h3>
+            <p class="qa-muted">Try a different search, or check back soon.</p>
+          </div>
+        </template>
+      </template>
     </v-container>
-    <div class="svg-border-waves">
-      <img src="@/assets/img/wave2.svg" />
-    </div>
-  </section>
+  </div>
 </template>
-
 
 <script>
 import ApiService from "@/common/api.service"
 import QuizView from "@/components/homepage/QuizView.vue"
-import { ContentLoader } from 'vue-content-loader';
 
 export default {
   name: "HomeSection",
   components: {
     QuizView,
-    ContentLoader
   },
   data: () => ({
     timeout: null,
     quizView: false,
     loading: false,
+    quiz: {},
     quizzes: {},
     query: '',
     errors: {},
@@ -198,15 +198,11 @@ export default {
         this.errors = {};
         this.highlight();
       }).catch(err => {
-        console.log(err);
-        if (err.response.status === 422) {
+        this.loading = false;
+        if (err.response?.status === 422) {
           this.errors = err.response.data.errors;
-        }
-        if (err.response.status !== 401) {
+        } else if (err.response && err.response.status !== 401) {
           this.$toastr.e("Failed to load data!" + err);
-          this.loading = false;
-        }else{
-          this.$toastr.e(err.response.data.status)
         }
       })
     },
@@ -239,75 +235,10 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.circle {
-  stroke: white;
-  stroke-dasharray: 650;
-  stroke-dashoffset: 650;
-  -webkit-transition: all 0.5s ease-in-out;
-  opacity: 0.3;
+<style scoped>
+:deep(.highlight) {
+  background: #fde68a;
+  border-radius: 3px;
+  padding: 0 2px;
 }
-
-</style>
-
-<style>
-.btn-play {
-  transition: 0.2s;
-}
-
-.svg-border-waves .v-image {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 3rem;
-  width: 100%;
-  overflow: hidden;
-}
-
-#hero {
-  z-index: 0;
-}
-.svg-border-waves img {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  margin-bottom: -2px;
-  z-index: -1;
-}
-
-.card {
-  min-height: 300px;
-  padding: 10px;
-  transition: 0.5s ease-out;
-}
-
-.card .v-image {
-  margin-bottom: 15px;
-  transition: 0.75s;
-}
-
-.card h1 {
-  margin-bottom: 10px;
-}
-
-.zoom-efect {
-  transform: scale(1.1);
-}
-
-.up {
-  transform: translateY(-20px);
-  transition: 0.5s ease-out;
-}
-</style>
-
-<style>
-section {
-  position: relative;
-}
-
-.highlight {
-  background-color: yellow;
-}
-
 </style>

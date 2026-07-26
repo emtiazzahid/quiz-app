@@ -1,55 +1,54 @@
 <template>
-  <v-container id="add-quiz" fluid tag="section">
-    <v-breadcrumbs v-if="breadcrumbs" :items="breadcrumbs" divider="-"></v-breadcrumbs>
+  <v-container fluid class="pa-6">
+    <v-breadcrumbs v-if="breadcrumbs" :items="breadcrumbs" divider="-" class="px-0 qa-muted"></v-breadcrumbs>
+    <div class="mb-6">
+      <h1 class="qa-display" style="font-size:1.6rem">{{ id ? 'Edit' : 'Add' }} Quiz</h1>
+      <p class="qa-muted mb-0">{{ id ? 'Update your quiz details.' : 'Create a new quiz.' }}</p>
+    </div>
+
     <v-row justify="center">
       <v-col cols="12" md="8">
-        <base-material-card>
-          <template v-slot:heading>
-            <div class="text-h3 font-weight-light">
-              {{ id ? 'Edit' : 'Add' }} Quiz
-            </div>
-
-            <div class="text-subtitle-1 font-weight-light" v-if="!id">
-              Add new quiz
-            </div>
-          </template>
-
+        <v-card rounded="xl" class="pa-6">
           <v-form>
-            <v-container class="py-0">
-              <v-row>
-                <v-col cols="12">
-                  <v-text-field class="purple-input" label="Title"
-                                v-model="form.title"
-                                :error-messages="errors.title"
-                  />
-                </v-col>
+            <v-row>
+              <v-col cols="12">
+                <label class="qa-label">Title</label>
+                <v-text-field
+                    hide-details="auto"
+                    v-model="form.title"
+                    :error-messages="errors.title"
+                />
+              </v-col>
 
-                <v-col cols="12">
-                  <v-textarea class="purple-input" label="Description"
-                              v-model="form.description"
-                              :error-messages="errors.description"
-                  />
-                </v-col>
+              <v-col cols="12">
+                <label class="qa-label">Description</label>
+                <v-textarea
+                    hide-details="auto"
+                    v-model="form.description"
+                    :error-messages="errors.description"
+                />
+              </v-col>
 
-                <v-col cols="12" md="6">
-                  <v-text-field class="purple-input" label="Time limit (Sec.)"
-                                v-model="form.time_limit"
-                                :error-messages="errors.time_limit"
-                  />
-                </v-col>
+              <v-col cols="12" md="6">
+                <label class="qa-label">Time limit (Sec.)</label>
+                <v-text-field
+                    hide-details="auto"
+                    v-model="form.time_limit"
+                    :error-messages="errors.time_limit"
+                />
+              </v-col>
 
-                <v-col cols="12" class="text-right">
-                  <v-btn color="success" class="mr-0" @click="update" v-if="id">
-                    Update
-                  </v-btn>
-                  <v-btn color="success" class="mr-0" @click="store" v-else>
-                    Save
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </v-container>
+              <v-col cols="12" class="d-flex justify-end ga-2">
+                <v-btn class="qa-btn-gradient px-6" rounded="lg" @click="update" v-if="id">
+                  Update
+                </v-btn>
+                <v-btn class="qa-btn-gradient px-6" rounded="lg" @click="store" v-else>
+                  Save
+                </v-btn>
+              </v-col>
+            </v-row>
           </v-form>
-        </base-material-card>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>

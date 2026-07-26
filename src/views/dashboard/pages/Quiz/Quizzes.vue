@@ -1,93 +1,87 @@
 <template>
-  <v-container fluid tag="section">
-    <base-material-card icon="mdi-clipboard-text" title="My Quiz's" class="px-5 py-3">
-      <template v-slot:after-heading>
-        <div class="col-12 ml-auto text-right">
-          <v-btn variant="flat" color="primary" class="text-right" :to="{name: 'AddQuiz'}">
-            Add Quiz
-          </v-btn>
-        </div>
-      </template>
-      <table-loader v-if="loading"></table-loader>
-      <template v-else>
-        <v-table>
-          <button :to="{name: 'AddQuiz'}"></button>
-          <thead>
-          <tr>
-            <th class="primary--text">
-              ID
-            </th>
-            <th class="primary--text">
-              Title
-            </th>
-            <th class="primary--text">
-              Time Limit (H:M:S)
-            </th>
-            <th class="primary--text">
-              Created at
-            </th>
-            <th class="primary--text">
-              Daily Digest Notification
-            </th>
-            <th class="primary--text">
-              Action
-            </th>
-          </tr>
-          </thead>
+  <v-container fluid class="pa-6">
+    <div class="d-flex align-center justify-space-between flex-wrap mb-6" style="gap:12px">
+      <div>
+        <h1 class="qa-display" style="font-size:1.6rem">My Quizzes</h1>
+        <p class="qa-muted mb-0">Create, manage and share your quizzes.</p>
+      </div>
+      <div class="d-flex ga-2">
+        <v-btn class="qa-btn-gradient px-6" rounded="lg" prepend-icon="mdi-plus" :to="{name: 'AddQuiz'}">
+          Add Quiz
+        </v-btn>
+      </div>
+    </div>
 
-          <tbody>
-          <template v-if="list.data && list.data.length > 0">
+    <table-loader v-if="loading"></table-loader>
+    <template v-else>
+      <v-card rounded="xl" class="pa-0" style="overflow:hidden">
+        <template v-if="list.data && list.data.length > 0">
+          <v-table hover>
+            <thead>
+            <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Time Limit (H:M:S)</th>
+              <th>Created at</th>
+              <th>Daily Digest Notification</th>
+              <th class="text-right">Action</th>
+            </tr>
+            </thead>
+
+            <tbody>
             <tr v-for="quiz in list.data" :key="quiz.id">
-              <td>{{ quiz.id }}</td>
+              <td class="qa-muted">{{ quiz.id }}</td>
               <td>
-                <router-link :to="{name: 'Quiz', params: { id: quiz.id }}">{{ quiz.title }}</router-link>
+                <router-link class="text-primary font-weight-medium text-decoration-none" :to="{name: 'Quiz', params: { id: quiz.id }}">{{ quiz.title }}</router-link>
               </td>
               <td>
                 {{ moment.utc(moment.duration(quiz.time_limit,'seconds').as('milliseconds')).format('HH:mm:ss') }}
               </td>
-              <td>{{moment(quiz.created_at).format('YYYY-MM-DD')}}</td>
-              <td class="text-right">
+              <td class="qa-muted">{{moment(quiz.created_at).format('YYYY-MM-DD')}}</td>
+              <td>
                 <v-switch
+                    color="primary"
+                    hide-details
+                    density="compact"
                     :loading="digestEmailSwitching"
                     @change="updateDigestEmailSettings(quiz.id,quiz.digest_email)"
                     v-model="quiz.digest_email"
                     :label="quiz.digest_email ? 'On' : 'Off'"
                 ></v-switch>
               </td>
-              <td>
-                <v-btn class="mx-2" icon dark size="x-small" color="cyan" @click="edit(quiz.id)">
-                  <v-icon dark>
-                    mdi-pencil
-                  </v-icon>
-                </v-btn>
-                <v-btn class="mx-2" icon dark size="x-small" color="error" @click="openDialog(quiz.id)">
-                  <v-icon dark>
-                    mdi-delete
-                  </v-icon>
-                </v-btn>
+              <td class="text-right">
+                <v-btn class="mx-1" icon="mdi-pencil-outline" variant="text" size="small" color="primary" @click="edit(quiz.id)" />
+                <v-btn class="mx-1" icon="mdi-delete-outline" variant="text" size="small" color="error" @click="openDialog(quiz.id)" />
               </td>
             </tr>
-          </template>
-          <template v-else>
-            <tr><td colspan="6" class="text-center">No data found</td></tr>
-          </template>
-          </tbody>
-        </v-table>
-        <v-row justify="center">
-          <v-col cols="8">
-            <v-container class="max-width">
-              <v-pagination
-                  v-model="pagination.current"
-                  :length="pagination.total"
-                  class="my-4"
-                  :total-visible="7"
-                  @input="index(pagination.current,filtersUrl())"
-              ></v-pagination>
-            </v-container>
-          </v-col>
-        </v-row>
-      </template>
-    </base-material-card>
+            </tbody>
+          </v-table>
+        </template>
+        <template v-else>
+          <div class="text-center py-16">
+            <v-avatar size="80" color="surface-variant" class="mb-4"><v-icon size="40" icon="mdi-clipboard-text-outline" class="qa-muted"/></v-avatar>
+            <h3 class="qa-display mb-1">No quizzes yet</h3>
+            <p class="qa-muted">Create your first quiz to get started.</p>
+          </div>
+        </template>
+      </v-card>
+
+      <v-row justify="center">
+        <v-col cols="8">
+          <v-container class="max-width">
+            <v-pagination
+                v-model="pagination.current"
+                :length="pagination.total"
+                class="my-4"
+                rounded="lg"
+                active-color="primary"
+                :total-visible="7"
+                @input="index(pagination.current,filtersUrl())"
+            ></v-pagination>
+          </v-container>
+        </v-col>
+      </v-row>
+    </template>
     <Confirmation ref="confirmation" @confirmed="destroy($event)"></Confirmation>
   </v-container>
 </template>

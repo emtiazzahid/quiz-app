@@ -1,53 +1,66 @@
 <template>
-  <v-container id="add-quiz" fluid tag="section">
+  <v-container fluid class="pa-6">
     <table-loader v-if="loading"></table-loader>
     <template v-else>
       <v-row justify="center">
         <v-col cols="12" md="8">
-          <base-material-card title="MCQ">
-            <v-container v-if="form.mcqs && form.mcqs.length > 0">
-              <form action="">
-              <v-row align="center" v-for="(mcq, index) in form.mcqs" :key="mcq.id">
-                <v-card width="100%" :name="mcq.id">
-                  <v-col cols="12" md="12">
-                    <h3>Question No #{{index+1}}: {{ mcq.question }}</h3>
-                  </v-col>
-                  <v-col cols="12">
-                    <div v-for="n in 5" :key="mcq.id+n">
-                      <v-radio-group v-model="mcq.given_answer">
-                        <v-radio :label="mcq['option_' + n]" color="primary" :value="n"></v-radio>
-                      </v-radio-group>
-                    </div>
-                  </v-col>
-                </v-card>
-              </v-row>
-              </form>
-            </v-container>
+          <div class="mb-6">
+            <h1 class="qa-display" style="font-size:1.6rem">Quiz in progress</h1>
+            <p class="qa-muted mb-0">Answer each question, then submit when you're done.</p>
+          </div>
 
-            <v-container class="pa-0" fluid  v-else>
-              <h3>
-                No MCQ Found
-              </h3>
-            </v-container>
-          </base-material-card>
+          <template v-if="form.mcqs && form.mcqs.length > 0">
+            <form action="">
+              <v-card
+                  v-for="(mcq, index) in form.mcqs"
+                  :key="mcq.id"
+                  :name="mcq.id"
+                  rounded="xl"
+                  class="pa-6 mb-4 qa-elevate"
+                  width="100%"
+              >
+                <div class="d-flex align-start mb-4" style="gap:10px">
+                  <span class="qa-chip">Q{{ index+1 }}</span>
+                  <h3 class="font-weight-medium" style="font-size:1.1rem">{{ mcq.question }}</h3>
+                </div>
+                <div>
+                  <v-radio-group v-model="mcq.given_answer" hide-details>
+                    <v-radio
+                        v-for="n in 5"
+                        :key="mcq.id+n"
+                        :label="mcq['option_' + n]"
+                        color="primary"
+                        :value="n"
+                        class="mb-1"
+                    ></v-radio>
+                  </v-radio-group>
+                </div>
+              </v-card>
+            </form>
+          </template>
+
+          <v-card rounded="xl" class="pa-6" v-else>
+            <div class="text-center py-16">
+              <v-avatar size="80" color="surface-variant" class="mb-4"><v-icon size="40" icon="mdi-help-box-outline" class="qa-muted"/></v-avatar>
+              <h3 class="qa-display mb-1">No MCQ found</h3>
+              <p class="qa-muted">This quiz has no questions to attempt.</p>
+            </div>
+          </v-card>
         </v-col>
       </v-row>
       <v-speed-dial style="position: fixed; top: 300px; right: 100px;" open-on-hover>
         <template v-slot:activator>
-          <v-btn color="blue darken-2" size="large" dark>
+          <v-btn class="qa-btn-gradient px-6" rounded="lg" size="large">
             Submit
           </v-btn>
         </template>
-        <v-btn dark color="green" @click="complete">
+        <v-btn color="success" variant="flat" rounded="lg" @click="complete">
           Confirm
         </v-btn>
       </v-speed-dial>
-      <v-chip class="ma-2 large" color="secondary" style="position: fixed; top: 100px; z-index: 100">
-        <h1>{{ moment.utc(moment.duration(timerCount,'seconds').as('milliseconds')).format('HH:mm:ss') }}
-        </h1>
-        <v-icon right>
-          mdi-clock
-        </v-icon>
+      <v-chip class="ma-2 qa-elevate" color="primary" size="large" label style="position: fixed; top: 100px; z-index: 100">
+        <v-icon start icon="mdi-clock-outline"></v-icon>
+        <span class="text-h6 font-weight-bold">{{ moment.utc(moment.duration(timerCount,'seconds').as('milliseconds')).format('HH:mm:ss') }}</span>
       </v-chip>
     </template>
   </v-container>

@@ -1,61 +1,55 @@
 <template>
-  <v-container id="add-quiz" fluid tag="section">
-    <v-breadcrumbs v-if="breadcrumbs" :items="breadcrumbs" divider="-"></v-breadcrumbs>
-    <v-row justify="center">
-      <v-col cols="12" md="8">
-        <base-material-card title="Quiz Details">
-          <v-container class="pa-0 mt-5" fluid>
-            <v-row align="center">
-              <v-col cols="4">
-                <h4>Title</h4>
-              </v-col>
-              <v-col cols="8">
-                <h3>{{ data.title }}</h3>
-              </v-col>
-            </v-row>
-            <v-row align="center">
-              <v-col cols="4">
-                <h4>Description</h4>
-              </v-col>
-              <v-col cols="8">
-                <h3>{{ data.description }}</h3>
-              </v-col>
-            </v-row>
-            <v-row align="center">
-              <v-col cols="4">
-                <h4>Time Limit (Hour:minute:second)</h4>
-              </v-col>
-              <v-col cols="8">
-                <h3>
-                  {{ moment.utc(moment.duration(data.time_limit,'seconds').as('milliseconds')).format('HH:mm:ss') }}
-                </h3>
-              </v-col>
-            </v-row>
-          </v-container>
-        </base-material-card>
-        <base-material-card title="MCQ">
-          <v-container class="pa-0 mt-5" fluid v-if="data.mcqs && data.mcqs.length > 0">
-            <v-row align="center" v-for="mcq in data.mcqs" :key="mcq.id">
-              <v-col cols="4">
-                <h4>#{{ mcq.id }}</h4>
-              </v-col>
-              <v-col cols="8">
-                <h3>{{ mcq.question }}</h3>
-              </v-col>
-            </v-row>
-          </v-container>
-          <v-container class="pa-0" fluid  v-else>
-            <h3>
-              No MCQ Attached Yet
-              <router-link :to="{name: 'AttachMCQ'}">Attach MCQ</router-link>
-            </h3>
-          </v-container>
-        </base-material-card>
-      </v-col>
-      <v-col cols="1" md="1">
-        <v-btn variant="flat" color="primary" :to="{name: 'AttachMCQ'}">
+  <v-container fluid class="pa-6">
+    <v-breadcrumbs v-if="breadcrumbs" :items="breadcrumbs" divider="-" class="px-0 qa-muted"></v-breadcrumbs>
+    <div class="d-flex align-center justify-space-between flex-wrap mb-6" style="gap:12px">
+      <div>
+        <h1 class="qa-display" style="font-size:1.6rem">Quiz Details</h1>
+        <p class="qa-muted mb-0">Overview of this quiz and its attached questions.</p>
+      </div>
+      <div class="d-flex ga-2">
+        <v-btn class="qa-btn-gradient px-6" rounded="lg" prepend-icon="mdi-playlist-edit" :to="{name: 'AttachMCQ'}">
           Update MCQ List
         </v-btn>
+      </div>
+    </div>
+
+    <v-row justify="center">
+      <v-col cols="12" md="10">
+        <v-card rounded="xl" class="pa-6 mb-6">
+          <h2 class="qa-display mb-4" style="font-size:1.15rem">Details</h2>
+          <v-row align="center">
+            <v-col cols="4"><span class="qa-muted">Title</span></v-col>
+            <v-col cols="8"><h3 class="font-weight-medium">{{ data.title }}</h3></v-col>
+          </v-row>
+          <v-row align="center">
+            <v-col cols="4"><span class="qa-muted">Description</span></v-col>
+            <v-col cols="8"><h3 class="font-weight-medium">{{ data.description }}</h3></v-col>
+          </v-row>
+          <v-row align="center">
+            <v-col cols="4"><span class="qa-muted">Time Limit (Hour:minute:second)</span></v-col>
+            <v-col cols="8">
+              <span class="qa-chip"><v-icon size="14" icon="mdi-clock-outline"/>
+                {{ moment.utc(moment.duration(data.time_limit,'seconds').as('milliseconds')).format('HH:mm:ss') }}
+              </span>
+            </v-col>
+          </v-row>
+        </v-card>
+
+        <v-card rounded="xl" class="pa-6">
+          <h2 class="qa-display mb-4" style="font-size:1.15rem">MCQ</h2>
+          <template v-if="data.mcqs && data.mcqs.length > 0">
+            <v-row align="center" v-for="mcq in data.mcqs" :key="mcq.id">
+              <v-col cols="4"><span class="qa-muted">#{{ mcq.id }}</span></v-col>
+              <v-col cols="8"><h3 class="font-weight-medium">{{ mcq.question }}</h3></v-col>
+            </v-row>
+          </template>
+          <div class="text-center py-16" v-else>
+            <v-avatar size="80" color="surface-variant" class="mb-4"><v-icon size="40" icon="mdi-help-box-outline" class="qa-muted"/></v-avatar>
+            <h3 class="qa-display mb-1">No MCQ attached yet</h3>
+            <p class="qa-muted mb-4">Attach questions to build out this quiz.</p>
+            <v-btn variant="outlined" color="primary" rounded="lg" prepend-icon="mdi-plus" :to="{name: 'AttachMCQ'}">Attach MCQ</v-btn>
+          </div>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>

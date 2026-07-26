@@ -1,63 +1,70 @@
 <template>
-  <v-container id="add-quiz" fluid tag="section">
-    <v-breadcrumbs v-if="breadcrumbs" :items="breadcrumbs" divider="-"></v-breadcrumbs>
+  <v-container fluid class="pa-6">
+    <v-breadcrumbs v-if="breadcrumbs" :items="breadcrumbs" divider="-" class="px-0 qa-muted"></v-breadcrumbs>
+    <div class="d-flex align-center justify-space-between flex-wrap mb-6" style="gap:12px">
+      <div>
+        <h1 class="qa-display" style="font-size:1.6rem">Attach MCQs</h1>
+        <p class="qa-muted mb-0">Quiz: {{ data.title }} — select the questions to attach.</p>
+      </div>
+      <div class="d-flex ga-2">
+        <v-btn class="qa-btn-gradient px-6" rounded="lg" prepend-icon="mdi-content-save-outline" @click="saveMCQAttachOnQuiz">
+          Update
+        </v-btn>
+      </div>
+    </div>
+
+    <v-card rounded="xl" class="pa-0" style="overflow:hidden">
+      <template v-if="mcq_list.data && mcq_list.data.length > 0">
+        <v-table hover>
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>Question</th>
+            <th>Current Answer</th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <tr v-for="mcq in mcq_list.data" :key="mcq.id">
+            <td>
+              <v-checkbox
+                  color="primary"
+                  hide-details="auto"
+                  density="compact"
+                  v-model="mcq_ids"
+                  :label="'#'+mcq.id"
+                  :value="mcq.id"
+                  :error-messages="errors.mcq_ids"
+              ></v-checkbox>
+            </td>
+            <td>{{ mcq.question }}</td>
+            <td class="qa-muted">{{ mcq.correct_answer }}</td>
+          </tr>
+          </tbody>
+        </v-table>
+      </template>
+      <template v-else>
+        <div class="text-center py-16">
+          <v-avatar size="80" color="surface-variant" class="mb-4"><v-icon size="40" icon="mdi-help-box-outline" class="qa-muted"/></v-avatar>
+          <h3 class="qa-display mb-1">No MCQs available</h3>
+          <p class="qa-muted">There are no questions to attach yet.</p>
+        </div>
+      </template>
+    </v-card>
+
     <v-row justify="center">
-      <v-col cols="12" md="8">
-        <base-material-card :title="`Quiz: ${data.title} Mark MCQ to attach in Your Quiz`">
-          <v-container class="pa-0" fluid>
-            <div class="col-12 text-right">
-              <v-btn variant="flat" color="primary" @click="saveMCQAttachOnQuiz">
-                Update
-              </v-btn>
-            </div>
-          </v-container>
-          <v-container class="pa-0" fluid>
-            <v-row align="center">
-              <v-table>
-                <thead>
-                <tr>
-                  <th class="primary--text">#</th>
-                  <th class="primary--text">
-                    Question
-                  </th>
-                  <th class="primary--text">
-                    Current Answer
-                  </th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <tr v-for="mcq in mcq_list.data" :key="mcq.id">
-                  <td>
-                    <v-checkbox
-                        v-model="mcq_ids"
-                        :label="'#'+mcq.id"
-                        :value="mcq.id"
-                        :error-messages="errors.mcq_ids"
-                    ></v-checkbox>
-                  </td>
-                  <td>{{ mcq.question }}</td>
-                  <td>{{ mcq.correct_answer }}</td>
-                </tr>
-
-                </tbody>
-              </v-table>
-              <v-row justify="center">
-                <v-col cols="8">
-                  <v-container class="max-width">
-                    <v-pagination
-                        v-model="pagination.current"
-                        :length="pagination.total"
-                        class="my-4"
-                        :total-visible="7"
-                        @input="getAllMCQ(pagination.current)"
-                    ></v-pagination>
-                  </v-container>
-                </v-col>
-              </v-row>
-            </v-row>
-          </v-container>
-        </base-material-card>
+      <v-col cols="8">
+        <v-container class="max-width">
+          <v-pagination
+              v-model="pagination.current"
+              :length="pagination.total"
+              class="my-4"
+              rounded="lg"
+              active-color="primary"
+              :total-visible="7"
+              @input="getAllMCQ(pagination.current)"
+          ></v-pagination>
+        </v-container>
       </v-col>
     </v-row>
   </v-container>

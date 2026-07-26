@@ -1,22 +1,25 @@
 <template>
-  <v-dialog v-model="dialog" persistent max-width="290">
-    <v-card>
-      <v-card-title class="text-h2">
+  <v-dialog v-model="dialog" persistent max-width="420">
+    <v-card rounded="xl" class="pa-6 text-center">
+      <v-avatar size="72" color="surface-variant" class="mb-4 mx-auto">
+        <v-icon size="36" color="error" icon="mdi-alert-outline" />
+      </v-avatar>
+      <v-card-title class="qa-display" style="font-size:1.35rem">
         Confirm delete?
       </v-card-title>
-      <v-card-text>Are you sure about to delete this data? This action can not be undo</v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
+      <v-card-text class="qa-muted">Are you sure you want to delete this data? This action cannot be undone.</v-card-text>
+      <v-card-actions class="justify-center pt-2">
         <v-btn
-            color="green darken-1"
             variant="text"
+            class="qa-muted"
+            rounded="lg"
             @click="dialog = false"
         >
           Cancel
         </v-btn>
         <v-btn
-            color="green darken-1"
-            variant="text"
+            class="qa-btn-gradient px-6"
+            rounded="lg"
             @click="confirm"
         >
           Confirm

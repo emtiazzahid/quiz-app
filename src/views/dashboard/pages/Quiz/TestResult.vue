@@ -1,47 +1,52 @@
 <template>
-  <v-container id="add-quiz" fluid tag="section">
+  <v-container fluid class="pa-6">
+    <div class="mb-6">
+      <h1 class="qa-display" style="font-size:1.6rem">Test Result</h1>
+      <p class="qa-muted mb-0">Your performance summary for this attempt.</p>
+    </div>
+
     <v-row justify="center">
-      <v-col cols="12" md="8">
-        <base-material-card title="Test Result">
+      <v-col cols="12" md="10">
+        <v-card rounded="xl" class="pa-6">
           <table-loader v-if="loading"></table-loader>
-          <v-container class="pa-0" fluid v-else>
-            <br>
+          <template v-else>
             <v-row align="center" v-if="data.quiz">
-              <v-col cols="4"><h4>Title</h4></v-col>
-              <v-col cols="8"><h3>{{ data.quiz.title }}</h3></v-col>
+              <v-col cols="4"><span class="qa-muted">Title</span></v-col>
+              <v-col cols="8"><h3 class="font-weight-medium">{{ data.quiz.title }}</h3></v-col>
             </v-row>
             <v-row align="center">
-              <v-col cols="4"><h4>Total MCQ</h4></v-col>
-              <v-col cols="8"><h3>{{ data.total_mcq }}</h3></v-col>
+              <v-col cols="4"><span class="qa-muted">Total MCQ</span></v-col>
+              <v-col cols="8"><h3 class="font-weight-medium">{{ data.total_mcq }}</h3></v-col>
             </v-row>
             <v-row align="center">
-              <v-col cols="4"><h4>Total Answered MCQ</h4></v-col>
-              <v-col cols="8"><h3>{{ data.total_answered_mcq }}</h3></v-col>
+              <v-col cols="4"><span class="qa-muted">Total Answered MCQ</span></v-col>
+              <v-col cols="8"><h3 class="font-weight-medium">{{ data.total_answered_mcq }}</h3></v-col>
             </v-row>
             <v-row align="center">
-              <v-col cols="4"><h4>Total Correct Answer</h4></v-col>
-              <v-col cols="8"><h3>{{ data.total_correct_answer }}</h3></v-col>
+              <v-col cols="4"><span class="qa-muted">Total Correct Answer</span></v-col>
+              <v-col cols="8"><h3 class="font-weight-medium">{{ data.total_correct_answer }}</h3></v-col>
             </v-row>
             <v-row align="center">
-              <v-col cols="4"><h4>Score</h4></v-col>
+              <v-col cols="4"><span class="qa-muted">Score</span></v-col>
               <v-col cols="8">
-                <v-progress-linear :value="(Math.round(data.score * 100) / 100).toFixed(2)" height="25">
+                <v-progress-linear color="primary" rounded :value="(Math.round(data.score * 100) / 100).toFixed(2)" height="25">
                   <strong>{{ (Math.round(data.score * 100) / 100).toFixed(2) }}%</strong>
                 </v-progress-linear>
               </v-col>
             </v-row>
             <v-row align="center">
-              <v-col cols="4"><h4>High Score</h4></v-col>
-              <v-col cols="8"><h3>
-                <v-progress-linear :value="data.high_score ? (Math.round(data.high_score * 100) / 100).toFixed(2) : 0" height="25">
+              <v-col cols="4"><span class="qa-muted">High Score</span></v-col>
+              <v-col cols="8">
+                <v-progress-linear color="success" rounded :value="data.high_score ? (Math.round(data.high_score * 100) / 100).toFixed(2) : 0" height="25">
                   <strong>{{ data.high_score ? (Math.round(data.high_score * 100) / 100).toFixed(2) : 0 }}%</strong>
                 </v-progress-linear>
-              </h3></v-col>
+              </v-col>
             </v-row>
-          </v-container>
-          <v-container>
-            <v-row align="center" >
-              <v-col cols="6">
+
+            <v-divider class="my-6"></v-divider>
+
+            <v-row align="center" justify="center">
+              <v-col cols="12" md="6">
                 <pie-chart ref="resultChart"
                            :style="chartStyle"
                            :chart-data="chartData"
@@ -50,8 +55,8 @@
                 </pie-chart>
               </v-col>
             </v-row>
-          </v-container>
-        </base-material-card>
+          </template>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>

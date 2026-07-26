@@ -1,85 +1,83 @@
 <template>
-  <v-container fluid tag="section">
-    <v-breadcrumbs v-if="breadcrumbs" :items="breadcrumbs" divider="-"></v-breadcrumbs>
+  <v-container fluid class="pa-6">
+    <v-breadcrumbs v-if="breadcrumbs" :items="breadcrumbs" divider="-" class="px-0 pb-4 qa-muted"></v-breadcrumbs>
     <v-row justify="center">
       <v-col cols="12" md="8">
-        <base-material-card>
-          <template v-slot:heading>
-            <div class="text-h3 font-weight-light">
-              {{ id ? 'Edit' : 'Add' }} MCQ
-            </div>
+        <div class="mb-6">
+          <h1 class="qa-display" style="font-size:1.6rem">{{ id ? 'Edit' : 'Add' }} MCQ</h1>
+          <p class="qa-muted mb-0">{{ id ? 'Update this question and its options.' : 'Create a new multiple-choice question.' }}</p>
+        </div>
 
-            <div class="text-subtitle-1 font-weight-light" v-if="!id">
-              Add new MCQ
-            </div>
-          </template>
-
+        <v-card rounded="xl" class="pa-6">
           <v-form>
-            <v-container class="py-0">
-              <v-row>
-                <v-col cols="12">
-                  <v-textarea class="purple-input" label="Question"
-                              v-model="form.question"
-                              :error-messages="errors.question"
-                  />
-                </v-col>
-                <v-col cols="12">
-                  <p>Minimum two options is required for each question</p>
-                </v-col>
-                <v-col cols="12">
-                  <v-text-field class="purple-input"
-                                label="Option 1"
-                                v-model="form.option_1"
-                                :error-messages="errors.option_1"
-                  />
-                </v-col>
-                <v-col cols="12">
-                  <v-text-field class="purple-input"
-                                label="Option 2"
-                                v-model="form.option_2"
-                                :error-messages="errors.option_2"
-                  />
-                </v-col>
-                <v-col cols="12">
-                  <v-text-field class="purple-input"
-                                label="Option 3"
-                                v-model="form.option_3"
-                                :error-messages="errors.option_3"
-                  />
-                </v-col>
-                <v-col cols="12">
-                  <v-text-field class="purple-input"
-                                label="Option 4"
-                                v-model="form.option_4"
-                                :error-messages="errors.option_4"
-                  />
-                </v-col>
-                <v-col cols="12">
-                  <v-text-field class="purple-input"
-                                label="Option 5"
-                                v-model="form.option_5"
-                                :error-messages="errors.option_5"/>
-                </v-col>
-                <v-col cols="12">
-                  <v-text-field class="purple-input" type="number" min="1" max="5"
-                                label="Current Answer Number (Example: 2)"
-                                v-model="form.correct_answer_no"
-                                :error-messages="errors.correct_answer_no"
-                  />
-                </v-col>
+            <label class="qa-label">Question</label>
+            <v-textarea
+                v-model="form.question"
+                :error-messages="errors.question"
+                placeholder="Type your question here"
+                hide-details="auto"
+                class="mb-6"
+            />
 
-                <v-col cols="12" class="text-right">
-                  <v-btn color="success" class="mr-0" @click="update" v-if="id">
-                    Update
-                  </v-btn>
-                  <v-btn color="success" class="mr-0" @click="store" v-else>
-                    Save
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </v-container>
+            <div class="qa-chip mb-4"><v-icon size="14" icon="mdi-information-outline"/> Minimum two options is required for each question</div>
+
+            <label class="qa-label">Option 1</label>
+            <v-text-field
+                v-model="form.option_1"
+                :error-messages="errors.option_1"
+                hide-details="auto"
+                class="mb-4"
+            />
+            <label class="qa-label">Option 2</label>
+            <v-text-field
+                v-model="form.option_2"
+                :error-messages="errors.option_2"
+                hide-details="auto"
+                class="mb-4"
+            />
+            <label class="qa-label">Option 3</label>
+            <v-text-field
+                v-model="form.option_3"
+                :error-messages="errors.option_3"
+                hide-details="auto"
+                class="mb-4"
+            />
+            <label class="qa-label">Option 4</label>
+            <v-text-field
+                v-model="form.option_4"
+                :error-messages="errors.option_4"
+                hide-details="auto"
+                class="mb-4"
+            />
+            <label class="qa-label">Option 5</label>
+            <v-text-field
+                v-model="form.option_5"
+                :error-messages="errors.option_5"
+                hide-details="auto"
+                class="mb-6"
+            />
+
+            <label class="qa-label">Correct Answer Number (Example: 2)</label>
+            <v-text-field
+                type="number" min="1" max="5"
+                v-model="form.correct_answer_no"
+                :error-messages="errors.correct_answer_no"
+                prepend-inner-icon="mdi-check-circle-outline"
+                hide-details="auto"
+                class="mb-6"
+            />
+
+            <div class="d-flex justify-end ga-2">
+              <v-btn variant="text" class="qa-muted" to="/mcq">Cancel</v-btn>
+              <v-btn class="qa-btn-gradient px-6" rounded="lg" @click="update" v-if="id">
+                Update
+              </v-btn>
+              <v-btn class="qa-btn-gradient px-6" rounded="lg" @click="store" v-else>
+                Save
+              </v-btn>
+            </div>
           </v-form>
-        </base-material-card>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>

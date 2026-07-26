@@ -4,7 +4,9 @@
     :rel="href && href !== '#' ? 'noopener' : undefined"
     :target="href && href !== '#' ? '_blank' : undefined"
     :to="item.to"
-    :active-class="`primary ${!isDark ? 'black' : 'white'}--text`"
+    rounded="lg"
+    color="primary"
+    class="qa-nav-item mb-1"
   >
     <template
       v-if="text || item.icon"
