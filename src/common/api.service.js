@@ -8,12 +8,12 @@ axiosConnection.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 axiosConnection.interceptors.response.use(
     response => response,
     error => {
-        if (error.response.status === 401) {
+        // Guard against network-level errors where there is no HTTP response.
+        if (error.response && error.response.status === 401) {
             authService.destroyToken()
             router.push({ name: "Login" })
-        } else {
-            return Promise.reject(error);
         }
+        return Promise.reject(error);
     }
 );
 
