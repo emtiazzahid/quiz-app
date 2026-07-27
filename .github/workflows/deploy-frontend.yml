@@ -1,0 +1,42 @@
+name: Deploy Frontend to InfinityFree
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build (same-origin API)
+        run: npm run build
+        env:
+          # relative -> API is same-origin as the co-hosted app, works on http or https
+          VUE_APP_API_URL: /api
+
+      - name: Deploy dist/ to htdocs via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ftpupload.net
+          username: if0_42503499
+          password: ${{ secrets.IF_PASSWORD }}
+          port: 21
+          protocol: ftp
+          local-dir: ./dist/
+          server-dir: htdocs/
+          # own state file so it never clashes with the backend workflow
+          state-name: .ftp-deploy-frontend-state.json
+          # backend workflow owns .htaccess (API + SPA routing) - never ship one here
+          exclude: |
+            **/.htaccess
