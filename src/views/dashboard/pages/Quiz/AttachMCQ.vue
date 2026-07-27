@@ -91,17 +91,17 @@
       breadcrumbs() {
         return [
           {
-            text: 'Quizzes',
+            title: 'Quizzes',
             disabled: false,
             href: '/quizzes',
           },
           {
-            text: this.id,
+            title: this.id,
             disabled: false,
             href: '/quizzes/'+this.id,
           },
           {
-            text: 'Attach',
+            title: 'Attach',
             disabled: true,
             href: '/quizzes/'+this.id+'/attach',
           }

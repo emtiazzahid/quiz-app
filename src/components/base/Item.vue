@@ -4,6 +4,7 @@
     :rel="href && href !== '#' ? 'noopener' : undefined"
     :target="href && href !== '#' ? '_blank' : undefined"
     :to="item.to"
+    :active="isActive"
     rounded="lg"
     color="primary"
     class="qa-nav-item mb-1"
@@ -54,6 +55,13 @@
     },
 
     computed: {
+      isActive () {
+        const to = this.item && this.item.to
+        if (!to) return false
+        const p = this.$route.path
+        if (to === '/dashboard') return p === '/dashboard'
+        return p === to || p.indexOf(to + '/') === 0
+      },
       isDark () {
         return this.$vuetify.theme.global.name === 'dark'
       },

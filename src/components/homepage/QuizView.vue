@@ -43,12 +43,12 @@ export default {
     return {
       breadcrumbs: [
         {
-          text: 'Home',
+          title: 'Home',
           disabled: false,
           href: '/',
         },
         {
-          text: 'Quiz',
+          title: 'Quiz',
           disabled: true,
           href: '/quiz-view/'+this.$route.params.id,
         },

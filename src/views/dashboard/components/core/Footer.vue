@@ -10,7 +10,7 @@
         <v-col
           v-for="(link, i) in links"
           :key="i"
-          class="text-center mb-sm-0 mb-5"
+          class="text-center mb-sm-0 mb-5 px-3"
           cols="auto"
         >
           <a
@@ -29,7 +29,7 @@
           md="auto"
         >
           <div class="text-body-1 font-weight-light pt-6 pt-md-0 text-center">
-            &copy; 2021
+            &copy; {{ new Date().getFullYear() }} Quiz App
           </div>
         </v-col>
       </v-row>

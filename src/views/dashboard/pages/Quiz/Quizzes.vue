@@ -70,13 +70,14 @@
         <v-col cols="8">
           <v-container class="max-width">
             <v-pagination
+                v-if="pagination.total > 1"
                 v-model="pagination.current"
                 :length="pagination.total"
                 class="my-4"
                 rounded="lg"
                 active-color="primary"
                 :total-visible="7"
-                @input="index(pagination.current,filtersUrl())"
+                @update:model-value="index(pagination.current, filtersUrl())"
             ></v-pagination>
           </v-container>
         </v-col>

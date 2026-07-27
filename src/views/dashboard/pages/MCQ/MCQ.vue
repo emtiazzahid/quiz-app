@@ -46,12 +46,12 @@
       breadcrumbs() {
         return [
           {
-            text: 'MCQs',
+            title: 'MCQs',
             disabled: false,
             href: '/mcq',
           },
           {
-            text: this.id,
+            title: this.id,
             disabled: true,
             href: '/mcq/'+this.id,
           },

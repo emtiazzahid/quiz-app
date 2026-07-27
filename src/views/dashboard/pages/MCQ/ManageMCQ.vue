@@ -171,12 +171,12 @@ export default {
     breadcrumbs() {
       return [
         {
-          text: 'MCQs',
+          title: 'MCQs',
           disabled: false,
           href: '/mcq',
         },
         {
-          text: this.id ? 'Edit' : 'Add new',
+          title: this.id ? 'Edit' : 'Add new',
           disabled: true,
           href: this.id ? `/mcq/:${this.id}/edit`: '/mcq/add',
         }

@@ -133,12 +133,12 @@
       breadcrumbs() {
         return [
           {
-            text: 'Quizzes',
+            title: 'Quizzes',
             disabled: false,
             href: '/quizzes',
           },
           {
-            text: this.id ? 'Edit' : 'Add new',
+            title: this.id ? 'Edit' : 'Add new',
             disabled: true,
             href: this.id ? `/quizzes/:${this.id}/edit`: '/quizzes/add',
           }
