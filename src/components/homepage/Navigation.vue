@@ -14,7 +14,7 @@
           v-for="([icon, text, link], i) in items"
           :key="i"
           rounded="lg"
-          @click="$vuetify.goTo(link)"
+          @click="$goTo(link)"
         >
           <template #prepend><v-icon :icon="icon" /></template>
           <v-list-item-title>{{ text }}</v-list-item-title>
@@ -39,7 +39,7 @@
       <v-app-bar-nav-icon v-if="isXs" @click.stop="drawer = !drawer" />
       <div v-else class="d-flex align-center ga-2">
         <v-btn variant="text" :to="{ name: 'Homepage' }" class="qa-muted">Home</v-btn>
-        <v-btn variant="text" class="qa-muted" @click="$vuetify.goTo('#quizes')">Quizzes</v-btn>
+        <v-btn variant="text" class="qa-muted" @click="$goTo('#quizes')">Quizzes</v-btn>
         <template v-if="authenticated">
           <v-btn variant="tonal" color="primary" rounded="lg" :to="{ name: 'Dashboard' }">Dashboard</v-btn>
           <v-btn variant="text" class="qa-muted" @click="logout">Logout</v-btn>

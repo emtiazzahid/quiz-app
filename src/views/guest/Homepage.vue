@@ -79,7 +79,7 @@ export default {
       this.fab = top > 60;
     },
     toTop() {
-      this.$vuetify.goTo(0);
+      this.$goTo(0);
     },
   },
 };

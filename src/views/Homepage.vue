@@ -5,7 +5,7 @@
       <home/>
     </v-main>
     <v-scale-transition>
-      <v-btn icon v-show="fab" v-scroll="onScroll" dark fixed bottom right color="secondary" @click="toTop">
+      <v-btn icon v-show="fab" v-scroll="onScroll" color="primary" class="qa-fab-top" elevation="6" @click="toTop">
         <v-icon>mdi-arrow-up</v-icon>
       </v-btn>
     </v-scale-transition>
@@ -67,7 +67,7 @@ export default {
       this.fab = top > 60;
     },
     toTop() {
-      this.$vuetify.goTo(0);
+      this.$goTo(0);
     },
   },
 };

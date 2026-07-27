@@ -15,7 +15,7 @@
 
           <v-col cols="6" md="3">
             <div class="text-overline mb-2" style="color:#64748b">Product</div>
-            <a class="qa-footer-link" @click="$vuetify.goTo('#quizes')">Browse quizzes</a>
+            <a class="qa-footer-link" @click="$goTo('#quizes')">Browse quizzes</a>
             <router-link class="qa-footer-link" :to="{ name: 'Login' }">Login</router-link>
             <router-link class="qa-footer-link" :to="{ name: 'Register' }">Sign up</router-link>
           </v-col>

@@ -47,7 +47,7 @@
                   />
 
                   <v-row>
-                    <v-col cols="12" sm="6">
+                    <v-col cols="12">
                       <label class="qa-label">Password</label>
                       <v-text-field
                         v-model="form.password"
@@ -61,7 +61,7 @@
                         @click:append-inner="show1 = !show1"
                       />
                     </v-col>
-                    <v-col cols="12" sm="6">
+                    <v-col cols="12">
                       <label class="qa-label">Confirm</label>
                       <v-text-field
                         v-model="form.password_confirmation"

@@ -20,6 +20,12 @@ const app = createApp(App)
 app.mixin(myMixin)
 app.component('v-gravatar', Gravatar)
 app.config.globalProperties.moment = moment
+app.config.globalProperties.$goTo = (target) => {
+  if (target === 0 || target === '#top' || target == null) { window.scrollTo({ top: 0, behavior: 'smooth' }); return }
+  const el = typeof target === 'string' ? document.querySelector(target) : null
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  else window.scrollTo({ top: 0, behavior: 'smooth' })
+}
 
 app.use(store)
 app.use(router)

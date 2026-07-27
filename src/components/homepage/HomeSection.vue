@@ -36,7 +36,7 @@
             </div>
 
             <div class="d-flex justify-center ga-3 mt-6 flex-wrap">
-              <v-btn size="large" rounded="lg" class="qa-btn-gradient px-8" @click="$vuetify.goTo('#quizes')">
+              <v-btn size="large" rounded="lg" class="qa-btn-gradient px-8" @click="$goTo('#quizes')">
                 Browse quizzes <v-icon end icon="mdi-arrow-down" />
               </v-btn>
               <v-btn size="large" rounded="lg" variant="outlined" color="primary" class="px-8" :to="{ name: 'Register' }">
